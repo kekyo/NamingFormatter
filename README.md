@@ -94,9 +94,9 @@ var formatted = Named.Format(
 * F# friendly version.
 
 ## License
+* Copyright (c) 2016 Kouji Matsui
 * Under Apache v2
-* COpyright (c) Kouji Matsui
 
 ## History
-0.9.5: Add nuget package, Support structual-key, Support .NET 2/.NET 3.5.
-0.0.0: Initial commit.
+* 0.9.5: Add nuget package, Support structual-key, Support .NET 2/.NET 3.5.
+* 0.0.0: Initial commit.
