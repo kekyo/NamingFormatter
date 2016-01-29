@@ -1,6 +1,6 @@
 ﻿/////////////////////////////////////////////////////////////////////////////////////////////////
 //
-// CenterCLR.NamedFormatter - String format library with key-valued replacer.
+// CenterCLR.NamingFormatter - String format library with key-valued replacer.
 // Copyright (c) 2016 Kouji Matsui (@kekyo2)
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -96,6 +96,60 @@ namespace CenterCLR.Tests
 				keyValues);
 
 			Assert.AreEqual("AAA" + now, actual);
+		}
+
+		[TestMethod]
+		public void FormatIdentityTraversePropertyTest()
+		{
+			var now = DateTime.Now;
+			var keyValues = new Dictionary<string, object>()
+			{
+				{ "abc", 123 },
+				{ "defgh", now },
+				{ "ijkl", "XYZ" }
+			};
+
+			var actual = Named.Format(
+				"{defgh.Year}",
+				keyValues);
+
+			Assert.AreEqual(now.Year.ToString(), actual);
+		}
+
+		[TestMethod]
+		public void FormatIdentityTraversePropertiesTest()
+		{
+			var now = DateTime.Now;
+			var keyValues = new Dictionary<string, object>()
+			{
+				{ "abc", 123 },
+				{ "defgh", now },
+				{ "ijkl", "XYZ" }
+			};
+
+			var actual = Named.Format(
+				"{defgh.TimeOfDay.TotalMilliseconds}",
+				keyValues);
+
+			Assert.AreEqual(now.TimeOfDay.TotalMilliseconds.ToString(), actual);
+		}
+
+		[TestMethod]
+		public void FormatIdentityTraversePropertyNotFoundTest()
+		{
+			var now = DateTime.Now;
+			var keyValues = new Dictionary<string, object>()
+			{
+				{ "abc", 123 },
+				{ "defgh", now },
+				{ "ijkl", "XYZ" }
+			};
+
+			var actual = Named.Format(
+				"{defgh.TimeOfDa.TotalMilliseconds}",
+				keyValues);
+
+			Assert.AreEqual(string.Empty, actual);
 		}
 
 		[TestMethod]

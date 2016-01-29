@@ -40,6 +40,7 @@ var formatted = Named.Format(
 * Easy standard replacement from System.String.Format method.
 * TextWriter version included (WriteFormat extension method).
 * Any variation overloads (Dictionary, IReadOnlyDictionary, Predicate delegate, Selector delegate, IFormatProvider).
+* Can use structual-key, traverse public properties.
 
 ## Benefits
 * Flexible argument matching. Useful dynamic interpretation.
@@ -47,9 +48,49 @@ var formatted = Named.Format(
 
 ## Environments
 * .NET Framework Portable class library (Profile1 or Profile259)
+* .NET Framework 2.0/3.5
 
+## How to use
+* Search NuGet package and install "CenterCLR.NamingFormatter". https://www.nuget.org/packages/CenterCLR.NamingFormatter
+* View more sample:
+
+``` csharp
+// Easy parametric helper.
+var formatted = Named.Format(
+    "Date:{date:R}, Value:{value:E}, Name:{name}",
+    Named.Pair("value", 123.456),
+    Named.Pair("name", "Kouji"),
+    Named.Pair("date", DateTime.Now));
+    
+// Structual-key (Traverse properties by dot-notation)
+var formatted = Named.Format(
+    "TOD-Millisec:{date.TimeOfDay.TotalMilliseconds}",
+    Named.Pair("date", DateTime.Now));
+    
+// Format to TextWriter.
+var sw = new StreamWriter(stream);
+sw.WriteFormat(
+    "Date:{date:R}, Value:{value:E}, Name:{name}",
+    Named.Pair("value", 123.456),
+    Named.Pair("name", "Kouji"),
+    Named.Pair("date", DateTime.Now));
+sw.Flush();
+    
+// Full-interactive (callbacked) format.
+var formatted = Named.Format(
+    "Date:{date:R}, Value:{value:E}, Name:{name}",
+    key =>
+    {
+        switch (key)
+        {
+            case "name": return "Kouji";
+            case "date": return DateTime.Now;
+            case "value": return 123.456;
+            default: throw new FormatException();
+        }
+    });
+```
 ## TODO
-* Current no NuGet package.
 * F# friendly version.
 
 ## License
@@ -57,4 +98,5 @@ var formatted = Named.Format(
 * COpyright (c) Kouji Matsui
 
 ## History
-0.0.0.0: Initial commit.
+0.9.5: Add nuget package, Support structual-key, Support .NET 2/.NET 3.5.
+0.0.0: Initial commit.

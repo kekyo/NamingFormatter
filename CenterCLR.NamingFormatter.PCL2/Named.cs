@@ -1,6 +1,6 @@
 ﻿/////////////////////////////////////////////////////////////////////////////////////////////////
 //
-// CenterCLR.NamedFormatter - String format library with key-valued replacer.
+// CenterCLR.NamingFormatter - String format library with key-valued replacer.
 // Copyright (c) 2016 Kouji Matsui (@kekyo2)
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,10 +19,17 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
-using System.Linq;
+using System.Reflection;
 using System.Text;
+
+#if NET2
+using CenterCLR.NamingFormatter;
+#else
+using System.Linq;
+#endif
 
 namespace CenterCLR
 {
@@ -53,11 +60,57 @@ namespace CenterCLR
 	{
 		#region Selector
 		private static readonly char[] finishFormatChars_ = {'}', ':'};
+		private static readonly char[] splitDotNotationChars_ = {'.'};
 
 		private enum States
 		{
 			Normal,
 			EnterKey
+		}
+
+		private static object GetPropertyValue(this Type type, object instance, string name)
+		{
+			Debug.Assert(type != null);
+			Debug.Assert(instance != null);
+			Debug.Assert(name != null);
+		 
+			try
+			{
+#if PCL2
+				var pi = type.GetRuntimeProperty(name);
+#else
+				var pi = type.GetProperty(name);
+#endif
+				return pi.GetValue(instance, null);
+			}
+			catch
+			{
+				return null;
+			}
+		}
+
+		private static object GetValueBySelector(
+			Func<string, object> selector,
+			string dotNotatedKey)
+		{
+			Debug.Assert(selector != null);
+			Debug.Assert(dotNotatedKey != null);
+
+			// Enabling dot-notated property traverse
+			var split = dotNotatedKey.Split(splitDotNotationChars_);
+			var value = selector(split.First());
+			var type = value.GetType();
+			for (var index = 1; index < split.Length; index++)
+			{
+				value = type.GetPropertyValue(value, split[index]);
+				if (value == null)
+				{
+					break;
+				}
+				type = value.GetType();
+			}
+
+			return value;
 		}
 
 		/// <summary>
@@ -137,7 +190,7 @@ namespace CenterCLR
 				}
 
 				var key = format.Substring(currentIndex, finishIndex - currentIndex);
-				var value = selector(key);
+				var value = GetValueBySelector(selector, key);
 
 				cooked.Append(args.Count);
 				args.Add(value);
@@ -270,9 +323,9 @@ namespace CenterCLR
 				}
 #else
 				var fixedKeyValues = keyValues.ToList();
-					tw.WriteFormat(
-						format,
-						key => fixedKeyValues.First(kv => predicate(kv.Key, key)).Value);
+				tw.WriteFormat(
+					format,
+					key => fixedKeyValues.First(kv => predicate(kv.Key, key)).Value);
 #endif
 				return;
 			}

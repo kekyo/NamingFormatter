@@ -18,17 +18,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
 using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("CenterCLR.NamingFormatterTests")]
-[assembly: AssemblyDescription("")]
-[assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("CenterCLR.NamingFormatterTests")]
-[assembly: AssemblyCopyright("Copyright (c) 2016 Kouji Matsui")]
-[assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("")]
-
-[assembly: ComVisible(false)]
-[assembly: Guid("e9edae67-b243-4870-8a21-e188c019f366")]
+[assembly: AssemblyTitle("CenterCLR.NamingFormatter")]
+[assembly: AssemblyDescription("String format library with key-valued replacer. (NET35)")]
