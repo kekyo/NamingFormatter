@@ -56,18 +56,22 @@ var formatted = Named.Format(
 * View more sample:
 
 ``` csharp
-// Easy parametric helper.
+// Easy parametric helper (Named.Pair() method)
 var formatted = Named.Format(
     "Date:{date:R}, Value:{value:E}, Name:{name}",
     Named.Pair("value", 123.456),
     Named.Pair("name", "Kouji"),
     Named.Pair("date", DateTime.Now));
-    
+```
+
+``` csharp
 // Structual-key (Traverse properties by dot-notation)
 var formatted = Named.Format(
     "TOD-Millisec:{date.TimeOfDay.TotalMilliseconds}",
     Named.Pair("date", DateTime.Now));
-    
+```
+
+``` csharp
 // Format to TextWriter.
 var sw = new StreamWriter(stream);
 sw.WriteFormat(
@@ -76,8 +80,10 @@ sw.WriteFormat(
     Named.Pair("name", "Kouji"),
     Named.Pair("date", DateTime.Now));
 sw.Flush();
-    
-// Full-interactive (callbacked) format.
+```
+
+``` csharp
+// Full-interactive (callback) format.
 var formatted = Named.Format(
     "Date:{date:R}, Value:{value:E}, Name:{name}",
     key =>
@@ -91,6 +97,17 @@ var formatted = Named.Format(
         }
     });
 ```
+
+``` csharp
+// IFormatProvider supported.
+var formatted = Named.Format(
+    new CultureInfo("fr-FR"),
+    "Date:{date:R}, Value:{value:E}, Name:{name}",
+    Named.Pair("value", 123.456),
+    Named.Pair("name", "Kouji"),
+    Named.Pair("date", DateTime.Now));
+```
+
 ## TODO
 * F# friendly version.
 
@@ -99,5 +116,6 @@ var formatted = Named.Format(
 * Under Apache v2
 
 ## History
+* 0.9.6: Versioning fixed.
 * 0.9.5: Add nuget package, Support structual-key, Support .NET 2/.NET 3.5.
 * 0.0.0: Initial commit.
