@@ -23,103 +23,120 @@ using System.Diagnostics;
 
 namespace System.Runtime.CompilerServices
 {
-    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
-    internal sealed class ExtensionAttribute : Attribute
-    {
-    }
+	[AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
+	internal sealed class ExtensionAttribute : Attribute
+	{
+	}
 }
 
 namespace CenterCLR.NamingFormatter
 {
-    public delegate TR Func<in T0, TR>(T0 arg0);
-    public delegate TR Func<in T0, in T1, TR>(T0 arg0, T1 arg1);
+	/// <summary>
+	/// Selector delegate.
+	/// </summary>
+	/// <typeparam name="T0">Input value type.</typeparam>
+	/// <typeparam name="TR">Selected value type.</typeparam>
+	/// <param name="arg0">Input value.</param>
+	/// <returns>Selected value.</returns>
+	public delegate TR Func<in T0, TR>(T0 arg0);
 
-    internal static class Enumerable
-    {
-        public static TValue First<TValue>(this IEnumerable<TValue> enumerable)
-        {
-            Debug.Assert(enumerable != null);
+	/// <summary>
+	/// Predicate delegate.
+	/// </summary>
+	/// <typeparam name="T0">Compare value (lhs) type.</typeparam>
+	/// <typeparam name="T1">Compare value (rhs) type.</typeparam>
+	/// <typeparam name="TR">Result type.</typeparam>
+	/// <param name="arg0">Compare value (lhs).</param>
+	/// <param name="arg1">Compare value (rhs).</param>
+	/// <returns>Result.</returns>
+	public delegate TR Func<in T0, in T1, TR>(T0 arg0, T1 arg1);
 
-            using (var enumerator = enumerable.GetEnumerator())
-            {
-                if (enumerator.MoveNext() == false)
-                {
-                    throw new InvalidOperationException();
-                }
+	internal static class Enumerable
+	{
+		public static TValue First<TValue>(this IEnumerable<TValue> enumerable)
+		{
+			Debug.Assert(enumerable != null);
 
-                return enumerator.Current;
-            }
-        }
+			using (var enumerator = enumerable.GetEnumerator())
+			{
+				if (enumerator.MoveNext() == false)
+				{
+					throw new InvalidOperationException();
+				}
 
-        public static TValue First<TValue>(this IEnumerable<TValue> enumerable, Func<TValue, bool> predicate)
-        {
-            Debug.Assert(enumerable != null);
-            Debug.Assert(predicate != null);
+				return enumerator.Current;
+			}
+		}
 
-            using (var enumerator = enumerable.GetEnumerator())
-            {
-                while (enumerator.MoveNext())
-                {
-                    if (predicate(enumerator.Current))
-                    {
-                        return enumerator.Current;
-                    }
-                }
+		public static TValue First<TValue>(this IEnumerable<TValue> enumerable, Func<TValue, bool> predicate)
+		{
+			Debug.Assert(enumerable != null);
+			Debug.Assert(predicate != null);
 
-                throw new InvalidOperationException();
-            }
-        }
+			using (var enumerator = enumerable.GetEnumerator())
+			{
+				while (enumerator.MoveNext())
+				{
+					if (predicate(enumerator.Current))
+					{
+						return enumerator.Current;
+					}
+				}
 
-        public static List<TValue> ToList<TValue>(this IEnumerable<TValue> enumerable)
-        {
-            Debug.Assert(enumerable != null);
+				throw new InvalidOperationException();
+			}
+		}
 
-            return new List<TValue>(enumerable);
-        }
+		public static List<TValue> ToList<TValue>(this IEnumerable<TValue> enumerable)
+		{
+			Debug.Assert(enumerable != null);
 
-        public static IEnumerable<TValue> AsEnumerable<TValue>(this IEnumerable<TValue> enumerable)
-        {
-            Debug.Assert(enumerable != null);
+			return new List<TValue>(enumerable);
+		}
 
-            return enumerable;
-        }
+		public static IEnumerable<TValue> AsEnumerable<TValue>(this IEnumerable<TValue> enumerable)
+		{
+			Debug.Assert(enumerable != null);
 
-        public static Dictionary<TKey, TValue> ToDictionary<TSource, TKey, TValue>(
-            this IEnumerable<TSource> enumerable,
-            Func<TSource, TKey> keySelector,
-            Func<TSource, TValue> valueSelector)
-        {
-            Debug.Assert(enumerable != null);
-            Debug.Assert(keySelector != null);
-            Debug.Assert(valueSelector != null);
+			return enumerable;
+		}
 
-            var dictionary = new Dictionary<TKey, TValue>();
-            foreach (var entry in enumerable)
-            {
-                dictionary.Add(keySelector(entry), valueSelector(entry));
-            }
+		public static Dictionary<TKey, TValue> ToDictionary<TSource, TKey, TValue>(
+			this IEnumerable<TSource> enumerable,
+			Func<TSource, TKey> keySelector,
+			Func<TSource, TValue> valueSelector)
+		{
+			Debug.Assert(enumerable != null);
+			Debug.Assert(keySelector != null);
+			Debug.Assert(valueSelector != null);
 
-            return dictionary;
-        }
+			var dictionary = new Dictionary<TKey, TValue>();
+			foreach (var entry in enumerable)
+			{
+				dictionary.Add(keySelector(entry), valueSelector(entry));
+			}
 
-        public static Dictionary<TKey, TValue> ToDictionary<TSource, TKey, TValue>(
-            this IEnumerable<TSource> enumerable,
-            Func<TSource, TKey> keySelector,
-            Func<TSource, TValue> valueSelector,
-            IEqualityComparer<TKey> comparer)
-        {
-            Debug.Assert(enumerable != null);
-            Debug.Assert(keySelector != null);
-            Debug.Assert(valueSelector != null);
-            Debug.Assert(comparer != null);
+			return dictionary;
+		}
 
-            var dictionary = new Dictionary<TKey, TValue>(comparer);
-            foreach (var entry in enumerable)
-            {
-                dictionary.Add(keySelector(entry), valueSelector(entry));
-            }
+		public static Dictionary<TKey, TValue> ToDictionary<TSource, TKey, TValue>(
+			this IEnumerable<TSource> enumerable,
+			Func<TSource, TKey> keySelector,
+			Func<TSource, TValue> valueSelector,
+			IEqualityComparer<TKey> comparer)
+		{
+			Debug.Assert(enumerable != null);
+			Debug.Assert(keySelector != null);
+			Debug.Assert(valueSelector != null);
+			Debug.Assert(comparer != null);
 
-            return dictionary;
-        }
-    }
+			var dictionary = new Dictionary<TKey, TValue>(comparer);
+			foreach (var entry in enumerable)
+			{
+				dictionary.Add(keySelector(entry), valueSelector(entry));
+			}
+
+			return dictionary;
+		}
+	}
 }

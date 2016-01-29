@@ -16,41 +16,41 @@
 	limitations under the License.
 -->
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
-    <metadata>
-        <id>CenterCLR.NamingFormatter</id>
-        <version>$Version$</version>
-        <title>NamingFormatter</title>
-        <authors>Kouji Matsui</authors>
-        <owners>Kouji Matsui</owners>
-        <description>String format library with key-valued replacer.</description>
-        <summary>String format library with key-valued replacer.</summary>
-        <copyright>Copyright (c) 2016 Kouji Matsui</copyright>
-        <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
-        <projectUrl>https://github.com/kekyo/CenterCLR.NamingFormatter</projectUrl>
-        <!--<iconUrl>https://raw.githubusercontent.com/kekyo/CenterCLR.NamingFormatter/master/Images/CenterCLR.NamingFormatter.100.png</iconUrl>-->
-        <requireLicenseAcceptance>false</requireLicenseAcceptance>
-        <releaseNotes>NamingFormatter is string format library with key-valued replacer.</releaseNotes>
-        <tags>string formatter extensible key-value replace same option structural</tags>
-        <!-- Optional metadata
-            <frameworkAssemblies>
-                <frameworkAssembly assemblyName="System" targetFramework=".NETFramework4.0" />
-            </frameworkAssemblies>
-            <dependencies></dependencies>
-            <references></references>
-        -->
-    </metadata>
+	<metadata>
+		<id>CenterCLR.NamingFormatter</id>
+		<version>$Version$</version>
+		<title>NamingFormatter</title>
+		<authors>Kouji Matsui</authors>
+		<owners>Kouji Matsui</owners>
+		<description>String format library with key-valued replacer.</description>
+		<summary>String format library with key-valued replacer.</summary>
+		<copyright>Copyright (c) 2016 Kouji Matsui</copyright>
+		<licenseUrl>http://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
+		<projectUrl>https://github.com/kekyo/CenterCLR.NamingFormatter</projectUrl>
+		<!--<iconUrl>https://raw.githubusercontent.com/kekyo/CenterCLR.NamingFormatter/master/Images/CenterCLR.NamingFormatter.100.png</iconUrl>-->
+		<requireLicenseAcceptance>false</requireLicenseAcceptance>
+		<releaseNotes>NamingFormatter is string format library with key-valued replacer.</releaseNotes>
+		<tags>string formatter extensible key-value replace same option structural</tags>
+		<!-- Optional metadata
+			<frameworkAssemblies>
+				<frameworkAssembly assemblyName="System" targetFramework=".NETFramework4.0" />
+			</frameworkAssemblies>
+			<dependencies></dependencies>
+			<references></references>
+		-->
+	</metadata>
 	<files>
 		<file src="CenterCLR.NamingFormatter.NET2/bin/$Configuration$/CenterCLR.NamingFormatter.dll" target="lib/net20" />
 		<file src="CenterCLR.NamingFormatter.NET2/bin/$Configuration$/CenterCLR.NamingFormatter.pdb" target="lib/net20" />
 		<file src="CenterCLR.NamingFormatter.NET2/bin/$Configuration$/CenterCLR.NamingFormatter.xml" target="lib/net20" />
-        <file src="CenterCLR.NamingFormatter.NET35/bin/$Configuration$/CenterCLR.NamingFormatter.dll" target="lib/net35" />
-        <file src="CenterCLR.NamingFormatter.NET35/bin/$Configuration$/CenterCLR.NamingFormatter.pdb" target="lib/net35" />
-        <file src="CenterCLR.NamingFormatter.NET35/bin/$Configuration$/CenterCLR.NamingFormatter.xml" target="lib/net35" />
-        <file src="CenterCLR.NamingFormatter.PCL1/bin/$Configuration$/CenterCLR.NamingFormatter.dll" target="lib/portable-net40+sl40+win+wp+Xbox40" />
-        <file src="CenterCLR.NamingFormatter.PCL1/bin/$Configuration$/CenterCLR.NamingFormatter.pdb" target="lib/portable-net40+sl40+win+wp+Xbox40" />
-        <file src="CenterCLR.NamingFormatter.PCL1/bin/$Configuration$/CenterCLR.NamingFormatter.xml" target="lib/portable-net40+sl40+win+wp+Xbox40" />
-        <file src="CenterCLR.NamingFormatter.PCL2/bin/$Configuration$/CenterCLR.NamingFormatter.dll" target="lib/portable-net45+win+wpa81+wp80+MonoAndroid10+xamarinios10+MonoTouch10" />
-        <file src="CenterCLR.NamingFormatter.PCL2/bin/$Configuration$/CenterCLR.NamingFormatter.pdb" target="lib/portable-net45+win+wpa81+wp80+MonoAndroid10+xamarinios10+MonoTouch10" />
-        <file src="CenterCLR.NamingFormatter.PCL2/bin/$Configuration$/CenterCLR.NamingFormatter.xml" target="lib/portable-net45+win+wpa81+wp80+MonoAndroid10+xamarinios10+MonoTouch10" />
-    </files>
+		<file src="CenterCLR.NamingFormatter.NET35/bin/$Configuration$/CenterCLR.NamingFormatter.dll" target="lib/net35" />
+		<file src="CenterCLR.NamingFormatter.NET35/bin/$Configuration$/CenterCLR.NamingFormatter.pdb" target="lib/net35" />
+		<file src="CenterCLR.NamingFormatter.NET35/bin/$Configuration$/CenterCLR.NamingFormatter.xml" target="lib/net35" />
+		<file src="CenterCLR.NamingFormatter.PCL1/bin/$Configuration$/CenterCLR.NamingFormatter.dll" target="lib/portable-net40+sl40+win+wp+Xbox40" />
+		<file src="CenterCLR.NamingFormatter.PCL1/bin/$Configuration$/CenterCLR.NamingFormatter.pdb" target="lib/portable-net40+sl40+win+wp+Xbox40" />
+		<file src="CenterCLR.NamingFormatter.PCL1/bin/$Configuration$/CenterCLR.NamingFormatter.xml" target="lib/portable-net40+sl40+win+wp+Xbox40" />
+		<file src="CenterCLR.NamingFormatter.PCL2/bin/$Configuration$/CenterCLR.NamingFormatter.dll" target="lib/portable-net45+win+wpa81+wp80+MonoAndroid10+xamarinios10+MonoTouch10" />
+		<file src="CenterCLR.NamingFormatter.PCL2/bin/$Configuration$/CenterCLR.NamingFormatter.pdb" target="lib/portable-net45+win+wpa81+wp80+MonoAndroid10+xamarinios10+MonoTouch10" />
+		<file src="CenterCLR.NamingFormatter.PCL2/bin/$Configuration$/CenterCLR.NamingFormatter.xml" target="lib/portable-net45+win+wpa81+wp80+MonoAndroid10+xamarinios10+MonoTouch10" />
+	</files>
 </package>
