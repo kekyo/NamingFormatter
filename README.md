@@ -2,6 +2,7 @@
 ## What is this?
 * NamingFormatter is extended System.String.Format method on .NET Framework.
 * Standard Format method required numbering indexed place-holder.
+  * You probably understand this:
 
 ``` csharp
 var formatted = string.Format(
