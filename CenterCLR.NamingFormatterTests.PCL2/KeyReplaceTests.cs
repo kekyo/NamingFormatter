@@ -153,6 +153,24 @@ namespace CenterCLR.Tests
 		}
 
 		[TestMethod]
+		public void FormatIdentityWithAlignmentTest()
+		{
+			var now = DateTime.Now;
+			var keyValues = new Dictionary<string, object>()
+			{
+				{ "abc", 123 },
+				{ "defgh", now },
+				{ "ijkl", "XYZ" }
+			};
+
+			var actual = Named.Format(
+				"{abc,10}",
+				keyValues);
+
+			Assert.AreEqual("       123", actual);
+		}
+
+		[TestMethod]
 		public void FormatIdentityWithOptionTest()
 		{
 			var now = DateTime.Now;

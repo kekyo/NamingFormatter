@@ -59,7 +59,7 @@ namespace CenterCLR
 	public static class Named
 	{
 		#region Selector
-		private static readonly char[] finishFormatChars_ = {'}', ':'};
+		private static readonly char[] finishFormatChars_ = {'}', ':', ','};
 		private static readonly char[] splitDotNotationChars_ = {'.'};
 
 		private enum States
