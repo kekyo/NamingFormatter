@@ -1,4 +1,6 @@
 # NamingFormatter
+![NamingFormatter](https://raw.githubusercontent.com/kekyo/CenterCLR.NamingFormatter/master/Images/CenterCLR.NamingFormatter.128.png)
+
 ## What is this?
 * NamingFormatter is extended System.String.Format method on .NET Framework.
 * Standard Format method required numbering indexed place-holder.
@@ -56,6 +58,8 @@ var formatted = Named.Format(
 * View more sample:
 
 ``` csharp
+using CenterCLR;
+
 // Easy parametric helper (Named.Pair() method)
 var formatted = Named.Format(
     "Date:{date:R}, Value:{value:E}, Name:{name}",
@@ -65,6 +69,8 @@ var formatted = Named.Format(
 ```
 
 ``` csharp
+using CenterCLR;
+
 // Structual-key (Traverse properties by dot-notation)
 var formatted = Named.Format(
     "TOD-Millisec:{date.TimeOfDay.TotalMilliseconds}",
@@ -72,6 +78,8 @@ var formatted = Named.Format(
 ```
 
 ``` csharp
+using CenterCLR;
+
 // Format to TextWriter.
 var sw = new StreamWriter(stream);
 sw.WriteFormat(
@@ -83,6 +91,8 @@ sw.Flush();
 ```
 
 ``` csharp
+using CenterCLR;
+
 // Full-interactive (callback) format.
 var formatted = Named.Format(
     "Date:{date:R}, Value:{value:E}, Name:{name}",
@@ -99,6 +109,8 @@ var formatted = Named.Format(
 ```
 
 ``` csharp
+using CenterCLR;
+
 // IFormatProvider supported.
 var formatted = Named.Format(
     new CultureInfo("fr-FR"),
@@ -116,6 +128,7 @@ var formatted = Named.Format(
 * Under Apache v2
 
 ## History
+* 1.0.0: Omit IFormatProvider method extension attribute.
 * 0.9.6: Versioning fixed.
 * 0.9.5: Add nuget package, Support structual-key, Support .NET 2/.NET 3.5.
 * 0.0.0: Initial commit.

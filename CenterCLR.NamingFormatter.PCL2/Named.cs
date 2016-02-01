@@ -222,7 +222,7 @@ namespace CenterCLR
 		/// </code>
 		/// </example>
 		public static string Format(
-			this IFormatProvider formatProvider,
+			IFormatProvider formatProvider,
 			string format,
 			Func<string, object> selector)
 		{
@@ -394,7 +394,7 @@ namespace CenterCLR
 		/// </code>
 		/// </example>
 		public static string Format(
-			this IFormatProvider formatProvider,
+			IFormatProvider formatProvider,
 			string format,
 			Func<string, string, bool> predicate,
 			IEnumerable<KeyValuePair<string, object>> keyValues)
@@ -441,7 +441,8 @@ namespace CenterCLR
 			Func<string, string, bool> predicate,
 			IEnumerable<KeyValuePair<string, object>> keyValues)
 		{
-			return CultureInfo.CurrentCulture.Format(
+			return Format(
+				CultureInfo.CurrentCulture,
 				format,
 				predicate,
 				keyValues);
@@ -467,12 +468,13 @@ namespace CenterCLR
 		/// </code>
 		/// </example>
 		public static string Format(
-			this IFormatProvider formatProvider,
+			IFormatProvider formatProvider,
 			string format,
 			Func<string, string, bool> predicate,
 			params KeyValuePair<string, object>[] keyValues)
 		{
-			return formatProvider.Format(
+			return Format(
+				formatProvider,
 				format,
 				predicate,
 				keyValues.AsEnumerable());
@@ -574,7 +576,7 @@ namespace CenterCLR
 		/// </code>
 		/// </example>
 		public static string Format(
-			this IFormatProvider formatProvider,
+			IFormatProvider formatProvider,
 			string format,
 			Dictionary<string, object> keyValues)
 		{
@@ -583,7 +585,8 @@ namespace CenterCLR
 				throw new ArgumentNullException("keyValues");
 			}
 
-			return formatProvider.Format(
+			return Format(
+				formatProvider,
 				format,
 				key => keyValues[key]);
 		}
@@ -692,7 +695,7 @@ namespace CenterCLR
 		/// </code>
 		/// </example>
 		public static string Format(
-			this IFormatProvider formatProvider,
+			IFormatProvider formatProvider,
 			string format,
 			IDictionary<string, object> keyValues)
 		{
@@ -701,7 +704,8 @@ namespace CenterCLR
 				throw new ArgumentNullException("keyValues");
 			}
 
-			return formatProvider.Format(
+			return Format(
+				formatProvider,
 				format,
 				key => keyValues[key]);
 		}
@@ -813,7 +817,7 @@ namespace CenterCLR
 		/// </code>
 		/// </example>
 		public static string Format<TDictionary>(
-			this IFormatProvider formatProvider,
+			IFormatProvider formatProvider,
 			string format,
 			TDictionary keyValues)
 			where TDictionary : IReadOnlyDictionary<string, object>
@@ -984,7 +988,7 @@ namespace CenterCLR
 		/// </code>
 		/// </example>
 		public static string Format(
-			this IFormatProvider formatProvider,
+			IFormatProvider formatProvider,
 			string format,
 			IEqualityComparer<string> comparer,
 			IEnumerable<KeyValuePair<string, object>> keyValues)
@@ -994,7 +998,8 @@ namespace CenterCLR
 				throw new ArgumentNullException("comparer");
 			}
 
-			return formatProvider.Format(
+			return Format(
+				formatProvider,
 				format,
 				keyValues.ToDictionary(kv => kv.Key, kv => kv.Value, comparer));
 		}
@@ -1059,7 +1064,7 @@ namespace CenterCLR
 		/// </code>
 		/// </example>
 		public static string Format(
-			this IFormatProvider formatProvider,
+			IFormatProvider formatProvider,
 			string format,
 			IEqualityComparer<string> comparer,
 			params KeyValuePair<string, object>[] keyValues)
@@ -1069,7 +1074,8 @@ namespace CenterCLR
 				throw new ArgumentNullException("comparer");
 			}
 
-			return formatProvider.Format(
+			return Format(
+				formatProvider,
 				format,
 				keyValues.ToDictionary(kv => kv.Key, kv => kv.Value, comparer));
 		}
@@ -1196,11 +1202,12 @@ namespace CenterCLR
 		/// </code>
 		/// </example>
 		public static string Format(
-			this IFormatProvider formatProvider,
+			IFormatProvider formatProvider,
 			string format,
 			IEnumerable<KeyValuePair<string, object>> keyValues)
 		{
-			return formatProvider.Format(
+			return Format(
+				formatProvider,
 				format,
 				keyValues.ToDictionary(kv => kv.Key, kv => kv.Value));
 		}
@@ -1255,11 +1262,12 @@ namespace CenterCLR
 		/// </code>
 		/// </example>
 		public static string Format(
-			this IFormatProvider formatProvider,
+			IFormatProvider formatProvider,
 			string format,
 			params KeyValuePair<string, object>[] keyValues)
 		{
-			return formatProvider.Format(
+			return Format(
+				formatProvider,
 				format,
 				keyValues.ToDictionary(kv => kv.Key, kv => kv.Value));
 		}

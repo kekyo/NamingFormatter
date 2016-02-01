@@ -27,7 +27,7 @@
 		<copyright>Copyright (c) 2016 Kouji Matsui</copyright>
 		<licenseUrl>http://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
 		<projectUrl>https://github.com/kekyo/CenterCLR.NamingFormatter</projectUrl>
-		<!--<iconUrl>https://raw.githubusercontent.com/kekyo/CenterCLR.NamingFormatter/master/Images/CenterCLR.NamingFormatter.100.png</iconUrl>-->
+		<iconUrl>https://raw.githubusercontent.com/kekyo/CenterCLR.NamingFormatter/master/Images/CenterCLR.NamingFormatter.100.png</iconUrl>
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
 		<releaseNotes>NamingFormatter is string format library with key-valued replacer.</releaseNotes>
 		<tags>string formatter extensible key-value replace same option structural</tags>
