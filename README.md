@@ -1,7 +1,9 @@
 # NamingFormatter
 ![NamingFormatter](https://raw.githubusercontent.com/kekyo/CenterCLR.NamingFormatter/master/Images/CenterCLR.NamingFormatter.128.png)
 
+## Status
 NuGet Package: [![NuGet NamingFormatter](https://img.shields.io/nuget/v/CenterCLR.NamingFormatter.svg?style=flat)](https://www.nuget.org/packages/CenterCLR.NamingFormatter)
+Gitter: [![Gitter NamingFormatter](https://img.shields.io/gitter/room/kekyo/CenterCLR.NamingFormatter.svg?style=flat)](https://gitter.im/kekyo/CenterCLR.NamingFormatter)
 
 ## What is this?
 * NamingFormatter is extended System.String.Format method on .NET Framework.
