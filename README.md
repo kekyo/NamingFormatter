@@ -1,6 +1,8 @@
 # NamingFormatter
 ![NamingFormatter](https://raw.githubusercontent.com/kekyo/CenterCLR.NamingFormatter/master/Images/CenterCLR.NamingFormatter.128.png)
 
+NuGet Package: [![NuGet NamingFormatter](https://img.shields.io/nuget/v/CenterCLR.NamingFormatter.svg?style=flat)](https://www.nuget.org/packages/CenterCLR.NamingFormatter)
+
 ## What is this?
 * NamingFormatter is extended System.String.Format method on .NET Framework.
 * Standard Format method required numbering indexed place-holder.
