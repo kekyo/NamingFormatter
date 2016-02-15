@@ -3,6 +3,7 @@
 
 ## Status
 * NuGet Package: [![NuGet NamingFormatter](https://img.shields.io/nuget/v/CenterCLR.NamingFormatter.svg?style=flat)](https://www.nuget.org/packages/CenterCLR.NamingFormatter)
+* Build status: [![Buid status NamingFormatter](https://img.shields.io/appveyor/ci/kekyo/CenterCLR.NamingFormatter.svg?style=flat)](https://www.nuget.org/packages/CenterCLR.NamingFormatter)
 * Gitter: [![Gitter NamingFormatter](https://img.shields.io/gitter/room/kekyo/CenterCLR.NamingFormatter.svg?style=flat)](https://gitter.im/kekyo/CenterCLR.NamingFormatter)
 
 ## What is this?
@@ -132,6 +133,11 @@ var formatted = Named.Format(
 * Under Apache v2
 
 ## History
+* 1.1.0:
+  * Downgraded net35 --> net35-Client.
+  * Add net40-Client.
+  * Add PCL Profile
+  * Implement property traverse with expression-tree compiled base accessor.
 * 1.0.0: Omit IFormatProvider method extension attribute.
 * 0.9.6: Versioning fixed.
 * 0.9.5: Add nuget package, Support structual-key, Support .NET 2/.NET 3.5.

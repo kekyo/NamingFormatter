@@ -43,9 +43,12 @@
 		<file src="CenterCLR.NamingFormatter.NET2/bin/$Configuration$/CenterCLR.NamingFormatter.dll" target="lib/net20" />
 		<file src="CenterCLR.NamingFormatter.NET2/bin/$Configuration$/CenterCLR.NamingFormatter.pdb" target="lib/net20" />
 		<file src="CenterCLR.NamingFormatter.NET2/bin/$Configuration$/CenterCLR.NamingFormatter.xml" target="lib/net20" />
-		<file src="CenterCLR.NamingFormatter.NET35/bin/$Configuration$/CenterCLR.NamingFormatter.dll" target="lib/net35" />
-		<file src="CenterCLR.NamingFormatter.NET35/bin/$Configuration$/CenterCLR.NamingFormatter.pdb" target="lib/net35" />
-		<file src="CenterCLR.NamingFormatter.NET35/bin/$Configuration$/CenterCLR.NamingFormatter.xml" target="lib/net35" />
+		<file src="CenterCLR.NamingFormatter.NET35/bin/$Configuration$/CenterCLR.NamingFormatter.dll" target="lib/net35-Client" />
+		<file src="CenterCLR.NamingFormatter.NET35/bin/$Configuration$/CenterCLR.NamingFormatter.pdb" target="lib/net35-Client" />
+		<file src="CenterCLR.NamingFormatter.NET35/bin/$Configuration$/CenterCLR.NamingFormatter.xml" target="lib/net35-Client" />
+		<file src="CenterCLR.NamingFormatter.NET4/bin/$Configuration$/CenterCLR.NamingFormatter.dll" target="lib/net40-Client" />
+		<file src="CenterCLR.NamingFormatter.NET4/bin/$Configuration$/CenterCLR.NamingFormatter.pdb" target="lib/net40-Client" />
+		<file src="CenterCLR.NamingFormatter.NET4/bin/$Configuration$/CenterCLR.NamingFormatter.xml" target="lib/net40-Client" />
 		<file src="CenterCLR.NamingFormatter.PCL1/bin/$Configuration$/CenterCLR.NamingFormatter.dll" target="lib/portable-net40+sl40+win+wp+Xbox40" />
 		<file src="CenterCLR.NamingFormatter.PCL1/bin/$Configuration$/CenterCLR.NamingFormatter.pdb" target="lib/portable-net40+sl40+win+wp+Xbox40" />
 		<file src="CenterCLR.NamingFormatter.PCL1/bin/$Configuration$/CenterCLR.NamingFormatter.xml" target="lib/portable-net40+sl40+win+wp+Xbox40" />

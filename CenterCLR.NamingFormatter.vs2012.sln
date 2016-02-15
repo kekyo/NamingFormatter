@@ -8,6 +8,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F416076A-A9A0-4C0A-B612-570AEF3E3F56}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
+		build-nupkg.bat = build-nupkg.bat
+		CenterCLR.NamingFormatter.nuspec = CenterCLR.NamingFormatter.nuspec
 		CenterCLR.NamingFormatter.snk = CenterCLR.NamingFormatter.snk
 		CommonAssemblyInfo.cs = CommonAssemblyInfo.cs
 		README.md = README.md

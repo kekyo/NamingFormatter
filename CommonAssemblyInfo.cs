@@ -21,7 +21,7 @@ using System.Reflection;
 
 [assembly: AssemblyCompany("Kouji Matsui")]
 [assembly: AssemblyProduct("CenterCLR.NamingFormatter")]
-[assembly: AssemblyCopyright("Copyright (C) 2016 Kouji Matsui")]
+[assembly: AssemblyCopyright("Copyright (c) 2016 Kouji Matsui")]
 [assembly: AssemblyTrademark("Kouji Matsui")]
 
 #if DEBUG

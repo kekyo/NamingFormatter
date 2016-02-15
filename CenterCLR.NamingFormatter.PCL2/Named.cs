@@ -29,6 +29,9 @@ using System.Text;
 using CenterCLR.NamingFormatter;
 #else
 using System.Linq;
+#if NET35 || NET4 || PCL2 || PCL3
+using System.Linq.Expressions;
+#endif
 #endif
 
 namespace CenterCLR
@@ -58,36 +61,166 @@ namespace CenterCLR
 	/// </example>
 	public static class Named
 	{
-		#region Selector
-		private static readonly char[] finishFormatChars_ = {'}', ':', ','};
-		private static readonly char[] splitDotNotationChars_ = {'.'};
+		#region Property traverse
 
-		private enum States
-		{
-			Normal,
-			EnterKey
-		}
+#if NET35 || NET4 || PCL2 || PCL3
+		private static readonly Dictionary<string, WeakReference> compiledAccessors_ =
+			new Dictionary<string, WeakReference>();
 
-		private static object GetPropertyValue(this Type type, object instance, string name)
+		private static List<PropertyInfo> GetPropertiesByKeys(
+			string[] splittedKeys,
+			Type type0)
 		{
-			Debug.Assert(type != null);
-			Debug.Assert(instance != null);
-			Debug.Assert(name != null);
-		 
-			try
+			Debug.Assert(splittedKeys != null);
+			Debug.Assert(splittedKeys.Length >= 1);
+			Debug.Assert(type0 != null);
+
+			var type = type0;
+			var pis =
+				splittedKeys.Skip(1).
+				Aggregate(type0, (type, name) => type.GetRuntimeProperty(name), )
+
+			for (var index = 1; index < splittedKeys.Length; index++)
 			{
+				var name = splittedKeys[index];
 #if PCL2
 				var pi = type.GetRuntimeProperty(name);
 #else
 				var pi = type.GetProperty(name);
 #endif
-				return pi.GetValue(instance, null);
+				if (pi == null)
+				{
+					break;
+				}
+
+				pis.Add(pi);
+				type = pi.PropertyType;
+			}
+
+			return pis;
+		}
+
+		private static object GetPropertyValueByExpression(
+			string dotNotateKey,
+			string[] splittedKeys,
+			Type type0,
+			object value0)
+		{
+			Debug.Assert(dotNotateKey != null);
+			Debug.Assert(splittedKeys != null);
+			Debug.Assert(splittedKeys.Length >= 1);
+			Debug.Assert(type0 != null);
+			Debug.Assert(value0 != null);
+
+			// Try get cached accessor.
+			WeakReference wr;
+			lock (compiledAccessors_)
+			{
+				compiledAccessors_.TryGetValue(dotNotateKey, out wr);
+			}
+
+			if (wr != null)
+			{
+				var cachedAccessor = (Func<object, object>)wr.Target;
+				if (cachedAccessor != null)
+				{
+					return cachedAccessor(value0);
+				}
+			}
+
+			var pis = GetPropertiesByKeys(splittedKeys, type0);
+			if ((pis.Count + 1) == splittedKeys.Length)
+			{
+				// Accessor already discarded or not cached.
+				var parameter0 = Expression.Parameter(type0);
+				Expression expression = parameter0;
+				var type = type0;
+				for (var index = 1; index < splittedKeys.Length; index++)
+				{
+					var name = splittedKeys[index];
+#if PCL2
+					var pi = type.GetRuntimeProperty(name);
+#else
+					var pi = type.GetProperty(name);
+#endif
+					expression = Expression.Property(expression, pi);
+					type = pi.PropertyType;
+				}
+
+				var lambda = Expression.Lambda<Func<object, object>>(expression, parameter0);
+				var accessor = lambda.Compile();
+
+				if (wr == null)
+				{
+					wr = new WeakReference(accessor);
+					lock (compiledAccessors_)
+					{
+						compiledAccessors_[dotNotateKey] = wr;
+					}
+				}
+				else
+				{
+					wr.Target = accessor;
+				}
+			}
+
+			return accessor(value0);
+		}
+#else
+		private static object GetPropertyValueByName(
+			Type type,
+			object value,
+			string name)
+		{
+			Debug.Assert(type != null);
+			Debug.Assert(value != null);
+			Debug.Assert(name != null);
+
+			try
+			{
+				var pi = type.GetProperty(name);
+				return pi.GetValue(value, null);
 			}
 			catch
 			{
 				return null;
 			}
 		}
+
+		private static object GetPropertyValueByExpression(
+			string dotNotateKey,
+			string[] splittedKeys,
+			Type type0,
+			object value0)
+		{
+			Debug.Assert(dotNotateKey != null);
+			Debug.Assert(splittedKeys != null);
+			Debug.Assert(splittedKeys.Length >= 1);
+			Debug.Assert(type0 != null);
+			Debug.Assert(value0 != null);
+
+			var type = type0;
+			var value = value0;
+			for (var index = 1; index < splittedKeys.Length; index++)
+			{
+				value = GetPropertyValueByName(type, value, splittedKeys[index]);
+				if (value == null)
+				{
+					break;
+				}
+
+				// Traverse always runtime type.
+				type = value.GetType();
+			}
+
+			return value;
+		}
+#endif
+		#endregion
+
+		#region Selector
+		private static readonly char[] finishFormatChars_ = {'}', ':', ','};
+		private static readonly char[] splitDotNotationChars_ = {'.'};
 
 		private static object GetValueBySelector(
 			Func<string, object> selector,
@@ -97,20 +230,25 @@ namespace CenterCLR
 			Debug.Assert(dotNotatedKey != null);
 
 			// Enabling dot-notated property traverse
-			var split = dotNotatedKey.Split(splitDotNotationChars_);
-			var value = selector(split.First());
-			var type = value.GetType();
-			for (var index = 1; index < split.Length; index++)
+			var splittedKeys = dotNotatedKey.Split(splitDotNotationChars_);
+			var value0 = selector(splittedKeys[0]);
+			if (value0 == null)
 			{
-				value = type.GetPropertyValue(value, split[index]);
-				if (value == null)
-				{
-					break;
-				}
-				type = value.GetType();
+				return null;
 			}
 
-			return value;
+			var runtimedType0 = value0.GetType();
+			return GetPropertyValueByExpression(
+				dotNotatedKey,
+				splittedKeys,
+				runtimedType0,
+				value0);
+		}
+
+		private enum States
+		{
+			Normal,
+			EnterKey
 		}
 
 		/// <summary>
