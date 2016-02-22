@@ -15,4 +15,4 @@ rem WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 rem See the License for the specific language governing permissions and
 rem limitations under the License.
 
-.nuget\nuget pack CenterCLR.NamingFormatter.nuspec -Prop Version=1.0.0 -Prop Configuration=Release
+.nuget\nuget pack CenterCLR.NamingFormatter.nuspec -Prop Version=1.0.1 -Prop Configuration=Release
