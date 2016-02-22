@@ -6,6 +6,7 @@
 
     "dependencies": {
         "NETStandard.Library": "1.0.0-rc2-23616",
+        "CenterCLR.RelaxVersioner": "0.7.14",
         "CenterCLR.NamingFormatter": "1.0.1"
     },
 
