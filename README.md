@@ -3,7 +3,7 @@
 
 ## Status
 * NuGet Package: [![NuGet NamingFormatter](https://img.shields.io/nuget/v/CenterCLR.NamingFormatter.svg?style=flat)](https://www.nuget.org/packages/CenterCLR.NamingFormatter)
-* Continuous integration: [![AppVeyor NamingFormatter](https://img.shields.io/appveyor/ci/kekyo/CenterCLR.NamingFormatter.svg?style=flat)](https://ci.appveyor.com/project/kekyo/centerclr-namingformatter)
+* Continuous integration: [![AppVeyor NamingFormatter](https://img.shields.io/appveyor/ci/kekyo/centerclr-namingformatter.svg?style=flat)](https://ci.appveyor.com/project/kekyo/centerclr-namingformatter)
 * Gitter: [![Gitter NamingFormatter](https://img.shields.io/gitter/room/kekyo/CenterCLR.NamingFormatter.svg?style=flat)](https://gitter.im/kekyo/CenterCLR.NamingFormatter)
 
 ## What is this?
