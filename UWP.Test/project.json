@@ -1,7 +1,7 @@
 ﻿{
   "dependencies": {
     "CenterCLR.NamingFormatter": "1.0.1",
-    "CenterCLR.RelaxVersioner": "0.7.14",
+    "CenterCLR.RelaxVersioner": "0.7.17",
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.0.0"
   },
   "frameworks": {
