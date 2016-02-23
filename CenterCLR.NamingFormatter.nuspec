@@ -49,8 +49,8 @@
 		<file src="CenterCLR.NamingFormatter.PCL1/bin/$Configuration$/CenterCLR.NamingFormatter.dll" target="lib/portable-net40+sl40+win+wp+Xbox40" />
 		<file src="CenterCLR.NamingFormatter.PCL1/bin/$Configuration$/CenterCLR.NamingFormatter.pdb" target="lib/portable-net40+sl40+win+wp+Xbox40" />
 		<file src="CenterCLR.NamingFormatter.PCL1/bin/$Configuration$/CenterCLR.NamingFormatter.xml" target="lib/portable-net40+sl40+win+wp+Xbox40" />
-		<file src="CenterCLR.NamingFormatter.PCL2/bin/$Configuration$/CenterCLR.NamingFormatter.dll" target="lib/portable-net45+win+wpa81+wp80+MonoAndroid10+xamarinios10+MonoTouch10" />
-		<file src="CenterCLR.NamingFormatter.PCL2/bin/$Configuration$/CenterCLR.NamingFormatter.pdb" target="lib/portable-net45+win+wpa81+wp80+MonoAndroid10+xamarinios10+MonoTouch10" />
-		<file src="CenterCLR.NamingFormatter.PCL2/bin/$Configuration$/CenterCLR.NamingFormatter.xml" target="lib/portable-net45+win+wpa81+wp80+MonoAndroid10+xamarinios10+MonoTouch10" />
+		<file src="CenterCLR.NamingFormatter.PCL2/bin/$Configuration$/CenterCLR.NamingFormatter.dll" target="lib/portable-net45+dnxcore+win+wpa81+wp80+MonoAndroid10+xamarinios10+MonoTouch10" />
+		<file src="CenterCLR.NamingFormatter.PCL2/bin/$Configuration$/CenterCLR.NamingFormatter.pdb" target="lib/portable-net45+dnxcore+win+wpa81+wp80+MonoAndroid10+xamarinios10+MonoTouch10" />
+		<file src="CenterCLR.NamingFormatter.PCL2/bin/$Configuration$/CenterCLR.NamingFormatter.xml" target="lib/portable-net45+dnxcore+win+wpa81+wp80+MonoAndroid10+xamarinios10+MonoTouch10" />
 	</files>
 </package>

@@ -132,6 +132,7 @@ var formatted = Named.Format(
 * Under Apache v2
 
 ## History
+* 1.1.0: Add support platform .NET Core (formally "dnxcore").
 * 1.0.0: Omit IFormatProvider method extension attribute.
 * 0.9.6: Versioning fixed.
 * 0.9.5: Add nuget package, Support structual-key, Support .NET 2/.NET 3.5.
