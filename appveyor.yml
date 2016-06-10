@@ -1,0 +1,7 @@
+version: 1.0.{build}
+before_build:
+- cmd: .nuget\nuget.exe restore CenterCLR.NamingFormatter.vs2015.sln
+build:
+  project: CenterCLR.NamingFormatter.vs2015.sln
+  parallel: true
+  verbosity: minimal
