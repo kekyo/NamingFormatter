@@ -1,4 +1,6 @@
 # NamingFormatter
+
+[![Join the chat at https://gitter.im/kekyo/CenterCLR.NamingFormatter](https://badges.gitter.im/kekyo/CenterCLR.NamingFormatter.svg)](https://gitter.im/kekyo/CenterCLR.NamingFormatter?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 ![NamingFormatter](https://raw.githubusercontent.com/kekyo/CenterCLR.NamingFormatter/master/Images/CenterCLR.NamingFormatter.128.png)
 
 ## Status
