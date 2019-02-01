@@ -1,7 +1,7 @@
 @echo off
 
 rem CenterCLR.NamingFormatter - String format library with key-valued replacer.
-rem Copyright (c) 2016 Kouji Matsui (@kekyo2)
+rem Copyright (c) 2019 Kouji Matsui (@kekyo2)
 rem 
 rem Licensed under the Apache License, Version 2.0 (the "License");
 rem you may not use this file except in compliance with the License.
@@ -15,4 +15,13 @@ rem WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 rem See the License for the specific language governing permissions and
 rem limitations under the License.
 
-.nuget\nuget pack CenterCLR.NamingFormatter.nuspec -Prop Version=1.1.1 -Prop Configuration=Release
+set VERSION=2.0.0
+
+if exist artifacts (
+    ren artifacts artifacts_
+    rmdir /s /q artifacts_
+)
+mkdir artifacts
+
+dotnet pack --configuration Release --include-symbols -p:VersionPrefix=%VERSION% CenterCLR.NamingFormatter\CenterCLR.NamingFormatter.csproj
+copy CenterCLR.NamingFormatter\bin\Release\CenterCLR.NamingFormatter.%VERSION%.symbols.nupkg artifacts\CenterCLR.NamingFormatter.%VERSION%.nupkg

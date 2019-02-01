@@ -20,16 +20,17 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace CenterCLR.Tests
 {
-	[TestClass]
-	public class WriteFormatTests
+	[TestFixture]
+	public class FormatProviderOverloadTests
 	{
-		[TestMethod]
+		private readonly IFormatProvider formatProvider_ = new CultureInfo("fr-FR");
+
+		[Test]
 		public void DictionaryOverloadTest()
 		{
 			var now = DateTime.Now;
@@ -40,15 +41,15 @@ namespace CenterCLR.Tests
 				{ "ijkl", "XYZ" }
 			};
 
-			var tw = new StringWriter();
-			tw.WriteFormat(
+			var actual = Named.Format(
+				formatProvider_,
 				"AAA{defgh}BBB{abc}CCC{ijkl}DDD",
 				keyValues);
 
-			Assert.AreEqual("AAA" + now + "BBB123CCCXYZDDD", tw.ToString());
+			Assert.AreEqual("AAA" + now.ToString(formatProvider_) + "BBB123CCCXYZDDD", actual);
 		}
 
-		[TestMethod]
+		[Test]
 		public void DictionaryWithComparerOverloadTest()
 		{
 			var now = DateTime.Now;
@@ -60,16 +61,15 @@ namespace CenterCLR.Tests
 				{ "ijKl", "XYZ" }
 			};
 
-			var tw = new StringWriter();
-			tw.WriteFormat(
+			var actual = Named.Format(
+				formatProvider_,
 				"AAA{Defgh}BBB{abC}CCC{IjkL}DDD",
 				keyValues);
 
-			Assert.AreEqual("AAA" + now + "BBB123CCCXYZDDD", tw.ToString());
+			Assert.AreEqual("AAA" + now.ToString(formatProvider_) + "BBB123CCCXYZDDD", actual);
 		}
 
-#if PCL2
-		[TestMethod]
+		[Test]
 		public void ReadOnlyDictionaryOverloadTest()
 		{
 			var now = DateTime.Now;
@@ -80,16 +80,15 @@ namespace CenterCLR.Tests
 				{ "ijkl", "XYZ" }
 			};
 
-			var tw = new StringWriter();
-			tw.WriteFormat(
+			var actual = Named.Format<Dictionary<string, object>>(
+				formatProvider_,
 				"AAA{defgh}BBB{abc}CCC{ijkl}DDD",
 				keyValues);
 
-			Assert.AreEqual("AAA" + now + "BBB123CCCXYZDDD", tw.ToString());
+			Assert.AreEqual("AAA" + now.ToString(formatProvider_) + "BBB123CCCXYZDDD", actual);
 		}
-#endif
 
-		[TestMethod]
+		[Test]
 		public void EnumerableOverloadTest()
 		{
 			var now = DateTime.Now;
@@ -100,15 +99,15 @@ namespace CenterCLR.Tests
 				{ "ijkl", "XYZ" }
 			};
 
-			var tw = new StringWriter();
-			tw.WriteFormat(
+			var actual = Named.Format(
+				formatProvider_,
 				"AAA{defgh}BBB{abc}CCC{ijkl}DDD",
 				keyValues);
 
-			Assert.AreEqual("AAA" + now + "BBB123CCCXYZDDD", tw.ToString());
+			Assert.AreEqual("AAA" + now.ToString(formatProvider_) + "BBB123CCCXYZDDD", actual);
 		}
 
-		[TestMethod]
+		[Test]
 		public void EnumerableOverloadWithArrayTest()
 		{
 			var now = DateTime.Now;
@@ -119,15 +118,15 @@ namespace CenterCLR.Tests
 				new KeyValuePair<string, object>("ijkl", "XYZ"),
 			};
 
-			var tw = new StringWriter();
-			tw.WriteFormat(
+			var actual = Named.Format(
+				formatProvider_,
 				"AAA{defgh}BBB{abc}CCC{ijkl}DDD",
 				keyValues);
 
-			Assert.AreEqual("AAA" + now + "BBB123CCCXYZDDD", tw.ToString());
+			Assert.AreEqual("AAA" + now.ToString(formatProvider_) + "BBB123CCCXYZDDD", actual);
 		}
 
-		[TestMethod]
+		[Test]
 		public void EnumerableOverloadWithNoListTest()
 		{
 			var now = DateTime.Now;
@@ -139,15 +138,15 @@ namespace CenterCLR.Tests
 			}.
 			Select(entry => new KeyValuePair<string, object>(entry.Item1, entry.Item2));
 
-			var tw = new StringWriter();
-			tw.WriteFormat(
+			var actual = Named.Format(
+				formatProvider_,
 				"AAA{defgh}BBB{abc}CCC{ijkl}DDD",
 				keyValues);
 
-			Assert.AreEqual("AAA" + now + "BBB123CCCXYZDDD", tw.ToString());
+			Assert.AreEqual("AAA" + now.ToString(formatProvider_) + "BBB123CCCXYZDDD", actual);
 		}
 
-		[TestMethod]
+		[Test]
 		public void EnumerableOverloadWithComparerTest()
 		{
 			var now = DateTime.Now;
@@ -158,13 +157,13 @@ namespace CenterCLR.Tests
 				new KeyValuePair<string, object>("iJKl", "XYZ"),
 			};
 
-			var tw = new StringWriter();
-			tw.WriteFormat(
+			var actual = Named.Format(
+				formatProvider_,
 				"AAA{Defgh}BBB{abC}CCC{IjkL}DDD",
 				StringComparer.InvariantCultureIgnoreCase,
 				keyValues);
 
-			Assert.AreEqual("AAA" + now + "BBB123CCCXYZDDD", tw.ToString());
+			Assert.AreEqual("AAA" + now.ToString(formatProvider_) + "BBB123CCCXYZDDD", actual);
 		}
 	}
 }

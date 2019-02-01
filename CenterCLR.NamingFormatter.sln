@@ -1,0 +1,50 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.271
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{25BEB179-DC2D-443C-8BD7-F51CF04DE053}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		build-nupkg.bat = build-nupkg.bat
+		CenterCLR.NamingFormatter.snk = CenterCLR.NamingFormatter.snk
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Images", "Images", "{FA746D2D-0859-4AD9-AC64-6E1A58A6EB00}"
+	ProjectSection(SolutionItems) = preProject
+		Images\CenterCLR.NamingFormatter.100.png = Images\CenterCLR.NamingFormatter.100.png
+		Images\CenterCLR.NamingFormatter.128.png = Images\CenterCLR.NamingFormatter.128.png
+		Images\CenterCLR.NamingFormatter.design = Images\CenterCLR.NamingFormatter.design
+		Images\Japanese.256.png = Images\Japanese.256.png
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CenterCLR.NamingFormatter", "CenterCLR.NamingFormatter\CenterCLR.NamingFormatter.csproj", "{53446020-7743-4188-8049-F536C1A92E74}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CenterCLR.NamingFormatterTests", "CenterCLR.NamingFormatterTests\CenterCLR.NamingFormatterTests.csproj", "{DC865092-C422-42B4-97D3-CACB3A289164}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{53446020-7743-4188-8049-F536C1A92E74}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53446020-7743-4188-8049-F536C1A92E74}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53446020-7743-4188-8049-F536C1A92E74}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53446020-7743-4188-8049-F536C1A92E74}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC865092-C422-42B4-97D3-CACB3A289164}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC865092-C422-42B4-97D3-CACB3A289164}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC865092-C422-42B4-97D3-CACB3A289164}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC865092-C422-42B4-97D3-CACB3A289164}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{FA746D2D-0859-4AD9-AC64-6E1A58A6EB00} = {25BEB179-DC2D-443C-8BD7-F51CF04DE053}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {04565AA8-09F8-4A5C-82C3-BE9CDAE1BCD6}
+	EndGlobalSection
+EndGlobal

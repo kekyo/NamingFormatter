@@ -19,14 +19,14 @@
 
 using System;
 using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace CenterCLR.Tests
 {
-	[TestClass]
+	[TestFixture]
 	public class KeyReplaceTests
 	{
-		[TestMethod]
+		[Test]
 		public void StandardSenarioTest()
 		{
 			var now = DateTime.Now;
@@ -44,7 +44,7 @@ namespace CenterCLR.Tests
 			Assert.AreEqual("AAA" + now + "BBB123CCCXYZDDD", actual);
 		}
 
-		[TestMethod]
+		[Test]
 		public void SingleFormatIdentityTest()
 		{
 			var now = DateTime.Now;
@@ -62,7 +62,7 @@ namespace CenterCLR.Tests
 			Assert.AreEqual(now.ToString(), actual);
 		}
 
-		[TestMethod]
+		[Test]
 		public void FrontFormatIdentityTest()
 		{
 			var now = DateTime.Now;
@@ -80,7 +80,7 @@ namespace CenterCLR.Tests
 			Assert.AreEqual(now + "AAA", actual);
 		}
 
-		[TestMethod]
+		[Test]
 		public void EndFormatIdentityTest()
 		{
 			var now = DateTime.Now;
@@ -98,7 +98,7 @@ namespace CenterCLR.Tests
 			Assert.AreEqual("AAA" + now, actual);
 		}
 
-		[TestMethod]
+		[Test]
 		public void FormatIdentityTraversePropertyTest()
 		{
 			var now = DateTime.Now;
@@ -116,7 +116,7 @@ namespace CenterCLR.Tests
 			Assert.AreEqual(now.Year.ToString(), actual);
 		}
 
-		[TestMethod]
+		[Test]
 		public void FormatIdentityTraversePropertiesTest()
 		{
 			var now = DateTime.Now;
@@ -134,7 +134,7 @@ namespace CenterCLR.Tests
 			Assert.AreEqual(now.TimeOfDay.TotalMilliseconds.ToString(), actual);
 		}
 
-		[TestMethod]
+		[Test]
 		public void FormatIdentityTraversePropertyNotFoundTest()
 		{
 			var now = DateTime.Now;
@@ -152,7 +152,7 @@ namespace CenterCLR.Tests
 			Assert.AreEqual(string.Empty, actual);
 		}
 
-		[TestMethod]
+		[Test]
 		public void FormatIdentityWithAlignmentTest()
 		{
 			var now = DateTime.Now;
@@ -170,7 +170,7 @@ namespace CenterCLR.Tests
 			Assert.AreEqual("       123", actual);
 		}
 
-		[TestMethod]
+		[Test]
 		public void FormatIdentityWithOptionTest()
 		{
 			var now = DateTime.Now;
@@ -188,7 +188,7 @@ namespace CenterCLR.Tests
 			Assert.AreEqual(now.ToString("yyyyMMddHHmmssfff"), actual);
 		}
 
-		[TestMethod]
+		[Test]
 		public void FormatIdentityWithEmptyOptionTest()
 		{
 			var now = DateTime.Now;
@@ -206,7 +206,7 @@ namespace CenterCLR.Tests
 			Assert.AreEqual(now.ToString(), actual);
 		}
 
-		[TestMethod]
+		[Test]
 		public void EmptyKeyIdentityTest()
 		{
 			var now = DateTime.Now;
@@ -224,7 +224,7 @@ namespace CenterCLR.Tests
 			Assert.AreEqual(now.ToString(), actual);
 		}
 
-		[TestMethod]
+		[Test]
 		public void EmptyKeyIdentityWithOptionTest()
 		{
 			var now = DateTime.Now;
@@ -242,7 +242,7 @@ namespace CenterCLR.Tests
 			Assert.AreEqual(now.ToString("yyyyMMddHHmmssfff"), actual);
 		}
 
-		[TestMethod]
+		[Test]
 		public void EmptyKeyIdentityWithEmptyOptionTest()
 		{
 			var now = DateTime.Now;
@@ -260,7 +260,7 @@ namespace CenterCLR.Tests
 			Assert.AreEqual(now.ToString(), actual);
 		}
 
-		[TestMethod]
+		[Test]
 		public void DoubleBracketTest()
 		{
 			var now = DateTime.Now;
@@ -278,7 +278,7 @@ namespace CenterCLR.Tests
 			Assert.AreEqual("{defgh}", actual);
 		}
 
-		[TestMethod]
+		[Test]
 		public void DoubleBracketEmptyKeyTest()
 		{
 			var now = DateTime.Now;

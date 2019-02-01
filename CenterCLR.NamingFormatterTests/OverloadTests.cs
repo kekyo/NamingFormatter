@@ -20,14 +20,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace CenterCLR.Tests
 {
-	[TestClass]
+	[TestFixture]
 	public class OverloadTests
 	{
-		[TestMethod]
+		[Test]
 		public void DictionaryOverloadTest()
 		{
 			var now = DateTime.Now;
@@ -45,7 +45,7 @@ namespace CenterCLR.Tests
 			Assert.AreEqual("AAA" + now + "BBB123CCCXYZDDD", actual);
 		}
 
-		[TestMethod]
+		[Test]
 		public void IDictionaryOverloadTest()
 		{
 			var now = DateTime.Now;
@@ -64,7 +64,7 @@ namespace CenterCLR.Tests
 		}
 
 #if PCL2
-		[TestMethod]
+		[Test]
 		public void IReadOnlyDictionaryOverloadTest()
 		{
 			var now = DateTime.Now;
@@ -83,7 +83,7 @@ namespace CenterCLR.Tests
 		}
 #endif
 
-		[TestMethod]
+		[Test]
 		public void DictionaryWithComparerOverloadTest()
 		{
 			var now = DateTime.Now;
@@ -102,7 +102,7 @@ namespace CenterCLR.Tests
 			Assert.AreEqual("AAA" + now + "BBB123CCCXYZDDD", actual);
 		}
 
-		[TestMethod]
+		[Test]
 		public void EnumerableOverloadTest()
 		{
 			var now = DateTime.Now;
@@ -120,7 +120,7 @@ namespace CenterCLR.Tests
 			Assert.AreEqual("AAA" + now + "BBB123CCCXYZDDD", actual);
 		}
 
-		[TestMethod]
+		[Test]
 		public void EnumerableOverloadWithArrayTest()
 		{
 			var now = DateTime.Now;
@@ -138,7 +138,7 @@ namespace CenterCLR.Tests
 			Assert.AreEqual("AAA" + now + "BBB123CCCXYZDDD", actual);
 		}
 
-		[TestMethod]
+		[Test]
 		public void EnumerableOverloadWithPredicateTest()
 		{
 			var now = DateTime.Now;
@@ -157,7 +157,7 @@ namespace CenterCLR.Tests
 			Assert.AreEqual("AAA" + now + "BBB123CCCXYZDDD", actual);
 		}
 
-		[TestMethod]
+		[Test]
 		public void EnumerableOverloadWithComparerTest()
 		{
 			var now = DateTime.Now;

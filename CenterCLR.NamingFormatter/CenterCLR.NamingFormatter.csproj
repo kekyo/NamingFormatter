@@ -1,0 +1,48 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFrameworks>net40;net45;netstandard1.0;netstandard2.0;netcoreapp1.0;netcoreapp2.0</TargetFrameworks>
+
+        <OutputType>Library</OutputType>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+        <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+        <GenerateDocumentationFile>false</GenerateDocumentationFile>
+        <RootNamespace>CenterCLR</RootNamespace>
+        <AssemblyName>CenterCLR.NamingFormatter</AssemblyName>
+        <AssemblyTitle>String format library with key-valued replacer.</AssemblyTitle>
+        <Product>NamingFormatter</Product>
+        <Trademark>NamingFormatter</Trademark>
+        <Copyright>Copyright (c) 2016-2019 Kouji Matsui</Copyright>
+        <Description>String format library with key-valued replacer.</Description>
+        <Company>Kouji Matsui (@kozy_kekyo)</Company>
+        <Authors>Kouji Matsui (@kozy_kekyo)</Authors>
+        <RepositoryType>git</RepositoryType>
+        <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+        <PackageProjectUrl>https://github.com/kekyo/CenterCLR.NamingFormatter</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/kekyo/CenterCLR.NamingFormatter</RepositoryUrl>
+        <PackageTags>string;formatter;extensible;key-value;replace;same;option;structural</PackageTags>
+        <DebugType>pdbonly</DebugType>
+        <DebugSymbols>true</DebugSymbols>
+        <SignAssembly>true</SignAssembly>
+        <AssemblyOriginatorKeyFile>../CenterCLR.NamingFormatter.snk</AssemblyOriginatorKeyFile>
+        <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
+        <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
+        <GenerateAssemblyInformationalVersionAttribute>false</GenerateAssemblyInformationalVersionAttribute>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(TargetFramework)' == 'net40'">
+        <DefineConstants>NET40</DefineConstants>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(TargetFramework)' == 'netstandard1.0'">
+        <DefineConstants>NETSTANDARD1_0</DefineConstants>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="CenterCLR.RelaxVersioner" Version="0.8.30">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+      </PackageReference>
+    </ItemGroup>
+
+</Project>

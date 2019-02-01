@@ -133,6 +133,7 @@ var formatted = Named.Format(
 * Under Apache v2
 
 ## History
+* 2.0.0: Upgraded new MSBuild format and omit PCL versions.
 * 1.1.1: Fixed via CI (AppVeyor, Fixed RelaxVersioner)
 * 1.1.0: Add support platform .NET Core (formally "dnxcore").
 * 1.0.0: Omit IFormatProvider method extension attribute.

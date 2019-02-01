@@ -1,4 +1,4 @@
 language: csharp
-solution: CenterCLR.NamingFormatter.vs2015.sln
+solution: CenterCLR.NamingFormatter.sln
 mono:
   - latest

@@ -1,0 +1,42 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net462</TargetFramework>
+
+        <OutputType>Library</OutputType>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+        <AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
+        <GenerateDocumentationFile>false</GenerateDocumentationFile>
+        <RootNamespace>CenterCLR</RootNamespace>
+        <AssemblyName>CenterCLR.NamingFormatterTests</AssemblyName>
+        <AssemblyTitle>String format library with key-valued replacer.</AssemblyTitle>
+        <Product>NamingFormatter</Product>
+        <Trademark>NamingFormatter</Trademark>
+        <Copyright>Copyright (c) 2016-2019 Kouji Matsui</Copyright>
+        <Description>String format library with key-valued replacer.</Description>
+        <Company>Kouji Matsui (@kozy_kekyo)</Company>
+        <Authors>Kouji Matsui (@kozy_kekyo)</Authors>
+        <RepositoryType>git</RepositoryType>
+        <RepositoryUrl>https://github.com/kekyo/CenterCLR.NamingFormatter</RepositoryUrl>
+        <DebugType>full</DebugType>
+        <DebugSymbols>true</DebugSymbols>
+        <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
+        <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
+        <GenerateAssemblyInformationalVersionAttribute>false</GenerateAssemblyInformationalVersionAttribute>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="CenterCLR.RelaxVersioner" Version="0.8.30">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.8.0" />
+        <PackageReference Include="NUnit" Version="3.11.0" />
+        <packagereference Include="NUnit3TestAdapter" Version="3.10.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\CenterCLR.NamingFormatter\CenterCLR.NamingFormatter.csproj" />
+    </ItemGroup>
+
+</Project>
