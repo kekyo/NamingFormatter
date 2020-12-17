@@ -15,13 +15,10 @@ rem WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 rem See the License for the specific language governing permissions and
 rem limitations under the License.
 
-set VERSION=2.0.0
-
 if exist artifacts (
     ren artifacts artifacts_
     rmdir /s /q artifacts_
 )
 mkdir artifacts
 
-dotnet pack --configuration Release --include-symbols -p:VersionPrefix=%VERSION% CenterCLR.NamingFormatter\CenterCLR.NamingFormatter.csproj
-copy CenterCLR.NamingFormatter\bin\Release\CenterCLR.NamingFormatter.%VERSION%.symbols.nupkg artifacts\CenterCLR.NamingFormatter.%VERSION%.nupkg
+dotnet pack --configuration Release CenterCLR.NamingFormatter\CenterCLR.NamingFormatter.csproj
