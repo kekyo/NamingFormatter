@@ -65,7 +65,7 @@ var formatted = Named.Format(
 * .NET Framework 3.5,4.0 with client profile, 4.5 and 4.8
 
 ## How to use
-* Search NuGet package and install "CenterCLR.NamingFormatter". https://www.nuget.org/packages/CenterCLR.NamingFormatter
+* Search NuGet package and install ["NamingFormatter"](https://www.nuget.org/packages/NamingFormatter).
 * View more sample:
 
 ``` csharp
