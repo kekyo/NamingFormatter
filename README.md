@@ -9,7 +9,7 @@
 |:----|:----|
 |master|[![NamingFormatter CI build (master)](https://github.com/kekyo/CenterCLR.NamingFormatter/workflows/.NET/badge.svg?branch=master)](https://github.com/kekyo/CenterCLR.NamingFormatter/actions)|
 
-* NuGet Package: [![NuGet NamingFormatter](https://img.shields.io/nuget/v/NamingFormatter.svg?style=flat)](https://www.nuget.org/packages/CenterCLR.NamingFormatter)
+* NuGet Package: [![NuGet NamingFormatter](https://img.shields.io/nuget/v/NamingFormatter.svg?style=flat)](https://www.nuget.org/packages/NamingFormatter)
 
 ## What is this?
 * NamingFormatter is extended System.String.Format method on .NET Framework.
