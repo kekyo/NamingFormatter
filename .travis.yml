@@ -1,4 +1,0 @@
-language: csharp
-solution: CenterCLR.NamingFormatter.sln
-mono:
-  - latest

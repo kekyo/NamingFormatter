@@ -233,3 +233,19 @@ _Pvt_Extensions
 .fake/
 
 *.VC.db
+
+.vscode/
+*.swp
+
+# for Arduino
+.build/
+
+artifacts/
+test-artifacts/
+toolchain/
+
+*.vcxproj.filters
+
+.idea/
+
+.ionide/

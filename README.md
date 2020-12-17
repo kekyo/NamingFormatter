@@ -1,10 +1,16 @@
-# NamingFormatter
+﻿# NamingFormatter
 ![NamingFormatter](https://raw.githubusercontent.com/kekyo/CenterCLR.NamingFormatter/master/Images/CenterCLR.NamingFormatter.128.png)
 
 ## Status
+
+[![Project Status: Concept – Minimal or no implementation has been done yet, or the repository is only intended to be a limited example, demo, or proof-of-concept.](https://www.repostatus.org/badges/latest/concept.svg)](https://www.repostatus.org/#concept)
+
+| |build|
+|:----|:----|
+|main |[![NamingFormatter CI build (main)](https://github.com/kekyo/CenterCLR.NamingFormatter/workflows/.NET/badge.svg?branch=main)](https://github.com/kekyo/CenterCLR.NamingFormatter/actions)|
+|devel|[![NamingFormatter CI build (devel)](https://github.com/kekyo/CenterCLR.NamingFormatter/workflows/.NET/badge.svg?branch=devel)](https://github.com/kekyo/CenterCLR.NamingFormatter/actions)|
+
 * NuGet Package: [![NuGet NamingFormatter](https://img.shields.io/nuget/v/CenterCLR.NamingFormatter.svg?style=flat)](https://www.nuget.org/packages/CenterCLR.NamingFormatter)
-* Continuous integration: [![AppVeyor NamingFormatter](https://img.shields.io/appveyor/ci/kekyo/centerclr-namingformatter.svg?style=flat)](https://ci.appveyor.com/project/kekyo/centerclr-namingformatter)
-* Gitter: [![Gitter NamingFormatter](https://img.shields.io/gitter/room/kekyo/CenterCLR.NamingFormatter.svg?style=flat)](https://gitter.im/kekyo/CenterCLR.NamingFormatter)
 
 ## What is this?
 * NamingFormatter is extended System.String.Format method on .NET Framework.
