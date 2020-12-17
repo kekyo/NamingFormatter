@@ -60,8 +60,9 @@ var formatted = Named.Format(
 * Format string human-readable/customizable improvement.
 
 ## Environments
-* .NET Framework Portable class library (Profile1 or Profile259)
-* .NET Framework 2.0/3.5
+* .NET 5.0
+* .NET Standard 1.0,2.0,2.1 (Will effect .NET Core 1.0-3.1)
+* .NET Framework 3.5,4.0 with client profile, 4.5 and 4.8
 
 ## How to use
 * Search NuGet package and install "CenterCLR.NamingFormatter". https://www.nuget.org/packages/CenterCLR.NamingFormatter
@@ -134,10 +135,14 @@ var formatted = Named.Format(
 * F# friendly version.
 
 ## License
-* Copyright (c) 2016 Kouji Matsui
+* Copyright (c) 2016-2020 Kouji Matsui
 * Under Apache v2
 
 ## History
+* 2.0.11:
+  Added some target frameworks.
+  Omitted strong-key signing.
+  Switched and aggregated CI to GitHub Actions.
 * 2.0.0: Upgraded new MSBuild format and omit PCL versions.
 * 1.1.1: Fixed via CI (AppVeyor, Fixed RelaxVersioner)
 * 1.1.0: Add support platform .NET Core (formally "dnxcore").
