@@ -34,6 +34,7 @@
         <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
         <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
         <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+        <FrameworkPathOverride>$(MSBuildProgramFiles32)\Reference Assemblies\Microsoft\Framework\.NETFramework\v3.5\Profile\Client</FrameworkPathOverride>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(TargetFramework)' == 'net40-client'">
