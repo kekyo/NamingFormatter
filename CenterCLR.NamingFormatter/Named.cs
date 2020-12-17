@@ -308,7 +308,7 @@ namespace CenterCLR
 
             if ((keyValues is ICollection<KeyValuePair<string, object>>) == false)
             {
-#if !NET40
+#if !NET35 && !NET40
                 if ((keyValues is IReadOnlyCollection<KeyValuePair<string, object>>) == false)
                 {
                     var fixedKeyValues = keyValues.ToList();
@@ -743,7 +743,7 @@ namespace CenterCLR
         }
         #endregion
 
-#if !NET40
+#if !NET35 && !NET40
         #region IReadOnlyDictionary
         /// <summary>
         /// Format string with named format-key.

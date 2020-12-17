@@ -1,18 +1,19 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>net40;net45;netstandard1.0;netstandard2.0;netcoreapp1.0;netcoreapp2.0</TargetFrameworks>
+        <TargetFrameworks>net35-client;net40-client;net45;net48;netstandard1.0;netstandard2.0;netstandard2.1;net5.0</TargetFrameworks>
 
         <OutputType>Library</OutputType>
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
         <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
         <GenerateDocumentationFile>false</GenerateDocumentationFile>
+        <LangVersion>latest</LangVersion>
         <RootNamespace>CenterCLR</RootNamespace>
         <AssemblyName>CenterCLR.NamingFormatter</AssemblyName>
         <AssemblyTitle>String format library with key-valued replacer.</AssemblyTitle>
         <Product>NamingFormatter</Product>
         <Trademark>NamingFormatter</Trademark>
-        <Copyright>Copyright (c) 2016-2019 Kouji Matsui</Copyright>
+        <Copyright>Copyright (c) 2016-2020 Kouji Matsui</Copyright>
         <Description>String format library with key-valued replacer.</Description>
         <Company>Kouji Matsui (@kozy_kekyo)</Company>
         <Authors>Kouji Matsui (@kozy_kekyo)</Authors>
@@ -23,15 +24,23 @@
         <PackageTags>string;formatter;extensible;key-value;replace;same;option;structural</PackageTags>
         <DebugType>pdbonly</DebugType>
         <DebugSymbols>true</DebugSymbols>
-        <SignAssembly>true</SignAssembly>
-        <AssemblyOriginatorKeyFile>../CenterCLR.NamingFormatter.snk</AssemblyOriginatorKeyFile>
-        <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
-        <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
-        <GenerateAssemblyInformationalVersionAttribute>false</GenerateAssemblyInformationalVersionAttribute>
+        <AllowedOutputExtensionsInPackageBuildOutputFolder>.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+        <PublishRepositoryUrl>true</PublishRepositoryUrl>
+        <EmbedUntrackedSources>true</EmbedUntrackedSources>
     </PropertyGroup>
 
-    <PropertyGroup Condition="'$(TargetFramework)' == 'net40'">
+    <PropertyGroup Condition="'$(TargetFramework)' == 'net35-client'">
+        <DefineConstants>NET35</DefineConstants>
+        <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
+        <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+        <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(TargetFramework)' == 'net40-client'">
         <DefineConstants>NET40</DefineConstants>
+        <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
+        <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+        <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(TargetFramework)' == 'netstandard1.0'">
@@ -39,10 +48,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="CenterCLR.RelaxVersioner" Version="0.8.30">
-        <PrivateAssets>all</PrivateAssets>
-        <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-      </PackageReference>
+        <PackageReference Include="CenterCLR.RelaxVersioner" Version="1.0.13" PrivateAssets="all" />
+        <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.0" PrivateAssets="All" />
     </ItemGroup>
 
 </Project>
