@@ -21,10 +21,14 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 5.0.100
+    - uses: nuget/setup-nuget@v1
+      with:
+        nuget-version: '5.x'
+    - name: Add msbuild to PATH
+      uses: microsoft/setup-msbuild@v1.0.2
     - name: Install dependencies
-      run: dotnet restore
+      run: nuget restore CenterCLR.NamingFormatter.sln
     - name: Build
       run: msbuild CenterCLR.NamingFormatter.sln
-      shell: cmd
     - name: Test
       run: dotnet test --no-restore --verbosity normal
