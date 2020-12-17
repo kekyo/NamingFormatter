@@ -32,6 +32,6 @@ jobs:
     - name: Install dependencies
       run: nuget restore CenterCLR.NamingFormatter.sln
     - name: Build
-      run: msbuild CenterCLR.NamingFormatter.sln
+      run: msbuild -p:BuildIdentifier=${GITHUB_RUN_NUMBER} CenterCLR.NamingFormatter.sln
     - name: Test
       run: dotnet test --no-restore --verbosity normal
