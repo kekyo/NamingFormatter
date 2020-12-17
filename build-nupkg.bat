@@ -21,4 +21,5 @@ if exist artifacts (
 )
 mkdir artifacts
 
-dotnet pack --configuration Release CenterCLR.NamingFormatter\CenterCLR.NamingFormatter.csproj
+msbuild -t:restore
+msbuild -t:pack -p:Configuration=Release CenterCLR.NamingFormatter\CenterCLR.NamingFormatter.csproj

@@ -9,7 +9,7 @@
 |:----|:----|
 |master|[![NamingFormatter CI build (master)](https://github.com/kekyo/CenterCLR.NamingFormatter/workflows/.NET/badge.svg?branch=master)](https://github.com/kekyo/CenterCLR.NamingFormatter/actions)|
 
-* NuGet Package: [![NuGet NamingFormatter](https://img.shields.io/nuget/v/CenterCLR.NamingFormatter.svg?style=flat)](https://www.nuget.org/packages/CenterCLR.NamingFormatter)
+* NuGet Package: [![NuGet NamingFormatter](https://img.shields.io/nuget/v/NamingFormatter.svg?style=flat)](https://www.nuget.org/packages/CenterCLR.NamingFormatter)
 
 ## What is this?
 * NamingFormatter is extended System.String.Format method on .NET Framework.
@@ -139,7 +139,8 @@ var formatted = Named.Format(
 * Under Apache v2
 
 ## History
-* 2.0.11:
+* 2.0.12:
+  Breaking change: Changed the NuGet package name from "CenterCLR.NamingFormatter" to "NamingFormatter".
   Added some target frameworks.
   Omitted strong-key signing.
   Switched and aggregated CI to GitHub Actions.

@@ -10,7 +10,7 @@
         <GenerateDocumentationFile>false</GenerateDocumentationFile>
         <LangVersion>latest</LangVersion>
         <RootNamespace>CenterCLR</RootNamespace>
-        <AssemblyName>CenterCLR.NamingFormatter</AssemblyName>
+        <AssemblyName>NamingFormatter</AssemblyName>
         <AssemblyTitle>String format library with key-valued replacer.</AssemblyTitle>
         <Product>NamingFormatter</Product>
         <Trademark>NamingFormatter</Trademark>
