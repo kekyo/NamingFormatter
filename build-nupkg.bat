@@ -21,6 +21,10 @@ if exist artifacts (
 )
 mkdir artifacts
 
-dotnet clean -c Release -p:Platform=AnyCPU CenterCLR.NamingFormatter\CenterCLR.NamingFormatter.csproj
-dotnet restore
-dotnet pack -p:Configuration=Release -p:Platform=AnyCPU -o artifacts CenterCLR.NamingFormatter\CenterCLR.NamingFormatter.csproj
+rem "dotnet" command can't build net35 tfm.
+rem dotnet clean -c Release -p:Platform=AnyCPU CenterCLR.NamingFormatter\CenterCLR.NamingFormatter.csproj
+rem dotnet restore
+rem dotnet pack -p:Configuration=Release -p:Platform=AnyCPU -o artifacts CenterCLR.NamingFormatter\CenterCLR.NamingFormatter.csproj
+
+msbuild -t:restore
+msbuild -t:pack -p:Configuration=Release /p:PackageOutputPath=..\artifacts CenterCLR.NamingFormatter\CenterCLR.NamingFormatter.csproj

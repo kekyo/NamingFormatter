@@ -139,6 +139,7 @@ var formatted = Named.Format(
 * Under Apache v2
 
 ## History
+* 2.0.16: Fixed not including net35 assembly.
 * 2.0.15:
   * Breaking change: Changed the NuGet package name from "CenterCLR.NamingFormatter" to "NamingFormatter".
   * Breaking change: Changed namespace name from "CenterCLR" to "NamingFormatter".
