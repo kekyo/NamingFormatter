@@ -22,7 +22,7 @@ using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 
-namespace CenterCLR.Tests
+namespace NamingFormatter.Tests
 {
 	[TestFixture]
 	public class OverloadTests

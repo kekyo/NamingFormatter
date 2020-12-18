@@ -69,7 +69,7 @@ var formatted = Named.Format(
 * View more sample:
 
 ``` csharp
-using CenterCLR;
+using NamingFormatter;
 
 // Easy parametric helper (Named.Pair() method)
 var formatted = Named.Format(
@@ -80,7 +80,7 @@ var formatted = Named.Format(
 ```
 
 ``` csharp
-using CenterCLR;
+using NamingFormatter;
 
 // Structual-key (Traverse properties by dot-notation)
 var formatted = Named.Format(
@@ -89,7 +89,7 @@ var formatted = Named.Format(
 ```
 
 ``` csharp
-using CenterCLR;
+using NamingFormatter;
 
 // Format to TextWriter.
 var sw = new StreamWriter(stream);
@@ -102,7 +102,7 @@ sw.Flush();
 ```
 
 ``` csharp
-using CenterCLR;
+using NamingFormatter;
 
 // Full-interactive (callback) format.
 var formatted = Named.Format(
@@ -120,7 +120,7 @@ var formatted = Named.Format(
 ```
 
 ``` csharp
-using CenterCLR;
+using NamingFormatter;
 
 // IFormatProvider supported.
 var formatted = Named.Format(
@@ -139,11 +139,12 @@ var formatted = Named.Format(
 * Under Apache v2
 
 ## History
-* 2.0.12:
-  Breaking change: Changed the NuGet package name from "CenterCLR.NamingFormatter" to "NamingFormatter".
-  Added some target frameworks.
-  Omitted strong-key signing.
-  Switched and aggregated CI to GitHub Actions.
+* 2.0.15:
+  * Breaking change: Changed the NuGet package name from "CenterCLR.NamingFormatter" to "NamingFormatter".
+  * Breaking change: Changed namespace name from "CenterCLR" to "NamingFormatter".
+  * Added some target frameworks.
+  * Omitted strong-key signing.
+  * Switched and aggregated CI to GitHub Actions.
 * 2.0.0: Upgraded new MSBuild format and omit PCL versions.
 * 1.1.1: Fixed via CI (AppVeyor, Fixed RelaxVersioner)
 * 1.1.0: Add support platform .NET Core (formally "dnxcore").

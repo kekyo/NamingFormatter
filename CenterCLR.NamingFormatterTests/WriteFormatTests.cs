@@ -24,7 +24,7 @@ using System.IO;
 using System.Linq;
 using NUnit.Framework;
 
-namespace CenterCLR.Tests
+namespace NamingFormatter.Tests
 {
 	[TestFixture]
 	public class WriteFormatTests

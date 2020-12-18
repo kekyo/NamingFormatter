@@ -23,7 +23,7 @@ using System.Globalization;
 using System.Linq;
 using NUnit.Framework;
 
-namespace CenterCLR.Tests
+namespace NamingFormatter.Tests
 {
 	[TestFixture]
 	public class FormatProviderOverloadTests

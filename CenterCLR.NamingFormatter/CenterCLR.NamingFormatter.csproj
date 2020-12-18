@@ -9,7 +9,7 @@
         <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
         <GenerateDocumentationFile>false</GenerateDocumentationFile>
         <LangVersion>latest</LangVersion>
-        <RootNamespace>CenterCLR</RootNamespace>
+        <RootNamespace>NamingFormatter</RootNamespace>
         <AssemblyName>NamingFormatter</AssemblyName>
         <AssemblyTitle>String format library with key-valued replacer.</AssemblyTitle>
         <Product>NamingFormatter</Product>
@@ -21,6 +21,7 @@
         <RepositoryType>git</RepositoryType>
         <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
         <PackageProjectUrl>https://github.com/kekyo/CenterCLR.NamingFormatter</PackageProjectUrl>
+        <PackageIcon>CenterCLR.NamingFormatter.100.png</PackageIcon>
         <RepositoryUrl>https://github.com/kekyo/CenterCLR.NamingFormatter</RepositoryUrl>
         <PackageTags>string;formatter;extensible;key-value;replace;same;option;structural</PackageTags>
         <DebugType>pdbonly</DebugType>
@@ -52,6 +53,10 @@
     <ItemGroup>
         <PackageReference Include="CenterCLR.RelaxVersioner" Version="1.0.13" PrivateAssets="all" />
         <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.0" PrivateAssets="All" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Include="..\Images\CenterCLR.NamingFormatter.100.png" Link="Images\CenterCLR.NamingFormatter.100.png" Pack="true" PackagePath="\" />
     </ItemGroup>
 
 </Project>

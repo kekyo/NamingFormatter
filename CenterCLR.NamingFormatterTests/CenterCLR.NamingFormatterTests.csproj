@@ -7,8 +7,8 @@
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
         <AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
         <GenerateDocumentationFile>false</GenerateDocumentationFile>
-        <RootNamespace>CenterCLR</RootNamespace>
-        <AssemblyName>CenterCLR.NamingFormatterTests</AssemblyName>
+        <RootNamespace>NamingFormatter</RootNamespace>
+        <AssemblyName>NamingFormatterTests</AssemblyName>
         <AssemblyTitle>String format library with key-valued replacer.</AssemblyTitle>
         <Product>NamingFormatter</Product>
         <Trademark>NamingFormatter</Trademark>

@@ -26,7 +26,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace CenterCLR
+namespace NamingFormatter
 {
     /// <summary>
     /// NamingFormatter library class.

@@ -21,7 +21,7 @@ using System;
 using System.Collections.Generic;
 using NUnit.Framework;
 
-namespace CenterCLR.Tests
+namespace NamingFormatter.Tests
 {
 	[TestFixture]
 	public class KeyReplaceTests
