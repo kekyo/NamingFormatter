@@ -21,6 +21,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
+#if !NET35 && !NET40
+using System.Threading.Tasks;
+#endif
+
 namespace NamingFormatter
 {
     partial class Named
@@ -96,6 +100,70 @@ namespace NamingFormatter
                 format,
                 (key1, key2) => key1 == key2,
                 keyValues);
+
+#if !NET35 && !NET40
+        /// <summary>
+        /// Format string with named format-key.
+        /// </summary>
+        /// <param name="tw">Format text writer.</param>
+        /// <param name="format">The format string (can include format-key).</param>
+        /// <param name="keyValues">Key-value enumerator.</param>
+        /// <returns>Formatted string.</returns>
+        /// <example>
+        /// <code>
+        /// // format-key-value array.
+        /// var keyValues = new[]
+        /// {
+        ///     new KeyValuePair&lt;string, object&gt;("abcde", 123),
+        ///     new KeyValuePair&lt;string, object&gt;("fgh", DateTime.Now),
+        ///     new KeyValuePair&lt;string, object&gt;("ijkl", 456.789),
+        ///     // ...
+        /// };
+        /// 
+        /// // Format string by format-key-values.
+        /// var tw = new StringWriter();
+        /// await tw.WriteFormatAsync(
+        ///     "AAA{fgh:R}BBB{abcde}CCC{ijkl:E}",
+        ///     keyValues);
+        /// </code>
+        /// </example>
+        public static Task WriteFormatAsync(
+            this TextWriter tw,
+            string format,
+            IEnumerable<(string key, object? value)> keyValues) =>
+            WriteFormatAsync(
+                tw,
+                format,
+                (key1, key2) => key1 == key2,
+                keyValues);
+
+        /// <summary>
+        /// Format string with named format-key.
+        /// </summary>
+        /// <param name="tw">Format text writer.</param>
+        /// <param name="format">The format string (can include format-key).</param>
+        /// <param name="keyValues">Key-value enumerator.</param>
+        /// <returns>Formatted string.</returns>
+        /// <example>
+        /// <code>
+        /// // Format string by format-key-values.
+        /// var result = new CultureInfo("fr-FR").Format(
+        ///     "AAA{fgh:R}BBB{abcde}CCC{ijkl:E}",
+        ///     Named.Pair("abcde", 123),
+        ///		Named.Pair("fgh", DateTime.Now),
+        ///		Named.Pair("ijkl", 456.789));
+        /// </code>
+        /// </example>
+        public static Task WriteFormatAsync(
+            this TextWriter tw,
+            string format,
+            params (string key, object? value)[] keyValues) =>
+            WriteFormatAsync(
+                tw,
+                format,
+                (key1, key2) => key1 == key2,
+                keyValues);
+#endif
 
         /// <summary>
         /// Format string with named format-key.
@@ -296,6 +364,71 @@ namespace NamingFormatter
                 format,
                 (key1, key2) => key1 == key2,
                 keyValues);
+
+#if !NET35 && !NET40
+        /// <summary>
+        /// Format string with named format-key.
+        /// </summary>
+        /// <param name="tw">Format text writer.</param>
+        /// <param name="format">The format string (can include format-key).</param>
+        /// <param name="keyValues">Key-value enumerator.</param>
+        /// <returns>Formatted string.</returns>
+        /// <example>
+        /// <code>
+        /// // format-key-value array.
+        /// var keyValues = new[]
+        /// {
+        ///     new KeyValuePair&lt;string, object&gt;("abcde", 123),
+        ///     new KeyValuePair&lt;string, object&gt;("fgh", DateTime.Now),
+        ///     new KeyValuePair&lt;string, object&gt;("ijkl", 456.789),
+        ///     // ...
+        /// };
+        /// 
+        /// // Format string by format-key-values.
+        /// var tw = new StringWriter();
+        /// await tw.WriteFormatAsync(
+        ///     "AAA{fgh:R}BBB{abcde}CCC{ijkl:E}",
+        ///     keyValues);
+        /// </code>
+        /// </example>
+        public static Task WriteFormatAsync(
+            this TextWriter tw,
+            string format,
+            IEnumerable<KeyValuePair<string, object?>> keyValues) =>
+            WriteFormatAsync(
+                tw,
+                format,
+                (key1, key2) => key1 == key2,
+                keyValues);
+
+        /// <summary>
+        /// Format string with named format-key.
+        /// </summary>
+        /// <param name="tw">Format text writer.</param>
+        /// <param name="format">The format string (can include format-key).</param>
+        /// <param name="keyValues">Key-value enumerator.</param>
+        /// <returns>Formatted string.</returns>
+        /// <example>
+        /// <code>
+        /// // Format string by format-key-values.
+        /// var tw = new StringWriter();
+        /// var result = await tw.WriteFormatAsync(
+        ///     "AAA{fgh:R}BBB{abcde}CCC{ijkl:E}",
+        ///     Named.Pair("abcde", 123),
+        ///		Named.Pair("fgh", DateTime.Now),
+        ///		Named.Pair("ijkl", 456.789));
+        /// </code>
+        /// </example>
+        public static Task WriteFormatAsync(
+            this TextWriter tw,
+            string format,
+            params KeyValuePair<string, object?>[] keyValues) =>
+            WriteFormatAsync(
+                tw,
+                format,
+                (key1, key2) => key1 == key2,
+                keyValues);
+#endif
 
         /// <summary>
         /// Format string with named format-key.

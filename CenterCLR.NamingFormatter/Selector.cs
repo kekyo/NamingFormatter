@@ -24,6 +24,10 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
+#if !NET35 && !NET40
+using System.Threading.Tasks;
+#endif
+
 namespace NamingFormatter
 {
     partial class Named
@@ -80,43 +84,10 @@ namespace NamingFormatter
             }
         }
 
-        /// <summary>
-        /// Format string with named format-key.
-        /// </summary>
-        /// <param name="tw">Formatted text writer.</param>
-        /// <param name="format">The format string (can include format-key).</param>
-        /// <param name="selector">format-key to value selector delegate.</param>
-        /// <example>
-        /// <code>
-        /// // Format string by format-key-values.
-        /// var tw = new StringWriter();
-        /// tw.WriteFormat(
-        ///     "AAA{fgh:R}BBB{abcde}CCC{ijkl:E}",
-        ///     key =>
-        ///         (key == "abcde") ? 123 :
-        ///         (key == "fgh") ? DateTime.Now :
-        ///         (key == "ijkl") ? 456.789 :
-        ///         "(Unknown)");
-        /// </code>
-        /// </example>
-        public static void WriteFormat(
-            this TextWriter tw,
+        private static (string format, object?[] args) InternalFormat(
             string format,
             Func<string, object?> selector)
         {
-            if (tw == null)
-            {
-                throw new ArgumentNullException("tw");
-            }
-            if (format == null)
-            {
-                throw new ArgumentNullException("format");
-            }
-            if (selector == null)
-            {
-                throw new ArgumentNullException("selector");
-            }
-
             var cooked = new StringBuilder();
             var args = new List<object?>();
 
@@ -166,8 +137,92 @@ namespace NamingFormatter
                 state = States.Normal;
             }
 
-            tw.Write(cooked.ToString(), args.ToArray());
+            return (cooked.ToString(), args.ToArray());
         }
+
+        /// <summary>
+        /// Format string with named format-key.
+        /// </summary>
+        /// <param name="tw">Formatted text writer.</param>
+        /// <param name="format">The format string (can include format-key).</param>
+        /// <param name="selector">format-key to value selector delegate.</param>
+        /// <example>
+        /// <code>
+        /// // Format string by format-key-values.
+        /// var tw = new StringWriter();
+        /// tw.WriteFormat(
+        ///     "AAA{fgh:R}BBB{abcde}CCC{ijkl:E}",
+        ///     key =>
+        ///         (key == "abcde") ? 123 :
+        ///         (key == "fgh") ? DateTime.Now :
+        ///         (key == "ijkl") ? 456.789 :
+        ///         "(Unknown)");
+        /// </code>
+        /// </example>
+        public static void WriteFormat(
+            this TextWriter tw,
+            string format,
+            Func<string, object?> selector)
+        {
+            if (tw == null)
+            {
+                throw new ArgumentNullException("tw");
+            }
+            if (format == null)
+            {
+                throw new ArgumentNullException("format");
+            }
+            if (selector == null)
+            {
+                throw new ArgumentNullException("selector");
+            }
+
+            var (formatted, args) = InternalFormat(format, selector);
+            tw.Write(formatted, args);
+        }
+
+#if !NET35 && !NET40
+        /// <summary>
+        /// Format string with named format-key.
+        /// </summary>
+        /// <param name="tw">Formatted text writer.</param>
+        /// <param name="format">The format string (can include format-key).</param>
+        /// <param name="selector">format-key to value selector delegate.</param>
+        /// <example>
+        /// <code>
+        /// // Format string by format-key-values.
+        /// var tw = new StringWriter();
+        /// await tw.WriteFormatAsync(
+        ///     "AAA{fgh:R}BBB{abcde}CCC{ijkl:E}",
+        ///     key =>
+        ///         (key == "abcde") ? 123 :
+        ///         (key == "fgh") ? DateTime.Now :
+        ///         (key == "ijkl") ? 456.789 :
+        ///         "(Unknown)");
+        /// </code>
+        /// </example>
+        public static Task WriteFormatAsync(
+            this TextWriter tw,
+            string format,
+            Func<string, object?> selector)
+        {
+            if (tw == null)
+            {
+                throw new ArgumentNullException("tw");
+            }
+            if (format == null)
+            {
+                throw new ArgumentNullException("format");
+            }
+            if (selector == null)
+            {
+                throw new ArgumentNullException("selector");
+            }
+
+            var (formatted, args) = InternalFormat(format, selector);
+            return tw.WriteAsync(string.Format(formatted, args));
+        }
+#endif
 
         /// <summary>
         /// Format string with named format-key.

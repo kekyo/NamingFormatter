@@ -21,6 +21,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
+#if !NET35 && !NET40
+using System.Threading.Tasks;
+#endif
+
 namespace NamingFormatter
 {
     partial class Named
@@ -60,10 +64,54 @@ namespace NamingFormatter
                 throw new ArgumentNullException("keyValues");
             }
 
-            tw.WriteFormat(
+            WriteFormat(
+                tw,
                 format,
                 key => keyValues[key]);
         }
+
+#if !NET35 && !NET40
+        /// <summary>
+        /// Format string with named format-key.
+        /// </summary>
+        /// <param name="tw">Format text writer.</param>
+        /// <param name="format">The format string (can include format-key).</param>
+        /// <param name="keyValues">Key-value dictionary.</param>
+        /// <returns>Formatted string.</returns>
+        /// <example>
+        /// <code>
+        /// // format-key-value dictionary.
+        /// var keyValues = new Dictionary&lt;string, object&gt;()
+        /// {
+        ///     { "abcde", 123 },
+        ///     { "fgh", DateTime.Now },
+        ///     { "ijkl", 456.789 },
+        ///     // ...
+        /// };
+        /// 
+        /// // Format string by format-key-values.
+        /// var tw = new StringWriter();
+        /// await tw.WriteFormatAsync(
+        ///     "AAA{fgh:R}BBB{abcde}CCC{ijkl:E}",
+        ///     keyValues);
+        /// </code>
+        /// </example>
+        public static Task WriteFormatAsync(
+            this TextWriter tw,
+            string format,
+            Dictionary<string, object?> keyValues)
+        {
+            if (keyValues == null)
+            {
+                throw new ArgumentNullException("keyValues");
+            }
+
+            return WriteFormatAsync(
+                tw,
+                format,
+                key => keyValues[key]);
+        }
+#endif
 
         /// <summary>
         /// Format string with named format-key.

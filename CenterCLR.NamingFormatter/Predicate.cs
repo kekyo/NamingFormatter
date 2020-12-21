@@ -23,6 +23,10 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 
+#if !NET35 && !NET40
+using System.Threading.Tasks;
+#endif
+
 namespace NamingFormatter
 {
     partial class Named
@@ -140,6 +144,106 @@ namespace NamingFormatter
                 format,
                 predicate,
                 keyValues.AsEnumerable());
+
+#if !NET35 && !NET40
+        /// <summary>
+        /// Format string with named format-key.
+        /// </summary>
+        /// <param name="tw">Format text writer.</param>
+        /// <param name="format">The format string (can include format-key).</param>
+        /// <param name="predicate">format-key equality predicate delegate.</param>
+        /// <param name="keyValues">Key-value enumerator.</param>
+        /// <example>
+        /// <code>
+        /// // format-key-value array.
+        /// var keyValues = new[]
+        /// {
+        ///     ("abcde", 123),
+        ///     ("fgh", DateTime.Now),
+        ///     ("ijkl", 456.789),
+        ///     // ...
+        /// };
+        /// 
+        /// // Format string by format-key-values with custom comparator expression.
+        /// var tw = new StringWriter();
+        /// var result = await tw.WriteFormatAsync(
+        ///     "AAA{fgh:R}BBB{abcde}CCC{ijkl:E}",
+        ///     (key0, key1) => key0 == key1,
+        ///     keyValues);
+        /// </code>
+        /// </example>
+        public static Task WriteFormatAsync(
+            this TextWriter tw,
+            string format,
+            Func<string, string, bool> predicate,
+            IEnumerable<(string key, object? value)> keyValues)
+        {
+            if (predicate == null)
+            {
+                throw new ArgumentNullException("predicate");
+            }
+            if (keyValues == null)
+            {
+                throw new ArgumentNullException("keyValues");
+            }
+
+            switch (keyValues)
+            {
+                case (string key, object? value)[] array:
+                    return WriteFormatAsync(
+                        tw,
+                        format,
+                        key => Array.Find(array, kv => predicate(kv.key, key)).value);
+                case IReadOnlyCollection<(string key, object? value)> rcoll:
+                    return WriteFormatAsync(
+                        tw,
+                        format,
+                        key => rcoll.First(kv => predicate(kv.key, key)).value);
+                case ICollection<(string key, object? value)> coll:
+                    return WriteFormatAsync(
+                        tw,
+                        format,
+                        key => coll.First(kv => predicate(kv.key, key)).value);
+                default:
+                    var fixedKeyValues = keyValues.ToArray();
+                    return WriteFormatAsync(
+                        tw,
+                        format,
+                        key => Array.Find(fixedKeyValues, kv => predicate(kv.key, key)).value);
+            }
+        }
+
+        /// <summary>
+        /// Format string with named format-key.
+        /// </summary>
+        /// <param name="tw">Format text writer.</param>
+        /// <param name="format">The format string (can include format-key).</param>
+        /// <param name="predicate">format-key equality predicate delegate.</param>
+        /// <param name="keyValues">Key-value enumerator.</param>
+        /// <returns>Formatted string.</returns>
+        /// <example>
+        /// <code>
+        /// // Format string by format-key-values with custom comparator expression.
+        /// var tw = new StringWriter();
+        /// await tw.WriteFormatAsync(
+        ///     "AAA{fgh:R}BBB{abcde}CCC{ijkl:E}",
+        ///     (key0, key1) => key0 == key1,
+        ///     ("abcde", 123),
+        ///		("fgh", DateTime.Now),
+        ///		("ijkl", 456.789));
+        /// </code>
+        /// </example>
+        public static Task WriteFormatAsync(
+            this TextWriter tw,
+            string format,
+            Func<string, string, bool> predicate,
+            params (string key, object? value)[] keyValues) =>
+            WriteFormatAsync(
+                tw,
+                format,
+                predicate,
+                keyValues.AsEnumerable());
+#endif
 
         /// <summary>
         /// Format string with named format-key.
@@ -432,6 +536,121 @@ namespace NamingFormatter
                 format,
                 predicate,
                 keyValues.AsEnumerable());
+
+#if !NET35 && !NET40
+        /// <summary>
+        /// Format string with named format-key.
+        /// </summary>
+        /// <param name="tw">Format text writer.</param>
+        /// <param name="format">The format string (can include format-key).</param>
+        /// <param name="predicate">format-key equality predicate delegate.</param>
+        /// <param name="keyValues">Key-value enumerator.</param>
+        /// <example>
+        /// <code>
+        /// // format-key-value array.
+        /// var keyValues = new[]
+        /// {
+        ///     new KeyValuePair&lt;string, object&gt;("abcde", 123),
+        ///     new KeyValuePair&lt;string, object&gt;("fgh", DateTime.Now),
+        ///     new KeyValuePair&lt;string, object&gt;("ijkl", 456.789),
+        ///     // ...
+        /// };
+        /// 
+        /// // Format string by format-key-values with custom comparator expression.
+        /// var tw = new StringWriter();
+        /// var result = await tw.WriteFormatAsync(
+        ///     "AAA{fgh:R}BBB{abcde}CCC{ijkl:E}",
+        ///     (key0, key1) => key0 == key1,
+        ///     keyValues);
+        /// </code>
+        /// </example>
+        public static Task WriteFormatAsync(
+            this TextWriter tw,
+            string format,
+            Func<string, string, bool> predicate,
+            IEnumerable<KeyValuePair<string, object?>> keyValues)
+        {
+            if (predicate == null)
+            {
+                throw new ArgumentNullException("predicate");
+            }
+            if (keyValues == null)
+            {
+                throw new ArgumentNullException("keyValues");
+            }
+
+            switch (keyValues)
+            {
+                case KeyValuePair<string, object?>[] array:
+                    return WriteFormatAsync(
+                        tw,
+                        format,
+                        key => Array.Find(array, kv => predicate(kv.Key, key)).Value);
+                case Dictionary<string, object?> dict:
+                    return WriteFormatAsync(
+                        tw,
+                        format,
+                        key => dict[key]);
+                case IReadOnlyDictionary<string, object?> rdict:
+                    return WriteFormatAsync(
+                        tw,
+                        format,
+                        key => rdict[key]);
+                case IDictionary<string, object?> idict:
+                    return WriteFormatAsync(
+                        tw,
+                        format,
+                        key => idict[key]);
+                case IReadOnlyCollection<KeyValuePair<string, object?>> rcoll:
+                    return WriteFormatAsync(
+                        tw,
+                        format,
+                        key => rcoll.First(kv => predicate(kv.Key, key)).Value);
+                case ICollection<KeyValuePair<string, object?>> coll:
+                    return WriteFormatAsync(
+                        tw,
+                        format,
+                        key => coll.First(kv => predicate(kv.Key, key)).Value);
+                default:
+                    var fixedKeyValues = keyValues.ToArray();
+                    return WriteFormatAsync(
+                        tw,
+                        format,
+                        key => Array.Find(fixedKeyValues, kv => predicate(kv.Key, key)).Value);
+            }
+        }
+
+        /// <summary>
+        /// Format string with named format-key.
+        /// </summary>
+        /// <param name="tw">Format text writer.</param>
+        /// <param name="format">The format string (can include format-key).</param>
+        /// <param name="predicate">format-key equality predicate delegate.</param>
+        /// <param name="keyValues">Key-value enumerator.</param>
+        /// <returns>Formatted string.</returns>
+        /// <example>
+        /// <code>
+        /// // Format string by format-key-values with custom comparator expression.
+        /// var tw = new StringWriter();
+        /// await tw.WriteFormatAsync(
+        ///     "AAA{fgh:R}BBB{abcde}CCC{ijkl:E}",
+        ///     (key0, key1) => key0 == key1,
+        ///     Named.Pair("abcde", 123),
+        ///		Named.Pair("fgh", DateTime.Now),
+        ///		Named.Pair("ijkl", 456.789));
+        /// </code>
+        /// </example>
+        public static Task WriteFormatAsync(
+            this TextWriter tw,
+            string format,
+            Func<string, string, bool> predicate,
+            params KeyValuePair<string, object?>[] keyValues) =>
+            WriteFormatAsync(
+                tw,
+                format,
+                predicate,
+                keyValues.AsEnumerable());
+#endif
 
         /// <summary>
         /// Format string with named format-key.

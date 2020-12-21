@@ -21,6 +21,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
+#if !NET35 && !NET40
+using System.Threading.Tasks;
+#endif
+
 namespace NamingFormatter
 {
 #if !NET35 && !NET40
@@ -51,18 +55,59 @@ namespace NamingFormatter
         ///     keyValues);
         /// </code>
         /// </example>
-        public static void WriteFormat<TDictionary>(
+        public static void WriteFormat(
             this TextWriter tw,
             string format,
-            TDictionary keyValues)
-            where TDictionary : IReadOnlyDictionary<string, object?>
+            IReadOnlyDictionary<string, object?> keyValues)
         {
             if (keyValues == null)
             {
                 throw new ArgumentNullException("keyValues");
             }
 
-            tw.WriteFormat(
+            WriteFormat(
+                tw,
+                format,
+                key => keyValues[key]);
+        }
+
+        /// <summary>
+        /// Format string with named format-key.
+        /// </summary>
+        /// <param name="tw">Format text writer.</param>
+        /// <param name="format">The format string (can include format-key).</param>
+        /// <param name="keyValues">Key-value dictionary.</param>
+        /// <returns>Formatted string.</returns>
+        /// <example>
+        /// <code>
+        /// // format-key-value dictionary.
+        /// var keyValues = new Dictionary&lt;string, object&gt;()
+        /// {
+        ///     { "abcde", 123 },
+        ///     { "fgh", DateTime.Now },
+        ///     { "ijkl", 456.789 },
+        ///     // ...
+        /// };
+        /// 
+        /// // Format string by format-key-values.
+        /// var tw = new StringWriter();
+        /// tw.WriteFormat(
+        ///     "AAA{fgh:R}BBB{abcde}CCC{ijkl:E}",
+        ///     keyValues);
+        /// </code>
+        /// </example>
+        public static Task WriteFormatAsync(
+            this TextWriter tw,
+            string format,
+            IReadOnlyDictionary<string, object?> keyValues)
+        {
+            if (keyValues == null)
+            {
+                throw new ArgumentNullException("keyValues");
+            }
+
+            return WriteFormatAsync(
+                tw,
                 format,
                 key => keyValues[key]);
         }
