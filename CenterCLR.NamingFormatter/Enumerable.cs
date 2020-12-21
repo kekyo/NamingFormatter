@@ -54,7 +54,7 @@ namespace NamingFormatter
         public static void WriteFormat(
             this TextWriter tw,
             string format,
-            IEnumerable<KeyValuePair<string, object>> keyValues)
+            IEnumerable<KeyValuePair<string, object?>> keyValues)
         {
             tw.WriteFormat(
                 format,
@@ -81,7 +81,7 @@ namespace NamingFormatter
         public static void WriteFormat(
             this TextWriter tw,
             string format,
-            params KeyValuePair<string, object>[] keyValues)
+            params KeyValuePair<string, object?>[] keyValues)
         {
             tw.WriteFormat(
                 format,
@@ -115,7 +115,7 @@ namespace NamingFormatter
         public static string Format(
             IFormatProvider formatProvider,
             string format,
-            IEnumerable<KeyValuePair<string, object>> keyValues)
+            IEnumerable<KeyValuePair<string, object?>> keyValues)
         {
             return Format(
                 formatProvider,
@@ -148,7 +148,7 @@ namespace NamingFormatter
         /// </example>
         public static string Format(
             string format,
-            IEnumerable<KeyValuePair<string, object>> keyValues)
+            IEnumerable<KeyValuePair<string, object?>> keyValues)
         {
             return Format(
                 format,
@@ -175,7 +175,7 @@ namespace NamingFormatter
         public static string Format(
             IFormatProvider formatProvider,
             string format,
-            params KeyValuePair<string, object>[] keyValues)
+            params KeyValuePair<string, object?>[] keyValues)
         {
             return Format(
                 formatProvider,
@@ -201,7 +201,7 @@ namespace NamingFormatter
         /// </example>
         public static string Format(
             string format,
-            params KeyValuePair<string, object>[] keyValues)
+            params KeyValuePair<string, object?>[] keyValues)
         {
             return Format(
                 format,

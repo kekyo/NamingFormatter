@@ -57,7 +57,7 @@ namespace NamingFormatter
             this TextWriter tw,
             string format,
             Func<string, string, bool> predicate,
-            IEnumerable<KeyValuePair<string, object>> keyValues)
+            IEnumerable<KeyValuePair<string, object?>> keyValues)
         {
             if (predicate == null)
             {
@@ -116,7 +116,7 @@ namespace NamingFormatter
             this TextWriter tw,
             string format,
             Func<string, string, bool> predicate,
-            params KeyValuePair<string, object>[] keyValues)
+            params KeyValuePair<string, object?>[] keyValues)
         {
             tw.WriteFormat(
                 format,
@@ -154,7 +154,7 @@ namespace NamingFormatter
             IFormatProvider formatProvider,
             string format,
             Func<string, string, bool> predicate,
-            IEnumerable<KeyValuePair<string, object>> keyValues)
+            IEnumerable<KeyValuePair<string, object?>> keyValues)
         {
             if (formatProvider == null)
             {
@@ -196,7 +196,7 @@ namespace NamingFormatter
         public static string Format(
             string format,
             Func<string, string, bool> predicate,
-            IEnumerable<KeyValuePair<string, object>> keyValues)
+            IEnumerable<KeyValuePair<string, object?>> keyValues)
         {
             return Format(
                 CultureInfo.CurrentCulture,
@@ -228,7 +228,7 @@ namespace NamingFormatter
             IFormatProvider formatProvider,
             string format,
             Func<string, string, bool> predicate,
-            params KeyValuePair<string, object>[] keyValues)
+            params KeyValuePair<string, object?>[] keyValues)
         {
             return Format(
                 formatProvider,
@@ -258,7 +258,7 @@ namespace NamingFormatter
         public static string Format(
             string format,
             Func<string, string, bool> predicate,
-            params KeyValuePair<string, object>[] keyValues)
+            params KeyValuePair<string, object?>[] keyValues)
         {
             return Format(
                 format,

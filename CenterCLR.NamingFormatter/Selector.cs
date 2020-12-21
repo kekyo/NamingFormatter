@@ -19,7 +19,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -38,12 +37,8 @@ namespace NamingFormatter
             EnterKey
         }
 
-        private static object GetPropertyValue(this Type type, object instance, string name)
+        private static object? GetPropertyValue(this Type type, object instance, string name)
         {
-            Debug.Assert(type != null);
-            Debug.Assert(instance != null);
-            Debug.Assert(name != null);
-
             try
             {
 #if NETSTANDARD1_0
@@ -51,7 +46,7 @@ namespace NamingFormatter
 #else
                 var pi = type.GetProperty(name);
 #endif
-                return pi.GetValue(instance, null);
+                return pi?.GetValue(instance, null);
             }
             catch
             {
@@ -59,28 +54,30 @@ namespace NamingFormatter
             }
         }
 
-        private static object GetValueBySelector(
-            Func<string, object> selector,
+        private static object? GetValueBySelector(
+            Func<string, object?> selector,
             string dotNotatedKey)
         {
-            Debug.Assert(selector != null);
-            Debug.Assert(dotNotatedKey != null);
-
             // Enabling dot-notated property traverse
             var split = dotNotatedKey.Split(splitDotNotationChars_);
-            var value = selector(split.First());
-            var type = value.GetType();
-            for (var index = 1; index < split.Length; index++)
+            if (selector(split.First()) is { } value)
             {
-                value = type.GetPropertyValue(value, split[index]);
-                if (value == null)
+                var type = value.GetType();
+                for (var index = 1; index < split.Length; index++)
                 {
-                    break;
+                    value = type.GetPropertyValue(value, split[index]);
+                    if (value == null)
+                    {
+                        return null;
+                    }
+                    type = value.GetType();
                 }
-                type = value.GetType();
+                return value;
             }
-
-            return value;
+            else
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -105,7 +102,7 @@ namespace NamingFormatter
         public static void WriteFormat(
             this TextWriter tw,
             string format,
-            Func<string, object> selector)
+            Func<string, object?> selector)
         {
             if (tw == null)
             {
@@ -121,7 +118,7 @@ namespace NamingFormatter
             }
 
             var cooked = new StringBuilder();
-            var args = new List<object>();
+            var args = new List<object?>();
 
             var state = States.Normal;
             var currentIndex = 0;
@@ -194,7 +191,7 @@ namespace NamingFormatter
         public static string Format(
             IFormatProvider formatProvider,
             string format,
-            Func<string, object> selector)
+            Func<string, object?> selector)
         {
             if (formatProvider == null)
             {
@@ -231,7 +228,7 @@ namespace NamingFormatter
         /// </example>
         public static string Format(
             string format,
-            Func<string, object> selector)
+            Func<string, object?> selector)
         {
             var tw = new StringWriter();
             tw.WriteFormat(format, selector);

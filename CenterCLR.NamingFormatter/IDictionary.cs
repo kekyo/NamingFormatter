@@ -53,7 +53,7 @@ namespace NamingFormatter
         public static void WriteFormat(
             this TextWriter tw,
             string format,
-            IDictionary<string, object> keyValues)
+            IDictionary<string, object?> keyValues)
         {
             if (keyValues == null)
             {
@@ -92,7 +92,7 @@ namespace NamingFormatter
         public static string Format(
             IFormatProvider formatProvider,
             string format,
-            IDictionary<string, object> keyValues)
+            IDictionary<string, object?> keyValues)
         {
             if (keyValues == null)
             {
@@ -130,7 +130,7 @@ namespace NamingFormatter
         /// </example>
         public static string Format(
             string format,
-            IDictionary<string, object> keyValues)
+            IDictionary<string, object?> keyValues)
         {
             if (keyValues == null)
             {

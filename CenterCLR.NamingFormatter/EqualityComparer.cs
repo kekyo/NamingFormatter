@@ -57,7 +57,7 @@ namespace NamingFormatter
             this TextWriter tw,
             string format,
             IEqualityComparer<string> comparer,
-            IEnumerable<KeyValuePair<string, object>> keyValues)
+            IEnumerable<KeyValuePair<string, object?>> keyValues)
         {
             if (comparer == null)
             {
@@ -66,7 +66,7 @@ namespace NamingFormatter
 
             tw.WriteFormat(
                 format,
-                keyValues.ToDictionary(kv => kv.Key, kv => kv.Value, comparer));
+                keyValues.ToDictionary(kv => kv.Key, kv => (object?)kv.Value, comparer));
         }
 
         /// <summary>
@@ -100,7 +100,7 @@ namespace NamingFormatter
             this TextWriter tw,
             string format,
             IEqualityComparer<string> comparer,
-            params KeyValuePair<string, object>[] keyValues)
+            params KeyValuePair<string, object?>[] keyValues)
         {
             if (comparer == null)
             {
@@ -109,7 +109,7 @@ namespace NamingFormatter
 
             tw.WriteFormat(
                 format,
-                keyValues.ToDictionary(kv => kv.Key, kv => kv.Value, comparer));
+                keyValues.ToDictionary(kv => kv.Key, kv => (object?)kv.Value, comparer));
         }
 
         /// <summary>
@@ -142,7 +142,7 @@ namespace NamingFormatter
             IFormatProvider formatProvider,
             string format,
             IEqualityComparer<string> comparer,
-            IEnumerable<KeyValuePair<string, object>> keyValues)
+            IEnumerable<KeyValuePair<string, object?>> keyValues)
         {
             if (comparer == null)
             {
@@ -152,7 +152,7 @@ namespace NamingFormatter
             return Format(
                 formatProvider,
                 format,
-                keyValues.ToDictionary(kv => kv.Key, kv => kv.Value, comparer));
+                keyValues.ToDictionary(kv => kv.Key, kv => (object?)kv.Value, comparer));
         }
 
         /// <summary>
@@ -183,7 +183,7 @@ namespace NamingFormatter
         public static string Format(
             string format,
             IEqualityComparer<string> comparer,
-            IEnumerable<KeyValuePair<string, object>> keyValues)
+            IEnumerable<KeyValuePair<string, object?>> keyValues)
         {
             if (comparer == null)
             {
@@ -192,7 +192,7 @@ namespace NamingFormatter
 
             return Format(
                 format,
-                keyValues.ToDictionary(kv => kv.Key, kv => kv.Value, comparer));
+                keyValues.ToDictionary(kv => kv.Key, kv => (object?)kv.Value, comparer));
         }
 
         /// <summary>
@@ -218,7 +218,7 @@ namespace NamingFormatter
             IFormatProvider formatProvider,
             string format,
             IEqualityComparer<string> comparer,
-            params KeyValuePair<string, object>[] keyValues)
+            params KeyValuePair<string, object?>[] keyValues)
         {
             if (comparer == null)
             {
@@ -228,7 +228,7 @@ namespace NamingFormatter
             return Format(
                 formatProvider,
                 format,
-                keyValues.ToDictionary(kv => kv.Key, kv => kv.Value, comparer));
+                keyValues.ToDictionary(kv => kv.Key, kv => (object?)kv.Value, comparer));
         }
 
         /// <summary>
@@ -252,7 +252,7 @@ namespace NamingFormatter
         public static string Format(
             string format,
             IEqualityComparer<string> comparer,
-            params KeyValuePair<string, object>[] keyValues)
+            params KeyValuePair<string, object?>[] keyValues)
         {
             if (comparer == null)
             {
@@ -261,7 +261,7 @@ namespace NamingFormatter
 
             return Format(
                 format,
-                keyValues.ToDictionary(kv => kv.Key, kv => kv.Value, comparer));
+                keyValues.ToDictionary(kv => kv.Key, kv => (object?)kv.Value, comparer));
         }
     }
 }

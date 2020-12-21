@@ -55,7 +55,7 @@ namespace NamingFormatter
             this TextWriter tw,
             string format,
             TDictionary keyValues)
-            where TDictionary : IReadOnlyDictionary<string, object>
+            where TDictionary : IReadOnlyDictionary<string, object?>
         {
             if (keyValues == null)
             {
@@ -96,7 +96,7 @@ namespace NamingFormatter
             IFormatProvider formatProvider,
             string format,
             TDictionary keyValues)
-            where TDictionary : IReadOnlyDictionary<string, object>
+            where TDictionary : IReadOnlyDictionary<string, object?>
         {
             if (keyValues == null)
             {
@@ -136,7 +136,7 @@ namespace NamingFormatter
         public static string Format<TDictionary>(
             string format,
             TDictionary keyValues)
-            where TDictionary : IReadOnlyDictionary<string, object>
+            where TDictionary : IReadOnlyDictionary<string, object?>
         {
             if (keyValues == null)
             {

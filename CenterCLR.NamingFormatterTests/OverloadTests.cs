@@ -31,7 +31,7 @@ namespace NamingFormatter.Tests
 		public void DictionaryOverloadTest()
 		{
 			var now = DateTime.Now;
-			var keyValues = new Dictionary<string, object>()
+			var keyValues = new Dictionary<string, object?>()
 			{
 				{ "abc", 123 },
 				{ "defgh", now },
@@ -49,7 +49,7 @@ namespace NamingFormatter.Tests
 		public void IDictionaryOverloadTest()
 		{
 			var now = DateTime.Now;
-			IDictionary<string, object> keyValues = new Dictionary<string, object>()
+			IDictionary<string, object?> keyValues = new Dictionary<string, object?>()
 			{
 				{ "abc", 123 },
 				{ "defgh", now },
@@ -87,7 +87,7 @@ namespace NamingFormatter.Tests
 		public void DictionaryWithComparerOverloadTest()
 		{
 			var now = DateTime.Now;
-			IDictionary<string, object> keyValues = new Dictionary<string, object>(
+			IDictionary<string, object?> keyValues = new Dictionary<string, object?>(
 				StringComparer.InvariantCultureIgnoreCase)
 			{
 				{ "aBc", 123 },
@@ -106,11 +106,11 @@ namespace NamingFormatter.Tests
 		public void EnumerableOverloadTest()
 		{
 			var now = DateTime.Now;
-			IEnumerable<KeyValuePair<string, object>> keyValues = new[]
+			IEnumerable<KeyValuePair<string, object?>> keyValues = new[]
 			{
-				new KeyValuePair<string, object>("abc", 123),
-				new KeyValuePair<string, object>("defgh", now),
-				new KeyValuePair<string, object>("ijkl", "XYZ"),
+				new KeyValuePair<string, object?>("abc", 123),
+				new KeyValuePair<string, object?>("defgh", now),
+				new KeyValuePair<string, object?>("ijkl", "XYZ"),
 			};
 
 			var actual = Named.Format(
@@ -124,11 +124,11 @@ namespace NamingFormatter.Tests
 		public void EnumerableOverloadWithArrayTest()
 		{
 			var now = DateTime.Now;
-			IEnumerable<KeyValuePair<string, object>> keyValues = new[]
+			IEnumerable<KeyValuePair<string, object?>> keyValues = new[]
 			{
-				new KeyValuePair<string, object>("abc", 123),
-				new KeyValuePair<string, object>("defgh", now),
-				new KeyValuePair<string, object>("ijkl", "XYZ"),
+				new KeyValuePair<string, object?>("abc", 123),
+				new KeyValuePair<string, object?>("defgh", now),
+				new KeyValuePair<string, object?>("ijkl", "XYZ"),
 			};
 
 			var actual = Named.Format(
@@ -142,11 +142,11 @@ namespace NamingFormatter.Tests
 		public void EnumerableOverloadWithPredicateTest()
 		{
 			var now = DateTime.Now;
-			IEnumerable<KeyValuePair<string, object>> keyValues = new[]
+			IEnumerable<KeyValuePair<string, object?>> keyValues = new[]
 			{
-				new KeyValuePair<string, object>("abc", 123),
-				new KeyValuePair<string, object>("defgh", now),
-				new KeyValuePair<string, object>("ijkl", "XYZ"),
+				new KeyValuePair<string, object?>("abc", 123),
+				new KeyValuePair<string, object?>("defgh", now),
+				new KeyValuePair<string, object?>("ijkl", "XYZ"),
 			};
 
 			var actual = Named.Format(
@@ -161,11 +161,11 @@ namespace NamingFormatter.Tests
 		public void EnumerableOverloadWithComparerTest()
 		{
 			var now = DateTime.Now;
-			IEnumerable<KeyValuePair<string, object>> keyValues = new[]
+			IEnumerable<KeyValuePair<string, object?>> keyValues = new[]
 			{
-				new KeyValuePair<string, object>("aBc", 123),
-				new KeyValuePair<string, object>("deFgH", now),
-				new KeyValuePair<string, object>("iJKl", "XYZ"),
+				new KeyValuePair<string, object?>("aBc", 123),
+				new KeyValuePair<string, object?>("deFgH", now),
+				new KeyValuePair<string, object?>("iJKl", "XYZ"),
 			};
 
 			var actual = Named.Format(

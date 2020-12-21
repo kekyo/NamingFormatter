@@ -62,9 +62,7 @@ namespace NamingFormatter
         ///		Named.Pair("ijkl", 456.789));
         /// </code>
         /// </example>
-        public static KeyValuePair<string, object> Pair(string key, object value)
-        {
-            return new KeyValuePair<string, object>(key, value);
-        }
+        public static KeyValuePair<string, object?> Pair(string key, object? value) =>
+            new KeyValuePair<string, object?>(key, value);
     }
 }
