@@ -5,10 +5,11 @@
         <TargetFrameworks Condition="'$(MSBuildRuntimeType)' != 'Core'">net35-client;net40-client;net45;net48;netstandard1.0;netstandard2.0;netstandard2.1;net5.0</TargetFrameworks>
 
         <OutputType>Library</OutputType>
+        <LangVersion>latest</LangVersion>
+        <Nullable>enable</Nullable>
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
         <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
         <GenerateDocumentationFile>false</GenerateDocumentationFile>
-        <LangVersion>latest</LangVersion>
         <RootNamespace>NamingFormatter</RootNamespace>
         <AssemblyName>NamingFormatter</AssemblyName>
         <AssemblyTitle>String format library with key-valued replacer.</AssemblyTitle>
@@ -51,8 +52,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="CenterCLR.RelaxVersioner" Version="1.0.13" PrivateAssets="all" />
+        <PackageReference Include="RelaxVersioner" Version="2.0.5" PrivateAssets="all" />
         <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.0" PrivateAssets="All" />
+    </ItemGroup>
+
+    <ItemGroup Condition="('$(TargetFramework)' != 'net35-client') AND ('$(TargetFramework)' != 'net40-client')">
+        <PackageReference Include="System.ValueTuple" Version="4.5.0" />
     </ItemGroup>
 
     <ItemGroup>

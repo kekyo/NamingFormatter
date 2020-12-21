@@ -30,7 +30,7 @@ namespace NamingFormatter.Tests
 		public void StandardSenarioTest()
 		{
 			var now = DateTime.Now;
-			var keyValues = new Dictionary<string, object>()
+			var keyValues = new Dictionary<string, object?>()
 			{
 				{ "abc", 123 },
 				{ "defgh", now },
@@ -48,7 +48,7 @@ namespace NamingFormatter.Tests
 		public void SingleFormatIdentityTest()
 		{
 			var now = DateTime.Now;
-			var keyValues = new Dictionary<string, object>()
+			var keyValues = new Dictionary<string, object?>()
 			{
 				{ "abc", 123 },
 				{ "defgh", now },
@@ -66,7 +66,7 @@ namespace NamingFormatter.Tests
 		public void FrontFormatIdentityTest()
 		{
 			var now = DateTime.Now;
-			var keyValues = new Dictionary<string, object>()
+			var keyValues = new Dictionary<string, object?>()
 			{
 				{ "abc", 123 },
 				{ "defgh", now },
@@ -84,7 +84,7 @@ namespace NamingFormatter.Tests
 		public void EndFormatIdentityTest()
 		{
 			var now = DateTime.Now;
-			var keyValues = new Dictionary<string, object>()
+			var keyValues = new Dictionary<string, object?>()
 			{
 				{ "abc", 123 },
 				{ "defgh", now },
@@ -102,7 +102,7 @@ namespace NamingFormatter.Tests
 		public void FormatIdentityTraversePropertyTest()
 		{
 			var now = DateTime.Now;
-			var keyValues = new Dictionary<string, object>()
+			var keyValues = new Dictionary<string, object?>()
 			{
 				{ "abc", 123 },
 				{ "defgh", now },
@@ -120,7 +120,7 @@ namespace NamingFormatter.Tests
 		public void FormatIdentityTraversePropertiesTest()
 		{
 			var now = DateTime.Now;
-			var keyValues = new Dictionary<string, object>()
+			var keyValues = new Dictionary<string, object?>()
 			{
 				{ "abc", 123 },
 				{ "defgh", now },
@@ -138,7 +138,7 @@ namespace NamingFormatter.Tests
 		public void FormatIdentityTraversePropertyNotFoundTest()
 		{
 			var now = DateTime.Now;
-			var keyValues = new Dictionary<string, object>()
+			var keyValues = new Dictionary<string, object?>()
 			{
 				{ "abc", 123 },
 				{ "defgh", now },
@@ -156,7 +156,7 @@ namespace NamingFormatter.Tests
 		public void FormatIdentityWithAlignmentTest()
 		{
 			var now = DateTime.Now;
-			var keyValues = new Dictionary<string, object>()
+			var keyValues = new Dictionary<string, object?>()
 			{
 				{ "abc", 123 },
 				{ "defgh", now },
@@ -174,7 +174,7 @@ namespace NamingFormatter.Tests
 		public void FormatIdentityWithOptionTest()
 		{
 			var now = DateTime.Now;
-			var keyValues = new Dictionary<string, object>()
+			var keyValues = new Dictionary<string, object?>()
 			{
 				{ "abc", 123 },
 				{ "defgh", now },
@@ -192,7 +192,7 @@ namespace NamingFormatter.Tests
 		public void FormatIdentityWithEmptyOptionTest()
 		{
 			var now = DateTime.Now;
-			var keyValues = new Dictionary<string, object>()
+			var keyValues = new Dictionary<string, object?>()
 			{
 				{ "abc", 123 },
 				{ "defgh", now },
@@ -210,7 +210,7 @@ namespace NamingFormatter.Tests
 		public void EmptyKeyIdentityTest()
 		{
 			var now = DateTime.Now;
-			var keyValues = new Dictionary<string, object>()
+			var keyValues = new Dictionary<string, object?>()
 			{
 				{ "abc", 123 },
 				{ "", now },
@@ -228,7 +228,7 @@ namespace NamingFormatter.Tests
 		public void EmptyKeyIdentityWithOptionTest()
 		{
 			var now = DateTime.Now;
-			var keyValues = new Dictionary<string, object>()
+			var keyValues = new Dictionary<string, object?>()
 			{
 				{ "abc", 123 },
 				{ "", now },
@@ -246,7 +246,7 @@ namespace NamingFormatter.Tests
 		public void EmptyKeyIdentityWithEmptyOptionTest()
 		{
 			var now = DateTime.Now;
-			var keyValues = new Dictionary<string, object>()
+			var keyValues = new Dictionary<string, object?>()
 			{
 				{ "abc", 123 },
 				{ "", now },
@@ -264,7 +264,7 @@ namespace NamingFormatter.Tests
 		public void DoubleBracketTest()
 		{
 			var now = DateTime.Now;
-			var keyValues = new Dictionary<string, object>()
+			var keyValues = new Dictionary<string, object?>()
 			{
 				{ "abc", 123 },
 				{ "defgh", now },
@@ -282,7 +282,7 @@ namespace NamingFormatter.Tests
 		public void DoubleBracketEmptyKeyTest()
 		{
 			var now = DateTime.Now;
-			var keyValues = new Dictionary<string, object>()
+			var keyValues = new Dictionary<string, object?>()
 			{
 				{ "abc", 123 },
 				{ "defgh", now },

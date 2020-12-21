@@ -5,11 +5,10 @@
 
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 
-| |build|
-|:----|:----|
-|master|[![NamingFormatter CI build (master)](https://github.com/kekyo/CenterCLR.NamingFormatter/workflows/.NET/badge.svg?branch=master)](https://github.com/kekyo/CenterCLR.NamingFormatter/actions)|
-
-* NuGet Package: [![NuGet NamingFormatter](https://img.shields.io/nuget/v/NamingFormatter.svg?style=flat)](https://www.nuget.org/packages/NamingFormatter)
+| |Build|NuGet|
+|:----|:----|:----|
+|master|[![NamingFormatter CI build (master)](https://github.com/kekyo/CenterCLR.NamingFormatter/workflows/.NET/badge.svg?branch=master)](https://github.com/kekyo/CenterCLR.NamingFormatter/actions)|[![NuGet NamingFormatter](https://img.shields.io/nuget/v/NamingFormatter.svg?style=flat)](https://www.nuget.org/packages/NamingFormatter)|
+|devel|[![NamingFormatter CI build (master)](https://github.com/kekyo/CenterCLR.NamingFormatter/workflows/.NET/badge.svg?branch=master)](https://github.com/kekyo/CenterCLR.NamingFormatter/actions)| |
 
 ## What is this?
 * NamingFormatter is extended System.String.Format method on .NET Framework.
@@ -17,19 +16,26 @@
   * You probably understand this:
 
 ``` csharp
+// String interporation style:
+// (These argument variables fixedup at compile time)
+var formatted =
+    $"Index0:{arg0}, Index1:{arg1}";
+
+// Old school style:
 var formatted = string.Format(
     "Index0:{0}, Index1:{1}",
     arg0,
     arg1);
 ```
 
-* NamingFormatter can use named key-value arguments. For example:
+* NamingFormatter can use named key-value arguments, and will fixup at runtime. For example:
 
 ``` csharp
 var keyValues = new Dictionary<string, object>
 {
-    { "lastName", "Matsui" }
+    { "lastName", "Matsui" },
     { "firstName", "Kouji" },
+    { "foo", "bar" },
 };
 var formatted = Named.Format(
     "FirstName:{firstName}, LastName:{lastName}",
@@ -42,18 +48,30 @@ var formatted = Named.Format(
 var keyValues = new Dictionary<string, object>
 {
     { "date", DateTime.Now },
-    { "Value", 123.456 }
+    { "value", 123.456 },
+    { "foo", "bar" },
 };
 var formatted = Named.Format(
     "Date:{date:R}, Value:{value:E}",
     keyValues);
 ```
 
+* You can use easier with tuple expression:
+
+``` csharp
+var formatted = Named.Format(
+    "Date:{date:R}, Value:{value:E}",
+    ( "date", DateTime.Now ),
+    ( "value", 123.456 ),
+    ( "foo", "bar" ));
+```
+
 ## Features
 * Easy standard replacement from System.String.Format method.
-* TextWriter version included (WriteFormat extension method).
-* Any variation overloads (Dictionary, IReadOnlyDictionary, Predicate delegate, Selector delegate, IFormatProvider).
+* TextWriter version included (WriteFormat extension method). And has asynchronous method overloads (Task).
+* Many variation overloads (Dictionary, IReadOnlyDictionary, Predicate delegate, Selector delegate, IFormatProvider, KeyValuePair and ValueTuple with variable length parameters).
 * Can use structual-key, traverse public properties.
+* Applied C# nullable-reference type attribtues.
 
 ## Benefits
 * Flexible argument matching. Useful dynamic interpretation.
@@ -71,7 +89,20 @@ var formatted = Named.Format(
 ``` csharp
 using NamingFormatter;
 
-// Easy parametric helper (Named.Pair() method)
+// Mostly standard key-value combination in manually.
+// We can use with tuples (excepts net35-client and net40-client).
+var formatted = Named.Format(
+    "Date:{date:R}, Value:{value:E}, Name:{name}",
+    ("value", 123.456),
+    ("name", "Kouji"),
+    ("date", DateTime.Now));
+```
+
+``` csharp
+using NamingFormatter;
+
+// Easy parametric helper
+// (Named.Pair() method will generate KeyValuePair<string, object?>)
 var formatted = Named.Format(
     "Date:{date:R}, Value:{value:E}, Name:{name}",
     Named.Pair("value", 123.456),
@@ -85,7 +116,7 @@ using NamingFormatter;
 // Structual-key (Traverse properties by dot-notation)
 var formatted = Named.Format(
     "TOD-Millisec:{date.TimeOfDay.TotalMilliseconds}",
-    Named.Pair("date", DateTime.Now));
+    ("date", DateTime.Now));
 ```
 
 ``` csharp
@@ -95,10 +126,19 @@ using NamingFormatter;
 var sw = new StreamWriter(stream);
 sw.WriteFormat(
     "Date:{date:R}, Value:{value:E}, Name:{name}",
-    Named.Pair("value", 123.456),
-    Named.Pair("name", "Kouji"),
-    Named.Pair("date", DateTime.Now));
+    ("value", 123.456),
+    ("name", "Kouji"),
+    ("date", DateTime.Now));
 sw.Flush();
+
+// Format to TextWriter with async-await
+var sw = new StreamWriter(stream);
+await sw.WriteFormatAsync(
+    "Date:{date:R}, Value:{value:E}, Name:{name}",
+    ("value", 123.456),
+    ("name", "Kouji"),
+    ("date", DateTime.Now));
+await sw.FlushAsync();
 ```
 
 ``` csharp
@@ -107,15 +147,12 @@ using NamingFormatter;
 // Full-interactive (callback) format.
 var formatted = Named.Format(
     "Date:{date:R}, Value:{value:E}, Name:{name}",
-    key =>
+    key => key switch
     {
-        switch (key)
-        {
-            case "name": return "Kouji";
-            case "date": return DateTime.Now;
-            case "value": return 123.456;
-            default: throw new FormatException();
-        }
+        "name" => "Kouji";
+        "date" => DateTime.Now;
+        "value" => 123.456;
+        _ => throw new FormatException();
     });
 ```
 
@@ -126,9 +163,9 @@ using NamingFormatter;
 var formatted = Named.Format(
     new CultureInfo("fr-FR"),
     "Date:{date:R}, Value:{value:E}, Name:{name}",
-    Named.Pair("value", 123.456),
-    Named.Pair("name", "Kouji"),
-    Named.Pair("date", DateTime.Now));
+    ("value", 123.456),
+    ("name", "Kouji"),
+    ("date", DateTime.Now));
 ```
 
 ## TODO
@@ -139,6 +176,9 @@ var formatted = Named.Format(
 * Under Apache v2
 
 ## History
+* 2.0.17:
+  * Added ValueTuple overloads.
+  * Added asynchronous overloads.
 * 2.0.16: Fixed not including net35 assembly.
 * 2.0.15:
   * Breaking change: Changed the NuGet package name from "CenterCLR.NamingFormatter" to "NamingFormatter".
