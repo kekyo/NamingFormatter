@@ -73,14 +73,14 @@ namespace NamingFormatter.Tests
 		public void ReadOnlyDictionaryOverloadTest()
 		{
 			var now = DateTime.Now;
-			var keyValues = new Dictionary<string, object?>()
+			IReadOnlyDictionary<string, object?> keyValues = new Dictionary<string, object?>()
 			{
 				{ "abc", 123 },
 				{ "defgh", now },
 				{ "ijkl", "XYZ" }
 			};
 
-			var actual = Named.Format<Dictionary<string, object?>>(
+			var actual = Named.Format(
 				formatProvider_,
 				"AAA{defgh}BBB{abc}CCC{ijkl}DDD",
 				keyValues);
@@ -155,6 +155,65 @@ namespace NamingFormatter.Tests
 				new KeyValuePair<string, object?>("aBc", 123),
 				new KeyValuePair<string, object?>("deFgH", now),
 				new KeyValuePair<string, object?>("iJKl", "XYZ"),
+			};
+
+			var actual = Named.Format(
+				formatProvider_,
+				"AAA{Defgh}BBB{abC}CCC{IjkL}DDD",
+				StringComparer.InvariantCultureIgnoreCase,
+				keyValues);
+
+			Assert.AreEqual("AAA" + now.ToString(formatProvider_) + "BBB123CCCXYZDDD", actual);
+		}
+
+		[Test]
+		public void TupleEnumerableOverloadWithArrayTest()
+		{
+			var now = DateTime.Now;
+			IEnumerable<(string key, object? value)> keyValues = new (string key, object? value)[]
+			{
+				("abc", 123),
+				("defgh", now),
+				("ijkl", "XYZ"),
+			};
+
+			var actual = Named.Format(
+				formatProvider_,
+				"AAA{defgh}BBB{abc}CCC{ijkl}DDD",
+				keyValues);
+
+			Assert.AreEqual("AAA" + now.ToString(formatProvider_) + "BBB123CCCXYZDDD", actual);
+		}
+
+		[Test]
+		public void TupleEnumerableOverloadWithNoListTest()
+		{
+			var now = DateTime.Now;
+			var keyValues = new[]
+			{
+				("abc", (object?)123),
+				("defgh", (object?)now),
+				("ijkl", (object?)"XYZ")
+			}.
+			Select(entry => (key: entry.Item1, value: entry.Item2));
+
+			var actual = Named.Format(
+				formatProvider_,
+				"AAA{defgh}BBB{abc}CCC{ijkl}DDD",
+				keyValues);
+
+			Assert.AreEqual("AAA" + now.ToString(formatProvider_) + "BBB123CCCXYZDDD", actual);
+		}
+
+		[Test]
+		public void TupleEnumerableOverloadWithComparerTest()
+		{
+			var now = DateTime.Now;
+			IEnumerable<(string key, object? value)> keyValues = new (string key, object? value)[]
+			{
+				("aBc", 123),
+				("deFgH", now),
+				("iJKl", "XYZ"),
 			};
 
 			var actual = Named.Format(

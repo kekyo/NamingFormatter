@@ -19,7 +19,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using NUnit.Framework;
@@ -68,12 +67,11 @@ namespace NamingFormatter.Tests
 			Assert.AreEqual("AAA" + now + "BBB123CCCXYZDDD", tw.ToString());
 		}
 
-#if PCL2
 		[Test]
 		public void ReadOnlyDictionaryOverloadTest()
 		{
 			var now = DateTime.Now;
-			var keyValues = new Dictionary<string, object?>()
+			IReadOnlyDictionary<string, object?> keyValues = new Dictionary<string, object?>()
 			{
 				{ "abc", 123 },
 				{ "defgh", now },
@@ -87,7 +85,6 @@ namespace NamingFormatter.Tests
 
 			Assert.AreEqual("AAA" + now + "BBB123CCCXYZDDD", tw.ToString());
 		}
-#endif
 
 		[Test]
 		public void EnumerableOverloadTest()
@@ -156,6 +153,64 @@ namespace NamingFormatter.Tests
 				new KeyValuePair<string, object?>("aBc", 123),
 				new KeyValuePair<string, object?>("deFgH", now),
 				new KeyValuePair<string, object?>("iJKl", "XYZ"),
+			};
+
+			var tw = new StringWriter();
+			tw.WriteFormat(
+				"AAA{Defgh}BBB{abC}CCC{IjkL}DDD",
+				StringComparer.InvariantCultureIgnoreCase,
+				keyValues);
+
+			Assert.AreEqual("AAA" + now + "BBB123CCCXYZDDD", tw.ToString());
+		}
+
+		[Test]
+		public void TupleEnumerableOverloadWithArrayTest()
+		{
+			var now = DateTime.Now;
+			IEnumerable<(string key, object? value)> keyValues = new (string key, object? value)[]
+			{
+				( "abc", 123 ),
+				( "defgh", now ),
+				( "ijkl", "XYZ" )
+			};
+
+			var tw = new StringWriter();
+			tw.WriteFormat(
+				"AAA{defgh}BBB{abc}CCC{ijkl}DDD",
+				keyValues);
+
+			Assert.AreEqual("AAA" + now + "BBB123CCCXYZDDD", tw.ToString());
+		}
+
+		[Test]
+		public void TupleEnumerableOverloadWithNoListTest()
+		{
+			var now = DateTime.Now;
+			var keyValues = new (string key, object? value)[]
+			{
+				( "abc", 123 ),
+				( "defgh", now ),
+				( "ijkl", "XYZ" )
+			}.Select(entry => (key: entry.Item1, value: entry.Item2));
+
+			var tw = new StringWriter();
+			tw.WriteFormat(
+				"AAA{defgh}BBB{abc}CCC{ijkl}DDD",
+				keyValues);
+
+			Assert.AreEqual("AAA" + now + "BBB123CCCXYZDDD", tw.ToString());
+		}
+
+		[Test]
+		public void TupleEnumerableOverloadWithComparerTest()
+		{
+			var now = DateTime.Now;
+			IEnumerable<(string key, object? value)> keyValues = new (string key, object? value)[]
+			{
+				("aBc", 123),
+				("deFgH", now),
+				("iJKl", "XYZ"),
 			};
 
 			var tw = new StringWriter();

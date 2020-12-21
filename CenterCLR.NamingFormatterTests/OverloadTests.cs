@@ -63,25 +63,23 @@ namespace NamingFormatter.Tests
 			Assert.AreEqual("AAA" + now + "BBB123CCCXYZDDD", actual);
 		}
 
-#if PCL2
 		[Test]
 		public void IReadOnlyDictionaryOverloadTest()
 		{
 			var now = DateTime.Now;
-			var keyValues = new Dictionary<string, object>()
+			IReadOnlyDictionary<string, object?> keyValues = new Dictionary<string, object?>()
 			{
 				{ "abc", 123 },
 				{ "defgh", now },
 				{ "ijkl", "XYZ" }
 			};
 
-			var actual = Named.Format<IReadOnlyDictionary<string, object>>(
+			var actual = Named.Format(
 				"AAA{defgh}BBB{abc}CCC{ijkl}DDD",
 				keyValues);
 
 			Assert.AreEqual("AAA" + now + "BBB123CCCXYZDDD", actual);
 		}
-#endif
 
 		[Test]
 		public void DictionaryWithComparerOverloadTest()
@@ -166,6 +164,62 @@ namespace NamingFormatter.Tests
 				new KeyValuePair<string, object?>("aBc", 123),
 				new KeyValuePair<string, object?>("deFgH", now),
 				new KeyValuePair<string, object?>("iJKl", "XYZ"),
+			};
+
+			var actual = Named.Format(
+				"AAA{Defgh}BBB{abC}CCC{IjkL}DDD",
+				StringComparer.InvariantCultureIgnoreCase,
+				keyValues);
+
+			Assert.AreEqual("AAA" + now + "BBB123CCCXYZDDD", actual);
+		}
+
+		[Test]
+		public void TupleEnumerableOverloadWithArrayTest()
+		{
+			var now = DateTime.Now;
+			IEnumerable<(string key, object? value)> keyValues = new (string key, object? value)[]
+			{
+				("abc", 123),
+				("defgh", now),
+				("ijkl", "XYZ"),
+			};
+
+			var actual = Named.Format(
+				"AAA{defgh}BBB{abc}CCC{ijkl}DDD",
+				keyValues);
+
+			Assert.AreEqual("AAA" + now + "BBB123CCCXYZDDD", actual);
+		}
+
+		[Test]
+		public void TupleEnumerableOverloadWithPredicateTest()
+		{
+			var now = DateTime.Now;
+			IEnumerable<(string key, object? value)> keyValues = new (string key, object? value)[]
+			{
+				("abc", 123),
+				("defgh", now),
+				("ijkl", "XYZ"),
+			};
+
+			var actual = Named.Format(
+				"AAA{defgh}BBB{abc}CCC{ijkl}DDD",
+				(key1, key2) => key1 == key2,
+				keyValues);
+
+			Assert.AreEqual("AAA" + now + "BBB123CCCXYZDDD", actual);
+		}
+
+		[Test]
+		public void TupleEnumerableOverloadWithComparerTest()
+		{
+			var now = DateTime.Now;
+			IEnumerable<(string key, object? value)> keyValues = new (string key, object? value)[]
+			{
+				("aBc", 123),
+				("deFgH", now),
+				("iJKl", "XYZ"),
 			};
 
 			var actual = Named.Format(

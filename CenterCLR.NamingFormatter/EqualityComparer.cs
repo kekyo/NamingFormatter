@@ -53,21 +53,214 @@ namespace NamingFormatter
         ///     keyValues);
         /// </code>
         /// </example>
-        public static void WriteFormat(
+#if NET35 || NET40
+        private
+#else
+        public
+#endif
+        static void WriteFormat(
             this TextWriter tw,
             string format,
             IEqualityComparer<string> comparer,
-            IEnumerable<KeyValuePair<string, object?>> keyValues)
-        {
-            if (comparer == null)
-            {
-                throw new ArgumentNullException("comparer");
-            }
-
-            tw.WriteFormat(
+            IEnumerable<(string key, object? value)> keyValues) =>
+            WriteFormat(
+                tw,
                 format,
-                keyValues.ToDictionary(kv => kv.Key, kv => (object?)kv.Value, comparer));
-        }
+                (key1, key2) => comparer.Equals(key1, key2),
+                keyValues.AsEnumerable());
+
+        /// <summary>
+        /// Format string with named format-key.
+        /// </summary>
+        /// <param name="tw">Format text writer.</param>
+        /// <param name="format">The format string (can include format-key).</param>
+        /// <param name="comparer">format-key equality comparer.</param>
+        /// <param name="keyValues">Key-value enumerator.</param>
+        /// <returns>Formatted string.</returns>
+        /// <example>
+        /// <code>
+        /// // format-key-value array.
+        /// var keyValues = new[]
+        /// {
+        ///     new KeyValuePair&lt;string, object&gt;("abCDe", 123),
+        ///     new KeyValuePair&lt;string, object&gt;("Fgh", DateTime.Now),
+        ///     new KeyValuePair&lt;string, object&gt;("IjKl", 456.789),
+        ///     // ...
+        /// };
+        /// 
+        /// // Format string by format-key-values with key ignoring case.
+        /// var tw = new StringWriter();
+        /// tw.WriteFormat(
+        ///     "AAA{fgh:R}BBB{abcde}CCC{ijkl:E}",
+        ///     StringComparer.CurrentCultureIgnoreCase,
+        ///     keyValues);
+        /// </code>
+        /// </example>
+#if NET35 || NET40
+        private
+#else
+        public
+#endif
+        static void WriteFormat(
+            this TextWriter tw,
+            string format,
+            IEqualityComparer<string> comparer,
+            params (string key, object? value)[] keyValues) =>
+            WriteFormat(
+                tw,
+                format,
+                (key1, key2) => comparer.Equals(key1, key2),
+                keyValues.AsEnumerable());
+
+        /// <summary>
+        /// Format string with named format-key.
+        /// </summary>
+        /// <param name="formatProvider">The format provider.</param>
+        /// <param name="format">The format string (can include format-key).</param>
+        /// <param name="comparer">format-key equality comparer.</param>
+        /// <param name="keyValues">Key-value enumerator.</param>
+        /// <returns>Formatted string.</returns>
+        /// <example>
+        /// <code>
+        /// // format-key-value array.
+        /// var keyValues = new[]
+        /// {
+        ///     new KeyValuePair&lt;string, object&gt;("abCDe", 123),
+        ///     new KeyValuePair&lt;string, object&gt;("Fgh", DateTime.Now),
+        ///     new KeyValuePair&lt;string, object&gt;("IjKl", 456.789),
+        ///     // ...
+        /// };
+        /// 
+        /// // Format string by format-key-values with key ignoring case.
+        /// var result = new CultureInfo("fr-FR").Format(
+        ///     "AAA{fgh:R}BBB{abcde}CCC{ijkl:E}",
+        ///     StringComparer.CurrentCultureIgnoreCase,
+        ///     keyValues);
+        /// </code>
+        /// </example>
+#if NET35 || NET40
+        private
+#else
+        public
+#endif
+        static string Format(
+            IFormatProvider formatProvider,
+            string format,
+            IEqualityComparer<string> comparer,
+            IEnumerable<(string key, object? value)> keyValues) =>
+            Format(
+                formatProvider,
+                format,
+                (key1, key2) => comparer.Equals(key1, key2),
+                keyValues.AsEnumerable());
+
+        /// <summary>
+        /// Format string with named format-key.
+        /// </summary>
+        /// <param name="format">The format string (can include format-key).</param>
+        /// <param name="comparer">format-key equality comparer.</param>
+        /// <param name="keyValues">Key-value enumerator.</param>
+        /// <returns>Formatted string.</returns>
+        /// <example>
+        /// <code>
+        /// // format-key-value array.
+        /// var keyValues = new[]
+        /// {
+        ///     new KeyValuePair&lt;string, object&gt;("abCDe", 123),
+        ///     new KeyValuePair&lt;string, object&gt;("Fgh", DateTime.Now),
+        ///     new KeyValuePair&lt;string, object&gt;("IjKl", 456.789),
+        ///     // ...
+        /// };
+        /// 
+        /// // Format string by format-key-values with key ignoring case.
+        /// var result = Named.Format(
+        ///     "AAA{fgh:R}BBB{abcde}CCC{ijkl:E}",
+        ///     StringComparer.CurrentCultureIgnoreCase,
+        ///     keyValues);
+        /// </code>
+        /// </example>
+#if NET35 || NET40
+        private
+#else
+        public
+#endif
+        static string Format(
+            string format,
+            IEqualityComparer<string> comparer,
+            IEnumerable<(string key, object? value)> keyValues) =>
+            Format(
+                format,
+                (key1, key2) => comparer.Equals(key1, key2),
+                keyValues.AsEnumerable());
+
+        /// <summary>
+        /// Format string with named format-key.
+        /// </summary>
+        /// <param name="formatProvider">The format provider.</param>
+        /// <param name="format">The format string (can include format-key).</param>
+        /// <param name="comparer">format-key equality comparer.</param>
+        /// <param name="keyValues">Key-value enumerator.</param>
+        /// <returns>Formatted string.</returns>
+        /// <example>
+        /// <code>
+        /// // Format string by format-key-values with key ignoring case.
+        /// var result = new CultureInfo("fr-FR").Format(
+        ///     "AAA{fgh:R}BBB{abcde}CCC{ijkl:E}",
+        ///     StringComparer.CurrentCultureIgnoreCase,
+        ///     Named.Pair("abcde", 123),
+        ///		Named.Pair("fgh", DateTime.Now),
+        ///		Named.Pair("ijkl", 456.789));
+        /// </code>
+        /// </example>
+#if NET35 || NET40
+        private
+#else
+        public
+#endif
+        static string Format(
+            IFormatProvider formatProvider,
+            string format,
+            IEqualityComparer<string> comparer,
+            params (string key, object? value)[] keyValues) =>
+            Format(
+                formatProvider,
+                format,
+                (key1, key2) => comparer.Equals(key1, key2),
+                keyValues.AsEnumerable());
+
+        /// <summary>
+        /// Format string with named format-key.
+        /// </summary>
+        /// <param name="format">The format string (can include format-key).</param>
+        /// <param name="comparer">format-key equality comparer.</param>
+        /// <param name="keyValues">Key-value enumerator.</param>
+        /// <returns>Formatted string.</returns>
+        /// <example>
+        /// <code>
+        /// // Format string by format-key-values with key ignoring case.
+        /// var result = Named.Format(
+        ///     "AAA{fgh:R}BBB{abcde}CCC{ijkl:E}",
+        ///     StringComparer.CurrentCultureIgnoreCase,
+        ///     Named.Pair("abcde", 123),
+        ///		Named.Pair("fgh", DateTime.Now),
+        ///		Named.Pair("ijkl", 456.789));
+        /// </code>
+        /// </example>
+#if NET35 || NET40
+        private
+#else
+        public
+#endif
+        static string Format(
+            string format,
+            IEqualityComparer<string> comparer,
+            params (string key, object? value)[] keyValues) =>
+            Format(
+                format,
+                (key1, key2) => comparer.Equals(key1, key2),
+                keyValues.AsEnumerable());
+
+        /////////////////////////////////////////////////////////////////////////////////
 
         /// <summary>
         /// Format string with named format-key.
@@ -100,17 +293,50 @@ namespace NamingFormatter
             this TextWriter tw,
             string format,
             IEqualityComparer<string> comparer,
-            params KeyValuePair<string, object?>[] keyValues)
-        {
-            if (comparer == null)
-            {
-                throw new ArgumentNullException("comparer");
-            }
-
-            tw.WriteFormat(
+            IEnumerable<KeyValuePair<string, object?>> keyValues) =>
+            WriteFormat(
+                tw,
                 format,
-                keyValues.ToDictionary(kv => kv.Key, kv => (object?)kv.Value, comparer));
-        }
+                (key1, key2) => comparer.Equals(key1, key2),
+                keyValues.AsEnumerable());
+
+        /// <summary>
+        /// Format string with named format-key.
+        /// </summary>
+        /// <param name="tw">Format text writer.</param>
+        /// <param name="format">The format string (can include format-key).</param>
+        /// <param name="comparer">format-key equality comparer.</param>
+        /// <param name="keyValues">Key-value enumerator.</param>
+        /// <returns>Formatted string.</returns>
+        /// <example>
+        /// <code>
+        /// // format-key-value array.
+        /// var keyValues = new[]
+        /// {
+        ///     new KeyValuePair&lt;string, object&gt;("abCDe", 123),
+        ///     new KeyValuePair&lt;string, object&gt;("Fgh", DateTime.Now),
+        ///     new KeyValuePair&lt;string, object&gt;("IjKl", 456.789),
+        ///     // ...
+        /// };
+        /// 
+        /// // Format string by format-key-values with key ignoring case.
+        /// var tw = new StringWriter();
+        /// tw.WriteFormat(
+        ///     "AAA{fgh:R}BBB{abcde}CCC{ijkl:E}",
+        ///     StringComparer.CurrentCultureIgnoreCase,
+        ///     keyValues);
+        /// </code>
+        /// </example>
+        public static void WriteFormat(
+            this TextWriter tw,
+            string format,
+            IEqualityComparer<string> comparer,
+            params KeyValuePair<string, object?>[] keyValues) =>
+            WriteFormat(
+                tw,
+                format,
+                (key1, key2) => comparer.Equals(key1, key2),
+                keyValues.AsEnumerable());
 
         /// <summary>
         /// Format string with named format-key.
@@ -142,18 +368,12 @@ namespace NamingFormatter
             IFormatProvider formatProvider,
             string format,
             IEqualityComparer<string> comparer,
-            IEnumerable<KeyValuePair<string, object?>> keyValues)
-        {
-            if (comparer == null)
-            {
-                throw new ArgumentNullException("comparer");
-            }
-
-            return Format(
+            IEnumerable<KeyValuePair<string, object?>> keyValues) =>
+            Format(
                 formatProvider,
                 format,
-                keyValues.ToDictionary(kv => kv.Key, kv => (object?)kv.Value, comparer));
-        }
+                (key1, key2) => comparer.Equals(key1, key2),
+                keyValues.AsEnumerable());
 
         /// <summary>
         /// Format string with named format-key.
@@ -183,17 +403,11 @@ namespace NamingFormatter
         public static string Format(
             string format,
             IEqualityComparer<string> comparer,
-            IEnumerable<KeyValuePair<string, object?>> keyValues)
-        {
-            if (comparer == null)
-            {
-                throw new ArgumentNullException("comparer");
-            }
-
-            return Format(
+            IEnumerable<KeyValuePair<string, object?>> keyValues) =>
+            Format(
                 format,
-                keyValues.ToDictionary(kv => kv.Key, kv => (object?)kv.Value, comparer));
-        }
+                (key1, key2) => comparer.Equals(key1, key2),
+                keyValues.AsEnumerable());
 
         /// <summary>
         /// Format string with named format-key.
@@ -218,18 +432,12 @@ namespace NamingFormatter
             IFormatProvider formatProvider,
             string format,
             IEqualityComparer<string> comparer,
-            params KeyValuePair<string, object?>[] keyValues)
-        {
-            if (comparer == null)
-            {
-                throw new ArgumentNullException("comparer");
-            }
-
-            return Format(
+            params KeyValuePair<string, object?>[] keyValues) =>
+            Format(
                 formatProvider,
                 format,
-                keyValues.ToDictionary(kv => kv.Key, kv => (object?)kv.Value, comparer));
-        }
+                (key1, key2) => comparer.Equals(key1, key2),
+                keyValues.AsEnumerable());
 
         /// <summary>
         /// Format string with named format-key.
@@ -252,16 +460,10 @@ namespace NamingFormatter
         public static string Format(
             string format,
             IEqualityComparer<string> comparer,
-            params KeyValuePair<string, object?>[] keyValues)
-        {
-            if (comparer == null)
-            {
-                throw new ArgumentNullException("comparer");
-            }
-
-            return Format(
+            params KeyValuePair<string, object?>[] keyValues) =>
+            Format(
                 format,
-                keyValues.ToDictionary(kv => kv.Key, kv => (object?)kv.Value, comparer));
-        }
+                (key1, key2) => comparer.Equals(key1, key2),
+                keyValues.AsEnumerable());
     }
 }
