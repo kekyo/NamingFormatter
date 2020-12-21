@@ -68,6 +68,6 @@ namespace NamingFormatter
 
         private static IEnumerable<(string key, object? value)> AsTuple(
             this IEnumerable<KeyValuePair<string, object?>> enumerable) =>
-            enumerable.Select(entry => (entry.Key, entry.Value));
+            enumerable.Select(entry => (entry.Key, (object?)entry.Value));
     }
 }
