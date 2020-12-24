@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks Condition="'$(MSBuildRuntimeType)' == 'Core'">net40-client;net45;net48;netstandard1.0;netstandard2.0;netstandard2.1;net5.0</TargetFrameworks>
-        <TargetFrameworks Condition="'$(MSBuildRuntimeType)' != 'Core'">net35-client;net40-client;net45;net48;netstandard1.0;netstandard2.0;netstandard2.1;net5.0</TargetFrameworks>
+        <TargetFrameworks Condition="'$(MSBuildRuntimeType)' == 'Core'">net40-client;net45;net461;net47;net48;netstandard1.0;netstandard2.0;netstandard2.1;net5.0</TargetFrameworks>
+        <TargetFrameworks Condition="'$(MSBuildRuntimeType)' != 'Core'">net35-client;net40-client;net45;net461;net47;net48;netstandard1.0;netstandard2.0;netstandard2.1;net5.0</TargetFrameworks>
 
         <OutputType>Library</OutputType>
         <LangVersion>latest</LangVersion>
@@ -52,7 +52,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="RelaxVersioner" Version="2.0.5" PrivateAssets="all" />
+        <PackageReference Include="RelaxVersioner" Version="2.0.7" PrivateAssets="all" />
         <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.0" PrivateAssets="All" />
     </ItemGroup>
 
