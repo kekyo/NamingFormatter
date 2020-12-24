@@ -176,6 +176,7 @@ var formatted = Named.Format(
 * Under Apache v2
 
 ## History
+* 2.0.18: Added net461 and net47 assemblies because reduce conflict between netstandard2.0.
 * 2.0.17:
   * Added ValueTuple overloads.
   * Added asynchronous overloads.
