@@ -61,13 +61,63 @@ namespace NamingFormatter
         {
             if (keyValues == null)
             {
-                throw new ArgumentNullException("keyValues");
+                throw new ArgumentNullException(nameof(keyValues));
             }
 
             WriteFormat(
                 tw,
                 format,
                 key => keyValues[key]);
+        }
+
+        /// <summary>
+        /// Format string with named format-key.
+        /// </summary>
+        /// <param name="tw">Format text writer.</param>
+        /// <param name="format">The format string (can include format-key).</param>
+        /// <param name="keyValues">Key-value dictionary.</param>
+        /// <param name="fallback">Fallback delegate.</param>
+        /// <returns>Formatted string.</returns>
+        /// <example>
+        /// <code>
+        /// // format-key-value dictionary.
+        /// var keyValues = new Dictionary&lt;string, object&gt;()
+        /// {
+        ///     { "abcde", 123 },
+        ///     { "fgh", DateTime.Now },
+        ///     { "ijkl", 456.789 },
+        ///     // ...
+        /// };
+        /// 
+        /// // Format string by format-key-values.
+        /// var tw = new StringWriter();
+        /// tw.WriteFormat(
+        ///     "AAA{fgh:R}BBB{abcde}CCC{ijkl:E}",
+        ///     keyValues,
+        ///     key => "***");
+        /// </code>
+        /// </example>
+        public static void WriteFormat(
+            this TextWriter tw,
+            string format,
+            Dictionary<string, object?> keyValues,
+            Func<string, object?> fallback)
+        {
+            if (keyValues == null)
+            {
+                throw new ArgumentNullException(nameof(keyValues));
+            }
+            if (fallback == null)
+            {
+                throw new ArgumentNullException(nameof(fallback));
+            }
+
+            WriteFormat(
+                tw,
+                format,
+                key => keyValues.TryGetValue(key, out var value) ?
+                    value :
+                    fallback(key));
         }
 
 #if !NET35 && !NET40
@@ -103,13 +153,63 @@ namespace NamingFormatter
         {
             if (keyValues == null)
             {
-                throw new ArgumentNullException("keyValues");
+                throw new ArgumentNullException(nameof(keyValues));
             }
 
             return WriteFormatAsync(
                 tw,
                 format,
                 key => keyValues[key]);
+        }
+
+        /// <summary>
+        /// Format string with named format-key.
+        /// </summary>
+        /// <param name="tw">Format text writer.</param>
+        /// <param name="format">The format string (can include format-key).</param>
+        /// <param name="keyValues">Key-value dictionary.</param>
+        /// <param name="fallback">Fallback delegate.</param>
+        /// <returns>Formatted string.</returns>
+        /// <example>
+        /// <code>
+        /// // format-key-value dictionary.
+        /// var keyValues = new Dictionary&lt;string, object&gt;()
+        /// {
+        ///     { "abcde", 123 },
+        ///     { "fgh", DateTime.Now },
+        ///     { "ijkl", 456.789 },
+        ///     // ...
+        /// };
+        /// 
+        /// // Format string by format-key-values.
+        /// var tw = new StringWriter();
+        /// await tw.WriteFormatAsync(
+        ///     "AAA{fgh:R}BBB{abcde}CCC{ijkl:E}",
+        ///     keyValues,
+        ///     key => "***");
+        /// </code>
+        /// </example>
+        public static Task WriteFormatAsync(
+            this TextWriter tw,
+            string format,
+            Dictionary<string, object?> keyValues,
+            Func<string, object?> fallback)
+        {
+            if (keyValues == null)
+            {
+                throw new ArgumentNullException(nameof(keyValues));
+            }
+            if (fallback == null)
+            {
+                throw new ArgumentNullException(nameof(fallback));
+            }
+
+            return WriteFormatAsync(
+                tw,
+                format,
+                key => keyValues.TryGetValue(key, out var value) ?
+                    value :
+                    fallback(key));
         }
 #endif
 
@@ -144,13 +244,62 @@ namespace NamingFormatter
         {
             if (keyValues == null)
             {
-                throw new ArgumentNullException("keyValues");
+                throw new ArgumentNullException(nameof(keyValues));
             }
 
             return Format(
                 formatProvider,
                 format,
                 key => keyValues[key]);
+        }
+
+        /// <summary>
+        /// Format string with named format-key.
+        /// </summary>
+        /// <param name="formatProvider">The format provider.</param>
+        /// <param name="format">The format string (can include format-key).</param>
+        /// <param name="keyValues">Key-value dictionary.</param>
+        /// <param name="fallback">Fallback delegate.</param>
+        /// <returns>Formatted string.</returns>
+        /// <example>
+        /// <code>
+        /// // format-key-value dictionary.
+        /// var keyValues = new Dictionary&lt;string, object&gt;()
+        /// {
+        ///     { "abcde", 123 },
+        ///     { "fgh", DateTime.Now },
+        ///     { "ijkl", 456.789 },
+        ///     // ...
+        /// };
+        /// 
+        /// // Format string by format-key-values.
+        /// var result = new CultureInfo("fr-FR").Format(
+        ///     "AAA{fgh:R}BBB{abcde}CCC{ijkl:E}",
+        ///     keyValues,
+        ///     key => "***");
+        /// </code>
+        /// </example>
+        public static string Format(
+            IFormatProvider formatProvider,
+            string format,
+            Dictionary<string, object?> keyValues,
+            Func<string, object?> fallback)
+        {
+            if (keyValues == null)
+            {
+                throw new ArgumentNullException(nameof(keyValues));
+            }
+            if (fallback == null)
+            {
+                throw new ArgumentNullException(nameof(fallback));
+            }
+
+            return Format(
+                formatProvider,
+                format,
+                key => keyValues.TryGetValue(key, out var value) ?
+                    value :
+                    fallback(key));
         }
 
         /// <summary>
@@ -182,12 +331,58 @@ namespace NamingFormatter
         {
             if (keyValues == null)
             {
-                throw new ArgumentNullException("keyValues");
+                throw new ArgumentNullException(nameof(keyValues));
             }
 
             return Format(
                 format,
                 key => keyValues[key]);
+        }
+
+        /// <summary>
+        /// Format string with named format-key.
+        /// </summary>
+        /// <param name="format">The format string (can include format-key).</param>
+        /// <param name="keyValues">Key-value dictionary.</param>
+        /// <param name="fallback">Fallback delegate.</param>
+        /// <returns>Formatted string.</returns>
+        /// <example>
+        /// <code>
+        /// // format-key-value dictionary.
+        /// var keyValues = new Dictionary&lt;string, object&gt;()
+        /// {
+        ///     { "abcde", 123 },
+        ///     { "fgh", DateTime.Now },
+        ///     { "ijkl", 456.789 },
+        ///     // ...
+        /// };
+        /// 
+        /// // Format string by format-key-values.
+        /// var result = Named.Format(
+        ///     "AAA{fgh:R}BBB{abcde}CCC{ijkl:E}",
+        ///     keyValues,
+        ///     key => "***");
+        /// </code>
+        /// </example>
+        public static string Format(
+            string format,
+            Dictionary<string, object?> keyValues,
+            Func<string, object?> fallback)
+        {
+            if (keyValues == null)
+            {
+                throw new ArgumentNullException(nameof(keyValues));
+            }
+            if (fallback == null)
+            {
+                throw new ArgumentNullException(nameof(fallback));
+            }
+
+            return Format(
+                format,
+                key => keyValues.TryGetValue(key, out var value) ?
+                    value :
+                    fallback(key));
         }
     }
 }

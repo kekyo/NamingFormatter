@@ -65,9 +65,5 @@ namespace NamingFormatter
         /// </example>
         public static KeyValuePair<string, object?> Pair(string key, object? value) =>
             new KeyValuePair<string, object?>(key, value);
-
-        private static IEnumerable<(string key, object? value)> AsTuple(
-            this IEnumerable<KeyValuePair<string, object?>> enumerable) =>
-            enumerable.Select(entry => (entry.Key, (object?)entry.Value));
     }
 }

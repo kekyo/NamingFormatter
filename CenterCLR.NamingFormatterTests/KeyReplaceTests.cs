@@ -23,277 +23,277 @@ using NUnit.Framework;
 
 namespace NamingFormatter.Tests
 {
-	[TestFixture]
-	public class KeyReplaceTests
-	{
-		[Test]
-		public void StandardSenarioTest()
-		{
-			var now = DateTime.Now;
-			var keyValues = new Dictionary<string, object?>()
-			{
-				{ "abc", 123 },
-				{ "defgh", now },
-				{ "ijkl", "XYZ" }
-			};
+    [TestFixture]
+    public class KeyReplaceTests
+    {
+        [Test]
+        public void StandardSenarioTest()
+        {
+            var now = DateTime.Now;
+            var keyValues = new Dictionary<string, object?>()
+            {
+                { "abc", 123 },
+                { "defgh", now },
+                { "ijkl", "XYZ" }
+            };
 
-			var actual = Named.Format(
-				"AAA{defgh}BBB{abc}CCC{ijkl}DDD",
-				keyValues);
+            var actual = Named.Format(
+                "AAA{defgh}BBB{abc}CCC{ijkl}DDD",
+                keyValues);
 
-			Assert.AreEqual("AAA" + now + "BBB123CCCXYZDDD", actual);
-		}
+            Assert.AreEqual("AAA" + now + "BBB123CCCXYZDDD", actual);
+        }
 
-		[Test]
-		public void SingleFormatIdentityTest()
-		{
-			var now = DateTime.Now;
-			var keyValues = new Dictionary<string, object?>()
-			{
-				{ "abc", 123 },
-				{ "defgh", now },
-				{ "ijkl", "XYZ" }
-			};
+        [Test]
+        public void SingleFormatIdentityTest()
+        {
+            var now = DateTime.Now;
+            var keyValues = new Dictionary<string, object?>()
+            {
+                { "abc", 123 },
+                { "defgh", now },
+                { "ijkl", "XYZ" }
+            };
 
-			var actual = Named.Format(
-				"{defgh}",
-				keyValues);
+            var actual = Named.Format(
+                "{defgh}",
+                keyValues);
 
-			Assert.AreEqual(now.ToString(), actual);
-		}
+            Assert.AreEqual(now.ToString(), actual);
+        }
 
-		[Test]
-		public void FrontFormatIdentityTest()
-		{
-			var now = DateTime.Now;
-			var keyValues = new Dictionary<string, object?>()
-			{
-				{ "abc", 123 },
-				{ "defgh", now },
-				{ "ijkl", "XYZ" }
-			};
+        [Test]
+        public void FrontFormatIdentityTest()
+        {
+            var now = DateTime.Now;
+            var keyValues = new Dictionary<string, object?>()
+            {
+                { "abc", 123 },
+                { "defgh", now },
+                { "ijkl", "XYZ" }
+            };
 
-			var actual = Named.Format(
-				"{defgh}AAA",
-				keyValues);
+            var actual = Named.Format(
+                "{defgh}AAA",
+                keyValues);
 
-			Assert.AreEqual(now + "AAA", actual);
-		}
+            Assert.AreEqual(now + "AAA", actual);
+        }
 
-		[Test]
-		public void EndFormatIdentityTest()
-		{
-			var now = DateTime.Now;
-			var keyValues = new Dictionary<string, object?>()
-			{
-				{ "abc", 123 },
-				{ "defgh", now },
-				{ "ijkl", "XYZ" }
-			};
+        [Test]
+        public void EndFormatIdentityTest()
+        {
+            var now = DateTime.Now;
+            var keyValues = new Dictionary<string, object?>()
+            {
+                { "abc", 123 },
+                { "defgh", now },
+                { "ijkl", "XYZ" }
+            };
 
-			var actual = Named.Format(
-				"AAA{defgh}",
-				keyValues);
+            var actual = Named.Format(
+                "AAA{defgh}",
+                keyValues);
 
-			Assert.AreEqual("AAA" + now, actual);
-		}
+            Assert.AreEqual("AAA" + now, actual);
+        }
 
-		[Test]
-		public void FormatIdentityTraversePropertyTest()
-		{
-			var now = DateTime.Now;
-			var keyValues = new Dictionary<string, object?>()
-			{
-				{ "abc", 123 },
-				{ "defgh", now },
-				{ "ijkl", "XYZ" }
-			};
+        [Test]
+        public void FormatIdentityTraversePropertyTest()
+        {
+            var now = DateTime.Now;
+            var keyValues = new Dictionary<string, object?>()
+            {
+                { "abc", 123 },
+                { "defgh", now },
+                { "ijkl", "XYZ" }
+            };
 
-			var actual = Named.Format(
-				"{defgh.Year}",
-				keyValues);
+            var actual = Named.Format(
+                "{defgh.Year}",
+                keyValues);
 
-			Assert.AreEqual(now.Year.ToString(), actual);
-		}
+            Assert.AreEqual(now.Year.ToString(), actual);
+        }
 
-		[Test]
-		public void FormatIdentityTraversePropertiesTest()
-		{
-			var now = DateTime.Now;
-			var keyValues = new Dictionary<string, object?>()
-			{
-				{ "abc", 123 },
-				{ "defgh", now },
-				{ "ijkl", "XYZ" }
-			};
+        [Test]
+        public void FormatIdentityTraversePropertiesTest()
+        {
+            var now = DateTime.Now;
+            var keyValues = new Dictionary<string, object?>()
+            {
+                { "abc", 123 },
+                { "defgh", now },
+                { "ijkl", "XYZ" }
+            };
 
-			var actual = Named.Format(
-				"{defgh.TimeOfDay.TotalMilliseconds}",
-				keyValues);
+            var actual = Named.Format(
+                "{defgh.TimeOfDay.TotalMilliseconds}",
+                keyValues);
 
-			Assert.AreEqual(now.TimeOfDay.TotalMilliseconds.ToString(), actual);
-		}
+            Assert.AreEqual(now.TimeOfDay.TotalMilliseconds.ToString(), actual);
+        }
 
-		[Test]
-		public void FormatIdentityTraversePropertyNotFoundTest()
-		{
-			var now = DateTime.Now;
-			var keyValues = new Dictionary<string, object?>()
-			{
-				{ "abc", 123 },
-				{ "defgh", now },
-				{ "ijkl", "XYZ" }
-			};
+        [Test]
+        public void FormatIdentityTraversePropertyNotFoundTest()
+        {
+            var now = DateTime.Now;
+            var keyValues = new Dictionary<string, object?>()
+            {
+                { "abc", 123 },
+                { "defgh", now },
+                { "ijkl", "XYZ" }
+            };
 
-			var actual = Named.Format(
-				"{defgh.TimeOfDa.TotalMilliseconds}",
-				keyValues);
+            var actual = Named.Format(
+                "{defgh.TimeOfDa.TotalMilliseconds}",
+                keyValues);
 
-			Assert.AreEqual(string.Empty, actual);
-		}
+            Assert.AreEqual(string.Empty, actual);
+        }
 
-		[Test]
-		public void FormatIdentityWithAlignmentTest()
-		{
-			var now = DateTime.Now;
-			var keyValues = new Dictionary<string, object?>()
-			{
-				{ "abc", 123 },
-				{ "defgh", now },
-				{ "ijkl", "XYZ" }
-			};
+        [Test]
+        public void FormatIdentityWithAlignmentTest()
+        {
+            var now = DateTime.Now;
+            var keyValues = new Dictionary<string, object?>()
+            {
+                { "abc", 123 },
+                { "defgh", now },
+                { "ijkl", "XYZ" }
+            };
 
-			var actual = Named.Format(
-				"{abc,10}",
-				keyValues);
+            var actual = Named.Format(
+                "{abc,10}",
+                keyValues);
 
-			Assert.AreEqual("       123", actual);
-		}
+            Assert.AreEqual("       123", actual);
+        }
 
-		[Test]
-		public void FormatIdentityWithOptionTest()
-		{
-			var now = DateTime.Now;
-			var keyValues = new Dictionary<string, object?>()
-			{
-				{ "abc", 123 },
-				{ "defgh", now },
-				{ "ijkl", "XYZ" }
-			};
+        [Test]
+        public void FormatIdentityWithOptionTest()
+        {
+            var now = DateTime.Now;
+            var keyValues = new Dictionary<string, object?>()
+            {
+                { "abc", 123 },
+                { "defgh", now },
+                { "ijkl", "XYZ" }
+            };
 
-			var actual = Named.Format(
-				"{defgh:yyyyMMddHHmmssfff}",
-				keyValues);
+            var actual = Named.Format(
+                "{defgh:yyyyMMddHHmmssfff}",
+                keyValues);
 
-			Assert.AreEqual(now.ToString("yyyyMMddHHmmssfff"), actual);
-		}
+            Assert.AreEqual(now.ToString("yyyyMMddHHmmssfff"), actual);
+        }
 
-		[Test]
-		public void FormatIdentityWithEmptyOptionTest()
-		{
-			var now = DateTime.Now;
-			var keyValues = new Dictionary<string, object?>()
-			{
-				{ "abc", 123 },
-				{ "defgh", now },
-				{ "ijkl", "XYZ" }
-			};
+        [Test]
+        public void FormatIdentityWithEmptyOptionTest()
+        {
+            var now = DateTime.Now;
+            var keyValues = new Dictionary<string, object?>()
+            {
+                { "abc", 123 },
+                { "defgh", now },
+                { "ijkl", "XYZ" }
+            };
 
-			var actual = Named.Format(
-				"{defgh:}",
-				keyValues);
+            var actual = Named.Format(
+                "{defgh:}",
+                keyValues);
 
-			Assert.AreEqual(now.ToString(), actual);
-		}
+            Assert.AreEqual(now.ToString(), actual);
+        }
 
-		[Test]
-		public void EmptyKeyIdentityTest()
-		{
-			var now = DateTime.Now;
-			var keyValues = new Dictionary<string, object?>()
-			{
-				{ "abc", 123 },
-				{ "", now },
-				{ "ijkl", "XYZ" }
-			};
+        [Test]
+        public void EmptyKeyIdentityTest()
+        {
+            var now = DateTime.Now;
+            var keyValues = new Dictionary<string, object?>()
+            {
+                { "abc", 123 },
+                { "", now },
+                { "ijkl", "XYZ" }
+            };
 
-			var actual = Named.Format(
-				"{}",
-				keyValues);
+            var actual = Named.Format(
+                "{}",
+                keyValues);
 
-			Assert.AreEqual(now.ToString(), actual);
-		}
+            Assert.AreEqual(now.ToString(), actual);
+        }
 
-		[Test]
-		public void EmptyKeyIdentityWithOptionTest()
-		{
-			var now = DateTime.Now;
-			var keyValues = new Dictionary<string, object?>()
-			{
-				{ "abc", 123 },
-				{ "", now },
-				{ "ijkl", "XYZ" }
-			};
+        [Test]
+        public void EmptyKeyIdentityWithOptionTest()
+        {
+            var now = DateTime.Now;
+            var keyValues = new Dictionary<string, object?>()
+            {
+                { "abc", 123 },
+                { "", now },
+                { "ijkl", "XYZ" }
+            };
 
-			var actual = Named.Format(
-				"{:yyyyMMddHHmmssfff}",
-				keyValues);
+            var actual = Named.Format(
+                "{:yyyyMMddHHmmssfff}",
+                keyValues);
 
-			Assert.AreEqual(now.ToString("yyyyMMddHHmmssfff"), actual);
-		}
+            Assert.AreEqual(now.ToString("yyyyMMddHHmmssfff"), actual);
+        }
 
-		[Test]
-		public void EmptyKeyIdentityWithEmptyOptionTest()
-		{
-			var now = DateTime.Now;
-			var keyValues = new Dictionary<string, object?>()
-			{
-				{ "abc", 123 },
-				{ "", now },
-				{ "ijkl", "XYZ" }
-			};
+        [Test]
+        public void EmptyKeyIdentityWithEmptyOptionTest()
+        {
+            var now = DateTime.Now;
+            var keyValues = new Dictionary<string, object?>()
+            {
+                { "abc", 123 },
+                { "", now },
+                { "ijkl", "XYZ" }
+            };
 
-			var actual = Named.Format(
-				"{:}",
-				keyValues);
+            var actual = Named.Format(
+                "{:}",
+                keyValues);
 
-			Assert.AreEqual(now.ToString(), actual);
-		}
+            Assert.AreEqual(now.ToString(), actual);
+        }
 
-		[Test]
-		public void DoubleBracketTest()
-		{
-			var now = DateTime.Now;
-			var keyValues = new Dictionary<string, object?>()
-			{
-				{ "abc", 123 },
-				{ "defgh", now },
-				{ "ijkl", "XYZ" }
-			};
+        [Test]
+        public void DoubleBracketTest()
+        {
+            var now = DateTime.Now;
+            var keyValues = new Dictionary<string, object?>()
+            {
+                { "abc", 123 },
+                { "defgh", now },
+                { "ijkl", "XYZ" }
+            };
 
-			var actual = Named.Format(
-				"{{defgh}}",
-				keyValues);
+            var actual = Named.Format(
+                "{{defgh}}",
+                keyValues);
 
-			Assert.AreEqual("{defgh}", actual);
-		}
+            Assert.AreEqual("{defgh}", actual);
+        }
 
-		[Test]
-		public void DoubleBracketEmptyKeyTest()
-		{
-			var now = DateTime.Now;
-			var keyValues = new Dictionary<string, object?>()
-			{
-				{ "abc", 123 },
-				{ "defgh", now },
-				{ "ijkl", "XYZ" }
-			};
+        [Test]
+        public void DoubleBracketEmptyKeyTest()
+        {
+            var now = DateTime.Now;
+            var keyValues = new Dictionary<string, object?>()
+            {
+                { "abc", 123 },
+                { "defgh", now },
+                { "ijkl", "XYZ" }
+            };
 
-			var actual = Named.Format(
-				"{{}}",
-				keyValues);
+            var actual = Named.Format(
+                "{{}}",
+                keyValues);
 
-			Assert.AreEqual("{}", actual);
-		}
-	}
+            Assert.AreEqual("{}", actual);
+        }
+    }
 }

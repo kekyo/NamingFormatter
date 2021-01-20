@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>net48;netcoreapp2.1;netcoreapp3.1;net5.0</TargetFrameworks>
+        <TargetFrameworks>net35;net40;net48;netcoreapp2.1;netcoreapp3.1;net5.0</TargetFrameworks>
 
         <OutputType>Library</OutputType>
         <LangVersion>latest</LangVersion>
@@ -14,7 +14,7 @@
         <AssemblyTitle>String format library with key-valued replacer.</AssemblyTitle>
         <Product>NamingFormatter</Product>
         <Trademark>NamingFormatter</Trademark>
-        <Copyright>Copyright (c) 2016-2020 Kouji Matsui</Copyright>
+        <Copyright>Copyright (c) 2016-2021 Kouji Matsui</Copyright>
         <Description>String format library with key-valued replacer.</Description>
         <Company>Kouji Matsui (@kozy_kekyo)</Company>
         <Authors>Kouji Matsui (@kozy_kekyo)</Authors>
@@ -24,12 +24,27 @@
         <DebugSymbols>true</DebugSymbols>
     </PropertyGroup>
 
-    <ItemGroup>
-        <PackageReference Include="RelaxVersioner" Version="2.0.9" PrivateAssets="all" />
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.8.0" />
-        <PackageReference Include="NUnit" Version="3.11.0" />
-        <packagereference Include="NUnit3TestAdapter" Version="3.10.0" />
+    <PropertyGroup Condition="'$(TargetFramework)' == 'net40'">
+        <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
+        <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    </PropertyGroup>
+
+    <ItemGroup Condition="'$(TargetFramework)' == 'net35'">
+        <PackageReference Include="jnm2.ReferenceAssemblies.net35" Version="1.0.1" PrivateAssets="All" />
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(TargetFramework)' != 'net35'">
         <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.0" PrivateAssets="All" />
+    </ItemGroup>
+
+    <ItemGroup Condition="('$(TargetFramework)' != 'net35') And ('$(TargetFramework)' != 'net40-client')">
+        <PackageReference Include="System.ValueTuple" Version="4.5.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
+        <PackageReference Include="NUnit" Version="3.12.0" />
+        <PackageReference Include="NUnit3TestAdapter" Version="3.15.1" />
     </ItemGroup>
 
     <ItemGroup>
