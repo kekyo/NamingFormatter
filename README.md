@@ -11,12 +11,12 @@
 |devel|[![NamingFormatter CI build (master)](https://github.com/kekyo/CenterCLR.NamingFormatter/workflows/.NET/badge.svg?branch=master)](https://github.com/kekyo/CenterCLR.NamingFormatter/actions)| |
 
 ## What is this?
-* NamingFormatter is extended System.String.Format method on .NET Framework.
+* NamingFormatter is extended System.String.Format method on .NET.
 * Standard Format method required numbering indexed place-holder.
   * You probably understand this:
 
 ``` csharp
-// String interporation style:
+// C# String interporation style:
 // (These argument variables fixedup at compile time)
 var formatted =
     $"Index0:{arg0}, Index1:{arg1}";
@@ -42,7 +42,7 @@ var formatted = Named.Format(
     keyValues);
 ```
 
-* Of cource, format option can use.
+* Of course, we can use the format options.
 
 ``` csharp
 var keyValues = new Dictionary<string, object>
@@ -56,7 +56,7 @@ var formatted = Named.Format(
     keyValues);
 ```
 
-* You can use easier with tuple expression:
+* We can use easier with tuple expression:
 
 ``` csharp
 var formatted = Named.Format(
@@ -101,13 +101,15 @@ var formatted = Named.Format(
 ``` csharp
 using NamingFormatter;
 
-// Easy parametric helper
-// (Named.Pair() method will generate KeyValuePair<string, object?>)
+// All overloads have an optional fallback delegate.
+// You can handle unknown key identity when the format string contains it.
+// (Default behavior will throw exception)
 var formatted = Named.Format(
-    "Date:{date:R}, Value:{value:E}, Name:{name}",
-    Named.Pair("value", 123.456),
-    Named.Pair("name", "Kouji"),
-    Named.Pair("date", DateTime.Now));
+    "Date:{date}, Value:{VALUE}, Name:{name}",
+    key => "***",      // fallback delegate makes safer from exceptions.
+    ("value", 123.456),
+    ("name", "Kouji"),
+    ("date", DateTime.Now));
 ```
 
 ``` csharp
@@ -168,6 +170,18 @@ var formatted = Named.Format(
     ("date", DateTime.Now));
 ```
 
+``` csharp
+using NamingFormatter;
+
+// Easy parametric helper
+// (Named.Pair() method will generate KeyValuePair<string, object?>)
+var formatted = Named.Format(
+    "Date:{date:R}, Value:{value:E}, Name:{name}",
+    Named.Pair("value", 123.456),
+    Named.Pair("name", "Kouji"),
+    Named.Pair("date", DateTime.Now));
+```
+
 ## TODO
 * F# friendly version.
 
@@ -176,6 +190,9 @@ var formatted = Named.Format(
 * Under Apache v2
 
 ## History
+* 2.0.22:
+  * Added fallback delegate features.
+  * Included xml documents.
 * 2.0.18: Added net461 and net47 assemblies because reduce conflict between netstandard2.0.
 * 2.0.17:
   * Added ValueTuple overloads.
