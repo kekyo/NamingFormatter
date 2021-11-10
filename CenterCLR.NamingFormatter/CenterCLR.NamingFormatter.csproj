@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>net35;net40-client;net45;net461;net47;net48;netstandard1.0;netstandard2.0;netstandard2.1;net5.0</TargetFrameworks>
+        <TargetFrameworks>net35;net40-client;net45;net461;net47;net48;netstandard1.0;netstandard2.0;netstandard2.1;net5.0;net6.0</TargetFrameworks>
 
         <OutputType>Library</OutputType>
         <LangVersion>latest</LangVersion>
@@ -24,12 +24,16 @@
         <PackageIcon>CenterCLR.NamingFormatter.100.png</PackageIcon>
         <RepositoryUrl>https://github.com/kekyo/CenterCLR.NamingFormatter</RepositoryUrl>
         <PackageTags>string;formatter;extensible;key-value;replace;same;option;structural</PackageTags>
-        <DebugType>pdbonly</DebugType>
+        <DebugType>portable</DebugType>
         <DebugSymbols>true</DebugSymbols>
         <AllowedOutputExtensionsInPackageBuildOutputFolder>.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
         <PublishRepositoryUrl>true</PublishRepositoryUrl>
         <EmbedUntrackedSources>true</EmbedUntrackedSources>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <CheckEolTargetFramework>false</CheckEolTargetFramework>
+        <Deterministic>true</Deterministic>
+        <EmbedUntrackedSources Condition="'$(Configuration)' == 'Release'">true</EmbedUntrackedSources>
+        <ContinuousIntegrationBuild Condition="'$(Configuration)' == 'Release'">true</ContinuousIntegrationBuild>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(TargetFramework)' == 'net40-client'">
@@ -43,16 +47,20 @@
     </ItemGroup>
 
     <ItemGroup Condition="'$(TargetFramework)' != 'net35'">
-        <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.0" PrivateAssets="All" />
+        <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2" PrivateAssets="All" />
     </ItemGroup>
 
     <ItemGroup>
         <PackageReference Include="RelaxVersioner" Version="2.0.9" PrivateAssets="all" />
-        <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.0" PrivateAssets="All" />
+        <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2" PrivateAssets="All" />
     </ItemGroup>
 
     <ItemGroup Condition="('$(TargetFramework)' != 'net35') AND ('$(TargetFramework)' != 'net40-client')">
         <PackageReference Include="System.ValueTuple" Version="4.5.0" />
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(Configuration)' == 'Release'">
+        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
     </ItemGroup>
 
     <ItemGroup>

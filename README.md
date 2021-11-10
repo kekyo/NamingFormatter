@@ -78,9 +78,9 @@ var formatted = Named.Format(
 * Format string human-readable/customizable improvement.
 
 ## Environments
-* .NET 5.0
-* .NET Standard 1.0,2.0,2.1 (Will effect .NET Core 1.0-3.1)
-* .NET Framework 3.5,4.0 with client profile, 4.5 and 4.8
+* .NET 6.0, 5.0
+* .NET Standard 1.0, 2.0, 2.1 (Will effect .NET Core 1.0-3.1)
+* .NET Framework 3.5, 4.0 with client profile, 4.5 and 4.8
 
 ## How to use
 * Search NuGet package and install ["NamingFormatter"](https://www.nuget.org/packages/NamingFormatter).
@@ -190,6 +190,9 @@ var formatted = Named.Format(
 * Under Apache v2
 
 ## History
+* 2.1.0:
+  * Added .NET 6.0 assembly.
+  * Added source link attributes.
 * 2.0.22:
   * Added fallback delegate features.
   * Included xml documents.

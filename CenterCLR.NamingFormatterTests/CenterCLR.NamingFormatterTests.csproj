@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>net35;net40;net48;netcoreapp2.1;netcoreapp3.1;net5.0</TargetFrameworks>
+        <TargetFrameworks>net35;net40;net48;netcoreapp2.1;netcoreapp3.1;net5.0;net6.0</TargetFrameworks>
 
         <OutputType>Library</OutputType>
         <LangVersion>latest</LangVersion>
@@ -22,6 +22,10 @@
         <RepositoryUrl>https://github.com/kekyo/CenterCLR.NamingFormatter</RepositoryUrl>
         <DebugType>full</DebugType>
         <DebugSymbols>true</DebugSymbols>
+        <CheckEolTargetFramework>false</CheckEolTargetFramework>
+        <Deterministic>true</Deterministic>
+        <EmbedUntrackedSources Condition="'$(Configuration)' == 'Release'">true</EmbedUntrackedSources>
+        <ContinuousIntegrationBuild Condition="'$(Configuration)' == 'Release'">true</ContinuousIntegrationBuild>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(TargetFramework)' == 'net40'">
@@ -34,7 +38,7 @@
     </ItemGroup>
 
     <ItemGroup Condition="'$(TargetFramework)' != 'net35'">
-        <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.0" PrivateAssets="All" />
+        <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2" PrivateAssets="All" />
     </ItemGroup>
 
     <ItemGroup Condition="('$(TargetFramework)' != 'net35') And ('$(TargetFramework)' != 'net40-client')">
