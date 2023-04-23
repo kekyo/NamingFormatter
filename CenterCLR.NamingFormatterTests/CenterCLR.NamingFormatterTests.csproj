@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>net35;net40;net48;netcoreapp2.1;netcoreapp3.1;net5.0;net6.0</TargetFrameworks>
+        <TargetFrameworks>net35;net40;net48;netcoreapp3.1;net5.0;net6.0;net7.0</TargetFrameworks>
 
         <OutputType>Library</OutputType>
         <LangVersion>latest</LangVersion>
@@ -20,12 +20,10 @@
         <Authors>Kouji Matsui (@kozy_kekyo)</Authors>
         <RepositoryType>git</RepositoryType>
         <RepositoryUrl>https://github.com/kekyo/CenterCLR.NamingFormatter</RepositoryUrl>
-        <DebugType>full</DebugType>
+        <DebugType>portable</DebugType>
         <DebugSymbols>true</DebugSymbols>
         <CheckEolTargetFramework>false</CheckEolTargetFramework>
-        <Deterministic>true</Deterministic>
-        <EmbedUntrackedSources Condition="'$(Configuration)' == 'Release'">true</EmbedUntrackedSources>
-        <ContinuousIntegrationBuild Condition="'$(Configuration)' == 'Release'">true</ContinuousIntegrationBuild>
+        <NoWarn>$(NoWarn);NU1605;NU1701;NU1803</NoWarn>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(TargetFramework)' == 'net40'">
@@ -33,12 +31,8 @@
         <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     </PropertyGroup>
 
-    <ItemGroup Condition="'$(TargetFramework)' == 'net35'">
-        <PackageReference Include="jnm2.ReferenceAssemblies.net35" Version="1.0.1" PrivateAssets="All" />
-    </ItemGroup>
-
-    <ItemGroup Condition="'$(TargetFramework)' != 'net35'">
-        <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2" PrivateAssets="All" />
+    <ItemGroup>
+        <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="All" />
     </ItemGroup>
 
     <ItemGroup Condition="('$(TargetFramework)' != 'net35') And ('$(TargetFramework)' != 'net40-client')">
@@ -46,9 +40,9 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
-        <PackageReference Include="NUnit" Version="3.12.0" />
-        <PackageReference Include="NUnit3TestAdapter" Version="3.15.1" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.5.0" />
+        <PackageReference Include="NUnit" Version="3.13.3" />
+        <PackageReference Include="NUnit3TestAdapter" Version="4.4.2" />
     </ItemGroup>
 
     <ItemGroup>

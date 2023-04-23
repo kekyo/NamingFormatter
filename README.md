@@ -78,9 +78,9 @@ var formatted = Named.Format(
 * Format string human-readable/customizable improvement.
 
 ## Environments
-* .NET 6.0, 5.0
+* .NET 7 to 5
 * .NET Standard 1.0, 2.0, 2.1 (Will effect .NET Core 1.0-3.1)
-* .NET Framework 3.5, 4.0 with client profile, 4.5 and 4.8
+* .NET Framework 3.5, 4.0 with client profile, 4.5 to 4.8.1
 
 ## How to use
 * Search NuGet package and install ["NamingFormatter"](https://www.nuget.org/packages/NamingFormatter).
