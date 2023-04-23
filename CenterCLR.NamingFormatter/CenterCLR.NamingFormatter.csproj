@@ -58,7 +58,7 @@
         <PackageReference Include="RelaxVersioner" Version="2.14.0" PrivateAssets="all" />
     </ItemGroup>
 
-    <ItemGroup Condition="('$(TargetFramework)' != 'net35') AND ('$(TargetFramework)' != 'net40-client')">
+    <ItemGroup Condition="('$(TargetFramework)' != 'net35') AND ('$(TargetFramework)' != 'net40-client') AND ('$(TargetFramework)' != 'netstandard2.0') AND ('$(TargetFramework)' != 'netstandard2.1') AND ('$(TargetFrameworkIdentifier)' != '.NETCoreApp')">
         <PackageReference Include="System.ValueTuple" Version="4.5.0" />
     </ItemGroup>
 

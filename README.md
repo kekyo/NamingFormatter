@@ -201,6 +201,7 @@ var formatted = Named.Format(
 
 * 2.2.0:
   * Added field lookup ability.
+  * Reduced package dependency.
 * 2.1.0:
   * Added .NET 6.0 assembly.
   * Added source link attributes.
