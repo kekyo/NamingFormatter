@@ -15,16 +15,5 @@ rem WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 rem See the License for the specific language governing permissions and
 rem limitations under the License.
 
-if exist artifacts (
-    ren artifacts artifacts_
-    rmdir /s /q artifacts_
-)
-mkdir artifacts
-
-rem "dotnet" command can't build net35 tfm.
-rem dotnet clean -c Release -p:Platform=AnyCPU CenterCLR.NamingFormatter\CenterCLR.NamingFormatter.csproj
-rem dotnet restore
-rem dotnet pack -p:Configuration=Release -p:Platform=AnyCPU -o artifacts CenterCLR.NamingFormatter\CenterCLR.NamingFormatter.csproj
-
-msbuild -t:restore
-msbuild -t:pack -p:Configuration=Release /p:PackageOutputPath=..\artifacts CenterCLR.NamingFormatter\CenterCLR.NamingFormatter.csproj
+dotnet build -p:Configuration=Release -p:Platform=AnyCPU CenterCLR.NamingFormatter\CenterCLR.NamingFormatter.csproj
+dotnet pack -p:Configuration=Release -p:Platform=AnyCPU -o artifacts CenterCLR.NamingFormatter\CenterCLR.NamingFormatter.csproj

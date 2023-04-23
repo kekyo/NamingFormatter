@@ -152,6 +152,74 @@ namespace NamingFormatter.Tests
             Assert.AreEqual(string.Empty, actual);
         }
 
+        private readonly struct TestType1
+        {
+            public readonly int Value;
+            public TestType1(int value) =>
+                this.Value = value;
+        }
+
+        [Test]
+        public void FormatIdentityTraverseFieldTest()
+        {
+            var tt = new TestType1(123);
+            var keyValues = new Dictionary<string, object?>()
+            {
+                { "abc", 123 },
+                { "defgh", tt },
+                { "ijkl", "XYZ" }
+            };
+
+            var actual = Named.Format(
+                "{defgh.Value}",
+                keyValues);
+
+            Assert.AreEqual(tt.Value.ToString(), actual);
+        }
+
+        private readonly struct TestType2
+        {
+            public readonly TestType1 TT1;
+            public TestType2(TestType1 tt1) =>
+                this.TT1 = tt1;
+        }
+
+        [Test]
+        public void FormatIdentityTraverseFieldsTest()
+        {
+            var tt2 = new TestType2(new TestType1(123));
+            var keyValues = new Dictionary<string, object?>()
+            {
+                { "abc", 123 },
+                { "defgh", tt2 },
+                { "ijkl", "XYZ" }
+            };
+
+            var actual = Named.Format(
+                "{defgh.TT1.Value}",
+                keyValues);
+
+            Assert.AreEqual(tt2.TT1.Value.ToString(), actual);
+        }
+
+        [Test]
+        public void FormatIdentityTraverseFieldNotFoundTest()
+        {
+            var tt2 = new TestType2(new TestType1(123));
+            var keyValues = new Dictionary<string, object?>()
+            {
+                { "abc", 123 },
+                { "defgh", tt2 },
+                { "ijkl", "XYZ" }
+            };
+
+            var actual = Named.Format(
+                "{defgh.TT2.Value}",
+                keyValues);
+
+            Assert.AreEqual(string.Empty, actual);
+        }
+
         [Test]
         public void FormatIdentityWithAlignmentTest()
         {

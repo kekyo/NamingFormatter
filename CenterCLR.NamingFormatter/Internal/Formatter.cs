@@ -68,6 +68,29 @@ namespace NamingFormatter.Internal
             return false;
         }
 
+        private static bool TryGetFieldValue(this Type type, object instance, string name, out object? value)
+        {
+            try
+            {
+#if NETSTANDARD1_0
+                var fi = type.GetRuntimeField(name);
+#else
+                var fi = type.GetField(name);
+#endif
+                if (fi != null)
+                {
+                    value = fi.GetValue(instance);
+                    return true;
+                }
+            }
+            catch
+            {
+            }
+
+            value = default;
+            return false;
+        }
+
         private enum Results
         {
             InvalidPropertyPath,
@@ -97,11 +120,18 @@ namespace NamingFormatter.Internal
                     return Results.Terminated;
                 }
                 var type = v.GetType();
-                if (!type.TryGetPropertyValue(v, split[index], out v))
+                if (type.TryGetPropertyValue(v, split[index], out var v1))
                 {
-                    value = default;
-                    return Results.InvalidPropertyPath;
+                    v = v1;
+                    continue;
                 }
+                if (type.TryGetFieldValue(v, split[index], out var v2))
+                {
+                    v = v2;
+                    continue;
+                }
+                value = default;
+                return Results.InvalidPropertyPath;
             }
             value = v;
             return Results.Got;
