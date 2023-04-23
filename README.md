@@ -1,4 +1,5 @@
 ﻿# NamingFormatter
+
 ![NamingFormatter](https://raw.githubusercontent.com/kekyo/CenterCLR.NamingFormatter/master/Images/CenterCLR.NamingFormatter.128.png)
 
 ## Status
@@ -11,6 +12,7 @@
 |devel|[![NamingFormatter CI build (master)](https://github.com/kekyo/CenterCLR.NamingFormatter/workflows/.NET/badge.svg?branch=master)](https://github.com/kekyo/CenterCLR.NamingFormatter/actions)|[![MyGet NamingFormatter (devel)](https://img.shields.io/myget/kekyo/v/NamingFormatter.svg?style=flat&label=myget)](https://www.myget.org/feed/kekyo/package/nuget/NamingFormatter)|
 
 ## What is this?
+
 * NamingFormatter is extended System.String.Format method on .NET.
 * Standard Format method required numbering indexed place-holder.
   * You probably understand this:
@@ -67,22 +69,26 @@ var formatted = Named.Format(
 ```
 
 ## Features
+
 * Easy standard replacement from System.String.Format method.
 * TextWriter version included (WriteFormat extension method). And has asynchronous method overloads (Task).
 * Many variation overloads (Dictionary, IReadOnlyDictionary, Predicate delegate, Selector delegate, IFormatProvider, KeyValuePair and ValueTuple with variable length parameters).
-* Can use structual-key, traverse public properties.
+* Can use structual-key, traverse both public properties and fields.
 * Applied C# nullable-reference type attribtues.
 
 ## Benefits
+
 * Flexible argument matching. Useful dynamic interpretation.
 * Format string human-readable/customizable improvement.
 
 ## Environments
+
 * .NET 7 to 5
 * .NET Standard 1.0, 2.0, 2.1 (Will effect .NET Core 1.0-3.1)
 * .NET Framework 3.5, 4.0 with client profile, 4.5 to 4.8.1
 
 ## How to use
+
 * Search NuGet package and install ["NamingFormatter"](https://www.nuget.org/packages/NamingFormatter).
 * View more sample:
 
@@ -115,7 +121,7 @@ var formatted = Named.Format(
 ``` csharp
 using NamingFormatter;
 
-// Structual-key (Traverse properties by dot-notation)
+// Structual-key (Traverse properties and fields by dot-notation)
 var formatted = Named.Format(
     "TOD-Millisec:{date.TimeOfDay.TotalMilliseconds}",
     ("date", DateTime.Now));
@@ -183,13 +189,18 @@ var formatted = Named.Format(
 ```
 
 ## TODO
+
 * F# friendly version.
 
 ## License
+
 * Copyright (c) 2016-2020 Kouji Matsui
 * Under Apache v2
 
 ## History
+
+* 2.2.0:
+  * Added field lookup ability.
 * 2.1.0:
   * Added .NET 6.0 assembly.
   * Added source link attributes.
