@@ -19,7 +19,7 @@
         <Company>Kouji Matsui (@kozy_kekyo)</Company>
         <Authors>Kouji Matsui (@kozy_kekyo)</Authors>
         <RepositoryType>git</RepositoryType>
-        <RepositoryUrl>https://github.com/kekyo/CenterCLR.NamingFormatter</RepositoryUrl>
+        <RepositoryUrl>https://github.com/kekyo/NamingFormatter</RepositoryUrl>
         <DebugType>portable</DebugType>
         <DebugSymbols>true</DebugSymbols>
         <CheckEolTargetFramework>false</CheckEolTargetFramework>
@@ -46,7 +46,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\CenterCLR.NamingFormatter\CenterCLR.NamingFormatter.csproj" />
+        <ProjectReference Include="..\NamingFormatter\NamingFormatter.csproj" />
     </ItemGroup>
 
 </Project>

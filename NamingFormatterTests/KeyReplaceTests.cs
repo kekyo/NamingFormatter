@@ -1,6 +1,6 @@
 ﻿/////////////////////////////////////////////////////////////////////////////////////////////////
 //
-// CenterCLR.NamingFormatter - String format library with key-valued replacer.
+// NamingFormatter - String format library with key-valued replacer.
 // Copyright (c) 2016 Kouji Matsui (@kekyo2)
 //
 // Licensed under the Apache License, Version 2.0 (the "License");

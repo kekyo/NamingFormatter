@@ -1,6 +1,6 @@
 ﻿/////////////////////////////////////////////////////////////////////////////////////////////////
 //
-// CenterCLR.NamingFormatter - String format library with key-valued replacer.
+// NamingFormatter - String format library with key-valued replacer.
 // Copyright (c) 2016-2019 Kouji Matsui (@kekyo2)
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,19 +17,36 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
+#if NET35 || NET40
 using System.Diagnostics;
 using System.Collections.Generic;
 
-namespace NamingFormatter.Internal
+namespace System
 {
     [DebuggerStepThrough]
-    internal static class KeyValuePairExtension
+    internal struct ValueTuple<T1, T2>
     {
-        public static void Deconstruct<TKey, TValue>(
-            this KeyValuePair<TKey, TValue> pair, out TKey key, out TValue value)
+        public readonly T1 Item1;
+        public readonly T2 Item2;
+
+        public ValueTuple(T1 item1, T2 item2)
         {
-            key = pair.Key;
-            value = pair.Value;
+            this.Item1 = item1;
+            this.Item2 = item2;
         }
     }
 }
+
+namespace System.Runtime.CompilerServices
+{
+    [AttributeUsage(AttributeTargets.All)]
+    internal sealed class TupleElementNamesAttribute : Attribute
+    {
+        public IList<string>? TransformNames { get; }
+
+        public TupleElementNamesAttribute(string[]? transformNames) =>
+            this.TransformNames = transformNames;
+    }
+}
+#endif
+

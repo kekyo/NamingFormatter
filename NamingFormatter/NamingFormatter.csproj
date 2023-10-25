@@ -20,9 +20,9 @@
         <Authors>Kouji Matsui (@kozy_kekyo)</Authors>
         <RepositoryType>git</RepositoryType>
         <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
-        <PackageProjectUrl>https://github.com/kekyo/CenterCLR.NamingFormatter</PackageProjectUrl>
-        <PackageIcon>CenterCLR.NamingFormatter.100.png</PackageIcon>
-        <RepositoryUrl>https://github.com/kekyo/CenterCLR.NamingFormatter</RepositoryUrl>
+        <PackageProjectUrl>https://github.com/kekyo/NamingFormatter</PackageProjectUrl>
+        <PackageIcon>NamingFormatter.100.png</PackageIcon>
+        <RepositoryUrl>https://github.com/kekyo/NamingFormatter</RepositoryUrl>
         <PackageTags>string;formatter;extensible;key-value;replace;same;option;structural</PackageTags>
         <DebugSymbols>true</DebugSymbols>
         <AllowedOutputExtensionsInPackageBuildOutputFolder>.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
@@ -67,7 +67,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <None Include="..\Images\CenterCLR.NamingFormatter.100.png" Link="Images\CenterCLR.NamingFormatter.100.png" Pack="true" PackagePath="\" />
+        <None Include="..\Images\NamingFormatter.100.png" Link="Images\NamingFormatter.100.png" Pack="true" PackagePath="\" />
     </ItemGroup>
 
 </Project>
