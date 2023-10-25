@@ -1,6 +1,6 @@
 ﻿# NamingFormatter
 
-![NamingFormatter](https://raw.githubusercontent.com/kekyo/CenterCLR.NamingFormatter/master/Images/CenterCLR.NamingFormatter.128.png)
+![NamingFormatter](https://raw.githubusercontent.com/kekyo/NamingFormatter/master/Images/NamingFormatter.128.png)
 
 ## Status
 
@@ -8,8 +8,8 @@
 
 | |Build|NuGet|
 |:----|:----|:----|
-|master|[![NamingFormatter CI build (master)](https://github.com/kekyo/CenterCLR.NamingFormatter/workflows/.NET/badge.svg?branch=master)](https://github.com/kekyo/CenterCLR.NamingFormatter/actions)|[![NuGet NamingFormatter (master)](https://img.shields.io/nuget/v/NamingFormatter.svg?style=flat)](https://www.nuget.org/packages/NamingFormatter)|
-|devel|[![NamingFormatter CI build (master)](https://github.com/kekyo/CenterCLR.NamingFormatter/workflows/.NET/badge.svg?branch=master)](https://github.com/kekyo/CenterCLR.NamingFormatter/actions)|[![MyGet NamingFormatter (devel)](https://img.shields.io/myget/kekyo/v/NamingFormatter.svg?style=flat&label=myget)](https://www.myget.org/feed/kekyo/package/nuget/NamingFormatter)|
+|master|[![NamingFormatter CI build (master)](https://github.com/kekyo/NamingFormatter/workflows/.NET/badge.svg?branch=master)](https://github.com/kekyo/NamingFormatter/actions)|[![NuGet NamingFormatter (master)](https://img.shields.io/nuget/v/NamingFormatter.svg?style=flat)](https://www.nuget.org/packages/NamingFormatter)|
+|devel|[![NamingFormatter CI build (master)](https://github.com/kekyo/NamingFormatter/workflows/.NET/badge.svg?branch=master)](https://github.com/kekyo/NamingFormatter/actions)|[![MyGet NamingFormatter (devel)](https://img.shields.io/myget/kekyo/v/NamingFormatter.svg?style=flat&label=myget)](https://www.myget.org/feed/kekyo/package/nuget/NamingFormatter)|
 
 ## What is this?
 
@@ -83,7 +83,7 @@ var formatted = Named.Format(
 
 ## Environments
 
-* .NET 7 to 5
+* .NET 8 to 5
 * .NET Standard 1.0, 2.0, 2.1 (Will effect .NET Core 1.0-3.1)
 * .NET Framework 3.5, 4.0 with client profile, 4.5 to 4.8.1
 
@@ -199,6 +199,8 @@ var formatted = Named.Format(
 
 ## History
 
+* 2.3.0:
+  * Added .NET 8.0 RC2 assembly.
 * 2.2.0:
   * Added field lookup ability.
   * Reduced package dependency.
@@ -214,7 +216,7 @@ var formatted = Named.Format(
   * Added asynchronous overloads.
 * 2.0.16: Fixed not including net35 assembly.
 * 2.0.15:
-  * Breaking change: Changed the NuGet package name from "CenterCLR.NamingFormatter" to "NamingFormatter".
+  * Breaking change: Changed the NuGet package name from "NamingFormatter" to "NamingFormatter".
   * Breaking change: Changed namespace name from "CenterCLR" to "NamingFormatter".
   * Added some target frameworks.
   * Omitted strong-key signing.

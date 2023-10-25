@@ -1,6 +1,6 @@
 ﻿/////////////////////////////////////////////////////////////////////////////////////////////////
 //
-// CenterCLR.NamingFormatter - String format library with key-valued replacer.
+// NamingFormatter - String format library with key-valued replacer.
 // Copyright (c) 2016-2019 Kouji Matsui (@kekyo2)
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -27,7 +27,6 @@ using System.Threading.Tasks;
 
 namespace NamingFormatter
 {
-#if !NET35 && !NET40
     partial class Named
     {
         /// <summary>
@@ -58,7 +57,7 @@ namespace NamingFormatter
         public static void WriteFormat(
             this TextWriter tw,
             string format,
-            IReadOnlyDictionary<string, object?> keyValues)
+            Dictionary<string, object?> keyValues)
         {
             if (keyValues == null)
             {
@@ -101,7 +100,7 @@ namespace NamingFormatter
         public static void WriteFormat(
             this TextWriter tw,
             string format,
-            IReadOnlyDictionary<string, object?> keyValues,
+            Dictionary<string, object?> keyValues,
             Func<string, object?> fallback)
         {
             if (keyValues == null)
@@ -121,6 +120,7 @@ namespace NamingFormatter
                     fallback(key));
         }
 
+#if !NET35 && !NET40
         /// <summary>
         /// Format string with named format-key.
         /// </summary>
@@ -141,7 +141,7 @@ namespace NamingFormatter
         /// 
         /// // Format string by format-key-values.
         /// var tw = new StringWriter();
-        /// tw.WriteFormat(
+        /// await tw.WriteFormatAsync(
         ///     "AAA{fgh:R}BBB{abcde}CCC{ijkl:E}",
         ///     keyValues);
         /// </code>
@@ -149,7 +149,7 @@ namespace NamingFormatter
         public static Task WriteFormatAsync(
             this TextWriter tw,
             string format,
-            IReadOnlyDictionary<string, object?> keyValues)
+            Dictionary<string, object?> keyValues)
         {
             if (keyValues == null)
             {
@@ -183,7 +183,7 @@ namespace NamingFormatter
         /// 
         /// // Format string by format-key-values.
         /// var tw = new StringWriter();
-        /// tw.WriteFormat(
+        /// await tw.WriteFormatAsync(
         ///     "AAA{fgh:R}BBB{abcde}CCC{ijkl:E}",
         ///     keyValues,
         ///     key => "***");
@@ -192,7 +192,7 @@ namespace NamingFormatter
         public static Task WriteFormatAsync(
             this TextWriter tw,
             string format,
-            IReadOnlyDictionary<string, object?> keyValues,
+            Dictionary<string, object?> keyValues,
             Func<string, object?> fallback)
         {
             if (keyValues == null)
@@ -211,11 +211,11 @@ namespace NamingFormatter
                     value :
                     fallback(key));
         }
+#endif
 
         /// <summary>
         /// Format string with named format-key.
         /// </summary>
-        /// <typeparam name="TDictionary">IReadOnlyDictionary derived type.</typeparam>
         /// <param name="formatProvider">The format provider.</param>
         /// <param name="format">The format string (can include format-key).</param>
         /// <param name="keyValues">Key-value dictionary.</param>
@@ -232,16 +232,15 @@ namespace NamingFormatter
         /// };
         /// 
         /// // Format string by format-key-values.
-        /// var result = new CultureInfo("fr-FR").Format&lt;Dictionary&lt;string, object&gt;&gt;(
+        /// var result = new CultureInfo("fr-FR").Format(
         ///     "AAA{fgh:R}BBB{abcde}CCC{ijkl:E}",
         ///     keyValues);
         /// </code>
         /// </example>
-        public static string Format<TDictionary>(
+        public static string Format(
             IFormatProvider formatProvider,
             string format,
-            TDictionary keyValues)
-            where TDictionary : IReadOnlyDictionary<string, object?>
+            Dictionary<string, object?> keyValues)
         {
             if (keyValues == null)
             {
@@ -257,7 +256,6 @@ namespace NamingFormatter
         /// <summary>
         /// Format string with named format-key.
         /// </summary>
-        /// <typeparam name="TDictionary">IReadOnlyDictionary derived type.</typeparam>
         /// <param name="formatProvider">The format provider.</param>
         /// <param name="format">The format string (can include format-key).</param>
         /// <param name="keyValues">Key-value dictionary.</param>
@@ -275,18 +273,17 @@ namespace NamingFormatter
         /// };
         /// 
         /// // Format string by format-key-values.
-        /// var result = new CultureInfo("fr-FR").Format&lt;Dictionary&lt;string, object&gt;&gt;(
+        /// var result = new CultureInfo("fr-FR").Format(
         ///     "AAA{fgh:R}BBB{abcde}CCC{ijkl:E}",
         ///     keyValues,
         ///     key => "***");
         /// </code>
         /// </example>
-        public static string Format<TDictionary>(
+        public static string Format(
             IFormatProvider formatProvider,
             string format,
-            TDictionary keyValues,
+            Dictionary<string, object?> keyValues,
             Func<string, object?> fallback)
-            where TDictionary : IReadOnlyDictionary<string, object?>
         {
             if (keyValues == null)
             {
@@ -308,7 +305,6 @@ namespace NamingFormatter
         /// <summary>
         /// Format string with named format-key.
         /// </summary>
-        /// <typeparam name="TDictionary">IReadOnlyDictionary derived type.</typeparam>
         /// <param name="format">The format string (can include format-key).</param>
         /// <param name="keyValues">Key-value dictionary.</param>
         /// <returns>Formatted string.</returns>
@@ -324,15 +320,14 @@ namespace NamingFormatter
         /// };
         /// 
         /// // Format string by format-key-values.
-        /// var result = Named.Format&lt;Dictionary&lt;string, object&gt;&gt;(
+        /// var result = Named.Format(
         ///     "AAA{fgh:R}BBB{abcde}CCC{ijkl:E}",
         ///     keyValues);
         /// </code>
         /// </example>
-        public static string Format<TDictionary>(
+        public static string Format(
             string format,
-            TDictionary keyValues)
-            where TDictionary : IReadOnlyDictionary<string, object?>
+            Dictionary<string, object?> keyValues)
         {
             if (keyValues == null)
             {
@@ -347,7 +342,6 @@ namespace NamingFormatter
         /// <summary>
         /// Format string with named format-key.
         /// </summary>
-        /// <typeparam name="TDictionary">IReadOnlyDictionary derived type.</typeparam>
         /// <param name="format">The format string (can include format-key).</param>
         /// <param name="keyValues">Key-value dictionary.</param>
         /// <param name="fallback">Fallback delegate.</param>
@@ -364,17 +358,16 @@ namespace NamingFormatter
         /// };
         /// 
         /// // Format string by format-key-values.
-        /// var result = Named.Format&lt;Dictionary&lt;string, object&gt;&gt;(
+        /// var result = Named.Format(
         ///     "AAA{fgh:R}BBB{abcde}CCC{ijkl:E}",
         ///     keyValues,
         ///     key => "***");
         /// </code>
         /// </example>
-        public static string Format<TDictionary>(
+        public static string Format(
             string format,
-            TDictionary keyValues,
+            Dictionary<string, object?> keyValues,
             Func<string, object?> fallback)
-            where TDictionary : IReadOnlyDictionary<string, object?>
         {
             if (keyValues == null)
             {
@@ -392,5 +385,4 @@ namespace NamingFormatter
                     fallback(key));
         }
     }
-#endif
 }

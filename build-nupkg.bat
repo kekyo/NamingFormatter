@@ -1,6 +1,6 @@
 @echo off
 
-rem CenterCLR.NamingFormatter - String format library with key-valued replacer.
+rem NamingFormatter - String format library with key-valued replacer.
 rem Copyright (c) 2019 Kouji Matsui (@kekyo2)
 rem 
 rem Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,5 +15,10 @@ rem WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 rem See the License for the specific language governing permissions and
 rem limitations under the License.
 
-dotnet build -p:Configuration=Release -p:Platform=AnyCPU CenterCLR.NamingFormatter\CenterCLR.NamingFormatter.csproj
-dotnet pack -p:Configuration=Release -p:Platform=AnyCPU -o artifacts CenterCLR.NamingFormatter\CenterCLR.NamingFormatter.csproj
+echo.
+echo "==========================================================="
+echo "Build NamingFormatter"
+echo.
+
+dotnet build -p:Configuration=Release -p:Platform="Any CPU" -p:RestoreNoCache=True NamingFormatter.sln
+dotnet pack -p:Configuration=Release -p:Platform="Any CPU" -o artifacts NamingFormatter.sln

@@ -1,6 +1,6 @@
 ﻿/////////////////////////////////////////////////////////////////////////////////////////////////
 //
-// CenterCLR.NamingFormatter - String format library with key-valued replacer.
+// NamingFormatter - String format library with key-valued replacer.
 // Copyright (c) 2016 Kouji Matsui (@kekyo2)
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,17 +19,15 @@
 
 using System;
 using System.Collections.Generic;
-using System.Globalization;
+using System.IO;
 using System.Linq;
 using NUnit.Framework;
 
 namespace NamingFormatter.Tests
 {
 	[TestFixture]
-	public class FormatProviderOverloadTests
+	public class WriteFormatTests
 	{
-		private readonly IFormatProvider formatProvider_ = new CultureInfo("fr-FR");
-
 		[Test]
 		public void DictionaryOverloadTest()
 		{
@@ -41,12 +39,12 @@ namespace NamingFormatter.Tests
 				{ "ijkl", "XYZ" }
 			};
 
-			var actual = Named.Format(
-				formatProvider_,
+			var tw = new StringWriter();
+			tw.WriteFormat(
 				"AAA{defgh}BBB{abc}CCC{ijkl}DDD",
 				keyValues);
 
-			Assert.AreEqual("AAA" + now.ToString(formatProvider_) + "BBB123CCCXYZDDD", actual);
+			Assert.AreEqual("AAA" + now + "BBB123CCCXYZDDD", tw.ToString());
 		}
 
 		[Test]
@@ -60,13 +58,13 @@ namespace NamingFormatter.Tests
 				{ "ijkl", "XYZ" }
 			};
 
-			var actual = Named.Format(
-				formatProvider_,
-				"AAA{defgh}BBB{abX}CCC{ijkl}DDD",
+			var tw = new StringWriter();
+			tw.WriteFormat(
+				"AAA{defgh}BBB{abx}CCC{ijkl}DDD",
 				keyValues,
 				key => key);
 
-			Assert.AreEqual("AAA" + now.ToString(formatProvider_) + "BBBabXCCCXYZDDD", actual);
+			Assert.AreEqual("AAA" + now + "BBBabxCCCXYZDDD", tw.ToString());
 		}
 
 		[Test]
@@ -81,12 +79,12 @@ namespace NamingFormatter.Tests
 				{ "ijKl", "XYZ" }
 			};
 
-			var actual = Named.Format(
-				formatProvider_,
+			var tw = new StringWriter();
+			tw.WriteFormat(
 				"AAA{Defgh}BBB{abC}CCC{IjkL}DDD",
 				keyValues);
 
-			Assert.AreEqual("AAA" + now.ToString(formatProvider_) + "BBB123CCCXYZDDD", actual);
+			Assert.AreEqual("AAA" + now + "BBB123CCCXYZDDD", tw.ToString());
 		}
 
 		[Test]
@@ -101,13 +99,13 @@ namespace NamingFormatter.Tests
 				{ "ijKl", "XYZ" }
 			};
 
-			var actual = Named.Format(
-				formatProvider_,
+			var tw = new StringWriter();
+			tw.WriteFormat(
 				"AAA{Defgh}BBB{abX}CCC{IjkL}DDD",
 				keyValues,
 				key => key);
 
-			Assert.AreEqual("AAA" + now.ToString(formatProvider_) + "BBBabXCCCXYZDDD", actual);
+			Assert.AreEqual("AAA" + now + "BBBabXCCCXYZDDD", tw.ToString());
 		}
 
 #if !NET35 && !NET40
@@ -122,12 +120,12 @@ namespace NamingFormatter.Tests
 				{ "ijkl", "XYZ" }
 			};
 
-			var actual = Named.Format(
-				formatProvider_,
+			var tw = new StringWriter();
+			tw.WriteFormat(
 				"AAA{defgh}BBB{abc}CCC{ijkl}DDD",
 				keyValues);
 
-			Assert.AreEqual("AAA" + now.ToString(formatProvider_) + "BBB123CCCXYZDDD", actual);
+			Assert.AreEqual("AAA" + now + "BBB123CCCXYZDDD", tw.ToString());
 		}
 
 		[Test]
@@ -141,16 +139,16 @@ namespace NamingFormatter.Tests
 				{ "ijkl", "XYZ" }
 			};
 
-			var actual = Named.Format(
-				formatProvider_,
+			var tw = new StringWriter();
+			tw.WriteFormat(
 				"AAA{defgh}BBB{abX}CCC{ijkl}DDD",
 				keyValues,
 				key => key);
 
-			Assert.AreEqual("AAA" + now.ToString(formatProvider_) + "BBBabXCCCXYZDDD", actual);
+			Assert.AreEqual("AAA" + now + "BBBabXCCCXYZDDD", tw.ToString());
 		}
 #endif
-
+		
 		[Test]
 		public void EnumerableOverloadTest()
 		{
@@ -162,12 +160,12 @@ namespace NamingFormatter.Tests
 				{ "ijkl", "XYZ" }
 			};
 
-			var actual = Named.Format(
-				formatProvider_,
+			var tw = new StringWriter();
+			tw.WriteFormat(
 				"AAA{defgh}BBB{abc}CCC{ijkl}DDD",
 				keyValues);
 
-			Assert.AreEqual("AAA" + now.ToString(formatProvider_) + "BBB123CCCXYZDDD", actual);
+			Assert.AreEqual("AAA" + now + "BBB123CCCXYZDDD", tw.ToString());
 		}
 
 		[Test]
@@ -181,13 +179,13 @@ namespace NamingFormatter.Tests
 				{ "ijkl", "XYZ" }
 			};
 
-			var actual = Named.Format(
-				formatProvider_,
+			var tw = new StringWriter();
+			tw.WriteFormat(
 				"AAA{defgh}BBB{abX}CCC{ijkl}DDD",
 				keyValues,
 				key => key);
 
-			Assert.AreEqual("AAA" + now.ToString(formatProvider_) + "BBBabXCCCXYZDDD", actual);
+			Assert.AreEqual("AAA" + now + "BBBabXCCCXYZDDD", tw.ToString());
 		}
 
 		[Test]
@@ -201,12 +199,12 @@ namespace NamingFormatter.Tests
 				new KeyValuePair<string, object?>("ijkl", "XYZ"),
 			};
 
-			var actual = Named.Format(
-				formatProvider_,
+			var tw = new StringWriter();
+			tw.WriteFormat(
 				"AAA{defgh}BBB{abc}CCC{ijkl}DDD",
 				keyValues);
 
-			Assert.AreEqual("AAA" + now.ToString(formatProvider_) + "BBB123CCCXYZDDD", actual);
+			Assert.AreEqual("AAA" + now + "BBB123CCCXYZDDD", tw.ToString());
 		}
 
 		[Test]
@@ -220,13 +218,13 @@ namespace NamingFormatter.Tests
 				new KeyValuePair<string, object?>("ijkl", "XYZ"),
 			};
 
-			var actual = Named.Format(
-				formatProvider_,
+			var tw = new StringWriter();
+			tw.WriteFormat(
 				"AAA{defgh}BBB{abX}CCC{ijkl}DDD",
 				keyValues,
 				key => key);
 
-			Assert.AreEqual("AAA" + now.ToString(formatProvider_) + "BBBabXCCCXYZDDD", actual);
+			Assert.AreEqual("AAA" + now + "BBBabXCCCXYZDDD", tw.ToString());
 		}
 
 		[Test]
@@ -240,12 +238,12 @@ namespace NamingFormatter.Tests
 				new KeyValuePair<string, object?>("ijkl", (object?)"XYZ")
 			};
 
-			var actual = Named.Format(
-				formatProvider_,
+			var tw = new StringWriter();
+			tw.WriteFormat(
 				"AAA{defgh}BBB{abc}CCC{ijkl}DDD",
 				keyValues);
 
-			Assert.AreEqual("AAA" + now.ToString(formatProvider_) + "BBB123CCCXYZDDD", actual);
+			Assert.AreEqual("AAA" + now + "BBB123CCCXYZDDD", tw.ToString());
 		}
 
 		[Test]
@@ -253,19 +251,19 @@ namespace NamingFormatter.Tests
 		{
 			var now = DateTime.Now;
 			var keyValues = new[]
-				{
-					new KeyValuePair<string, object?>("abc", (object?)123),
-					new KeyValuePair<string, object?>("defgh", (object?)now),
-					new KeyValuePair<string, object?>("ijkl", (object?)"XYZ")
-				};
+			{
+				new KeyValuePair<string, object?>("abc", (object?)123),
+				new KeyValuePair<string, object?>("defgh", (object?)now),
+				new KeyValuePair<string, object?>("ijkl", (object?)"XYZ")
+			};
 
-			var actual = Named.Format(
-				formatProvider_,
+			var tw = new StringWriter();
+			tw.WriteFormat(
 				"AAA{defgh}BBB{abX}CCC{ijkl}DDD",
 				keyValues,
 				key => key);
 
-			Assert.AreEqual("AAA" + now.ToString(formatProvider_) + "BBBabXCCCXYZDDD", actual);
+			Assert.AreEqual("AAA" + now + "BBBabXCCCXYZDDD", tw.ToString());
 		}
 
 		[Test]
@@ -279,13 +277,13 @@ namespace NamingFormatter.Tests
 				new KeyValuePair<string, object?>("iJKl", "XYZ"),
 			};
 
-			var actual = Named.Format(
-				formatProvider_,
+			var tw = new StringWriter();
+			tw.WriteFormat(
 				"AAA{Defgh}BBB{abC}CCC{IjkL}DDD",
 				StringComparer.InvariantCultureIgnoreCase,
 				keyValues);
 
-			Assert.AreEqual("AAA" + now.ToString(formatProvider_) + "BBB123CCCXYZDDD", actual);
+			Assert.AreEqual("AAA" + now + "BBB123CCCXYZDDD", tw.ToString());
 		}
 
 		[Test]
@@ -299,14 +297,14 @@ namespace NamingFormatter.Tests
 				new KeyValuePair<string, object?>("iJKl", "XYZ"),
 			};
 
-			var actual = Named.Format(
-				formatProvider_,
+			var tw = new StringWriter();
+			tw.WriteFormat(
 				"AAA{Defgh}BBB{abX}CCC{IjkL}DDD",
 				StringComparer.InvariantCultureIgnoreCase,
 				keyValues,
 				key => key);
 
-			Assert.AreEqual("AAA" + now.ToString(formatProvider_) + "BBBabXCCCXYZDDD", actual);
+			Assert.AreEqual("AAA" + now + "BBBabXCCCXYZDDD", tw.ToString());
 		}
 
 #if !NET35 && !NET40
@@ -316,17 +314,17 @@ namespace NamingFormatter.Tests
 			var now = DateTime.Now;
 			IEnumerable<(string key, object? value)> keyValues = new (string key, object? value)[]
 			{
-				("abc", 123),
-				("defgh", now),
-				("ijkl", "XYZ"),
+				( "abc", 123 ),
+				( "defgh", now ),
+				( "ijkl", "XYZ" )
 			};
 
-			var actual = Named.Format(
-				formatProvider_,
+			var tw = new StringWriter();
+			tw.WriteFormat(
 				"AAA{defgh}BBB{abc}CCC{ijkl}DDD",
 				keyValues);
 
-			Assert.AreEqual("AAA" + now.ToString(formatProvider_) + "BBB123CCCXYZDDD", actual);
+			Assert.AreEqual("AAA" + now + "BBB123CCCXYZDDD", tw.ToString());
 		}
 
 		[Test]
@@ -335,59 +333,57 @@ namespace NamingFormatter.Tests
 			var now = DateTime.Now;
 			IEnumerable<(string key, object? value)> keyValues = new (string key, object? value)[]
 			{
-				("abc", 123),
-				("defgh", now),
-				("ijkl", "XYZ"),
+				( "abc", 123 ),
+				( "defgh", now ),
+				( "ijkl", "XYZ" )
 			};
 
-			var actual = Named.Format(
-				formatProvider_,
+			var tw = new StringWriter();
+			tw.WriteFormat(
 				"AAA{defgh}BBB{abX}CCC{ijkl}DDD",
 				keyValues,
 				key => key);
 
-			Assert.AreEqual("AAA" + now.ToString(formatProvider_) + "BBBabXCCCXYZDDD", actual);
+			Assert.AreEqual("AAA" + now + "BBBabXCCCXYZDDD", tw.ToString());
 		}
 
 		[Test]
 		public void TupleEnumerableOverloadWithNoListTest()
 		{
 			var now = DateTime.Now;
-			var keyValues = new[]
+			var keyValues = new (string key, object? value)[]
 			{
-				("abc", (object?)123),
-				("defgh", (object?)now),
-				("ijkl", (object?)"XYZ")
-			}.
-			Select(entry => (key: entry.Item1, value: entry.Item2));
+				( "abc", 123 ),
+				( "defgh", now ),
+				( "ijkl", "XYZ" )
+			}.Select(entry => (key: entry.Item1, value: entry.Item2));
 
-			var actual = Named.Format(
-				formatProvider_,
+			var tw = new StringWriter();
+			tw.WriteFormat(
 				"AAA{defgh}BBB{abc}CCC{ijkl}DDD",
 				keyValues);
 
-			Assert.AreEqual("AAA" + now.ToString(formatProvider_) + "BBB123CCCXYZDDD", actual);
+			Assert.AreEqual("AAA" + now + "BBB123CCCXYZDDD", tw.ToString());
 		}
 
 		[Test]
 		public void TupleEnumerableOverloadWithNoListAndFallbackTest()
 		{
 			var now = DateTime.Now;
-			var keyValues = new[]
-				{
-					("abc", (object?)123),
-					("defgh", (object?)now),
-					("ijkl", (object?)"XYZ")
-				}.
-				Select(entry => (key: entry.Item1, value: entry.Item2));
+			var keyValues = new (string key, object? value)[]
+			{
+				( "abc", 123 ),
+				( "defgh", now ),
+				( "ijkl", "XYZ" )
+			}.Select(entry => (key: entry.Item1, value: entry.Item2));
 
-			var actual = Named.Format(
-				formatProvider_,
+			var tw = new StringWriter();
+			tw.WriteFormat(
 				"AAA{defgh}BBB{abX}CCC{ijkl}DDD",
 				keyValues,
 				key => key);
 
-			Assert.AreEqual("AAA" + now.ToString(formatProvider_) + "BBBabXCCCXYZDDD", actual);
+			Assert.AreEqual("AAA" + now + "BBBabXCCCXYZDDD", tw.ToString());
 		}
 
 		[Test]
@@ -401,13 +397,13 @@ namespace NamingFormatter.Tests
 				("iJKl", "XYZ"),
 			};
 
-			var actual = Named.Format(
-				formatProvider_,
+			var tw = new StringWriter();
+			tw.WriteFormat(
 				"AAA{Defgh}BBB{abC}CCC{IjkL}DDD",
 				StringComparer.InvariantCultureIgnoreCase,
 				keyValues);
 
-			Assert.AreEqual("AAA" + now.ToString(formatProvider_) + "BBB123CCCXYZDDD", actual);
+			Assert.AreEqual("AAA" + now + "BBB123CCCXYZDDD", tw.ToString());
 		}
 
 		[Test]
@@ -421,14 +417,14 @@ namespace NamingFormatter.Tests
 				("iJKl", "XYZ"),
 			};
 
-			var actual = Named.Format(
-				formatProvider_,
+			var tw = new StringWriter();
+			tw.WriteFormat(
 				"AAA{Defgh}BBB{abX}CCC{IjkL}DDD",
 				StringComparer.InvariantCultureIgnoreCase,
 				keyValues,
 				key => key);
 
-			Assert.AreEqual("AAA" + now.ToString(formatProvider_) + "BBBabXCCCXYZDDD", actual);
+			Assert.AreEqual("AAA" + now + "BBBabXCCCXYZDDD", tw.ToString());
 		}
 #endif
 	}
