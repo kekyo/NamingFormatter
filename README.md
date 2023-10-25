@@ -83,7 +83,7 @@ var formatted = Named.Format(
 
 ## Environments
 
-* .NET 7 to 5
+* .NET 8 to 5
 * .NET Standard 1.0, 2.0, 2.1 (Will effect .NET Core 1.0-3.1)
 * .NET Framework 3.5, 4.0 with client profile, 4.5 to 4.8.1
 
@@ -199,6 +199,8 @@ var formatted = Named.Format(
 
 ## History
 
+* 2.3.0:
+  * Added .NET 8.0 RC2 assembly.
 * 2.2.0:
   * Added field lookup ability.
   * Reduced package dependency.

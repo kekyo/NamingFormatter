@@ -15,5 +15,10 @@ rem WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 rem See the License for the specific language governing permissions and
 rem limitations under the License.
 
-dotnet build -p:Configuration=Release -p:Platform=AnyCPU NamingFormatter\NamingFormatter.csproj
-dotnet pack -p:Configuration=Release -p:Platform=AnyCPU -o artifacts NamingFormatter\NamingFormatter.csproj
+echo.
+echo "==========================================================="
+echo "Build NamingFormatter"
+echo.
+
+dotnet build -p:Configuration=Release -p:Platform="Any CPU" -p:RestoreNoCache=True NamingFormatter.sln
+dotnet pack -p:Configuration=Release -p:Platform="Any CPU" -o artifacts NamingFormatter.sln
