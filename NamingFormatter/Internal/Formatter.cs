@@ -141,7 +141,9 @@ namespace NamingFormatter.Internal
         public static (string format, object?[] args) PreFormat(
             string format,
             Func<string, object?> selector,
-            PreFormatOptions options)
+            PreFormatOptions options,
+            string bracketStart,
+            string bracketEnd)
         {
             var cooked = new StringBuilder();
             var args = new List<object?>();
@@ -153,7 +155,8 @@ namespace NamingFormatter.Internal
                 switch (state)
                 {
                     case States.Normal:
-                        var bracketIndex = format.IndexOf('{', currentIndex);
+                        var bracketIndex = format.IndexOf(
+                            bracketStart, currentIndex, StringComparison.Ordinal);
                         if (bracketIndex == -1)
                         {
                             cooked.Append(format.Substring(currentIndex));
@@ -161,16 +164,16 @@ namespace NamingFormatter.Internal
                         }
                         else
                         {
-                            var nextIndex = bracketIndex + 1;
-                            cooked.Append(format.Substring(currentIndex, nextIndex - currentIndex));
-                            currentIndex = nextIndex;
+                            cooked.Append(format.Substring(currentIndex, bracketIndex - currentIndex));
+                            cooked.Append('{');
+                            currentIndex = bracketIndex + bracketStart.Length;
                             state = States.EnterKey;
                         }
                         break;
 
                     case States.EnterKey:
                         // '{{'
-                        if (format[currentIndex] == '{')
+                        if (bracketStart == "{" && format[currentIndex] == '{')
                         {
                             cooked.Append('{');
                             currentIndex++;
@@ -179,31 +182,48 @@ namespace NamingFormatter.Internal
                             continue;
                         }
 
-                        var finishIndex = format.IndexOfAny(finishFormatChars_, currentIndex);
-                        if (finishIndex == -1)
+                        void TakeTrails(int finishIndex)
                         {
-                            throw new FormatException("Couldn't find close bracket.");
+                            var key = format.Substring(currentIndex, finishIndex - currentIndex);
+                            switch (TryGetValueBySelector(selector, key, out var value))
+                            {
+                                case Results.InvalidPropertyPath when
+                                    (options & PreFormatOptions.IgnoreInvalidPropertyPath) != PreFormatOptions.IgnoreInvalidPropertyPath:
+                                case Results.Terminated when
+                                    (options & PreFormatOptions.IgnoreIfTerminated) != PreFormatOptions.IgnoreIfTerminated:
+                                    throw new ArgumentException($"Couldn't find a key: {key}");
+                            }
+
+                            cooked.Append(args.Count);
+                            args.Add(value);
                         }
 
-                        var key = format.Substring(currentIndex, finishIndex - currentIndex);
-                        switch (TryGetValueBySelector(selector, key, out var value))
+                        var separatorIndex = format.IndexOfAny([ ':', ',' ], currentIndex);
+                        var finishIndex = format.IndexOf(
+                            bracketEnd, currentIndex, StringComparison.Ordinal);
+                        switch (separatorIndex, finishIndex)
                         {
-                            case Results.InvalidPropertyPath when
-                                (options & PreFormatOptions.IgnoreInvalidPropertyPath) != PreFormatOptions.IgnoreInvalidPropertyPath:
-                            case Results.Terminated when
-                                (options & PreFormatOptions.IgnoreIfTerminated) != PreFormatOptions.IgnoreIfTerminated:
-                                throw new ArgumentException($"Couldn't find a key: {key}");
+                            case (-1, -1):
+                                throw new FormatException("Couldn't find close bracket.");
+                            case (-1, _):
+                            case (_, _) when finishIndex < separatorIndex:
+                                TakeTrails(finishIndex);
+                                cooked.Append('}');
+                                currentIndex = finishIndex + bracketEnd.Length;
+                                state = States.Normal;
+                                break;
+                            default:
+                                TakeTrails(separatorIndex);
+                                cooked.Append(format[separatorIndex]);
+                                currentIndex = separatorIndex + 1;
+                                state = States.Closing;
+                                break;
                         }
-
-                        cooked.Append(args.Count);
-                        args.Add(value);
-                        currentIndex = finishIndex;
-
-                        state = States.Closing;
                         break;
                     
                     case States.Closing:
-                        var bracketIndex2 = format.IndexOf('}', currentIndex);
+                        var bracketIndex2 = format.IndexOf(
+                            bracketEnd, currentIndex, StringComparison.Ordinal);
                         if (bracketIndex2 == -1)
                         {
                             cooked.Append(format.Substring(currentIndex));
@@ -211,7 +231,7 @@ namespace NamingFormatter.Internal
                         }
                         else
                         {
-                            var nextIndex = bracketIndex2 + 1;
+                            var nextIndex = bracketIndex2 + bracketEnd.Length;
                             cooked.Append(format.Substring(currentIndex, nextIndex - currentIndex));
                             currentIndex = nextIndex;
                         }

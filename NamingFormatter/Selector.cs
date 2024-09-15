@@ -66,7 +66,11 @@ namespace NamingFormatter
                 throw new ArgumentNullException(nameof(selector));
             }
 
-            var (formatted, args) = Formatter.PreFormat(format, selector, PreFormatOptions.IgnoreBoth);
+            var (formatted, args) = Formatter.PreFormat(
+                format, selector,
+                PreFormatOptions.IgnoreBoth,
+                "{",
+                "}");
             tw.Write(formatted, args);
         }
 
@@ -108,7 +112,12 @@ namespace NamingFormatter
                 throw new ArgumentNullException(nameof(selector));
             }
 
-            var (formatted, args) = Formatter.PreFormat(format, selector, PreFormatOptions.IgnoreBoth);
+            var (formatted, args) = Formatter.PreFormat(
+                format,
+                selector,
+                PreFormatOptions.IgnoreBoth,
+                "{",
+                "}");
             return tw.WriteAsync(string.Format(formatted, args));
         }
 #endif
