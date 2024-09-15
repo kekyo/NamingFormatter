@@ -27,6 +27,18 @@ using System.Threading.Tasks;
 
 namespace NamingFormatter
 {
+    public readonly struct FormatOptions
+    {
+        public readonly string? BracketStart;
+        public readonly string? BracketEnd;
+
+        public FormatOptions(string bracketStart, string bracketEnd)
+        {
+            this.BracketStart = bracketStart;
+            this.BracketEnd = bracketEnd;
+        }
+    }
+    
     partial class Named
     {
         /// <summary>
@@ -35,6 +47,7 @@ namespace NamingFormatter
         /// <param name="tw">Formatted text writer.</param>
         /// <param name="format">The format string (can include format-key).</param>
         /// <param name="selector">format-key to value selector delegate.</param>
+        /// <param name="options">Options</param>
         /// <example>
         /// <code>
         /// // Format string by format-key-values.
@@ -51,7 +64,8 @@ namespace NamingFormatter
         public static void WriteFormat(
             this TextWriter tw,
             string format,
-            Func<string, object?> selector)
+            Func<string, object?> selector,
+            FormatOptions options = default)
         {
             if (tw == null)
             {
@@ -66,7 +80,11 @@ namespace NamingFormatter
                 throw new ArgumentNullException(nameof(selector));
             }
 
-            var (formatted, args) = Formatter.PreFormat(format, selector, PreFormatOptions.IgnoreBoth);
+            var (formatted, args) = Formatter.PreFormat(
+                format, selector,
+                PreFormatOptions.IgnoreBoth,
+                options.BracketStart ?? "{",
+                options.BracketEnd ?? "}");
             tw.Write(formatted, args);
         }
 
@@ -77,6 +95,7 @@ namespace NamingFormatter
         /// <param name="tw">Formatted text writer.</param>
         /// <param name="format">The format string (can include format-key).</param>
         /// <param name="selector">format-key to value selector delegate.</param>
+        /// <param name="options">Options</param>
         /// <example>
         /// <code>
         /// // Format string by format-key-values.
@@ -93,7 +112,8 @@ namespace NamingFormatter
         public static Task WriteFormatAsync(
             this TextWriter tw,
             string format,
-            Func<string, object?> selector)
+            Func<string, object?> selector,
+            FormatOptions options = default)
         {
             if (tw == null)
             {
@@ -108,7 +128,12 @@ namespace NamingFormatter
                 throw new ArgumentNullException(nameof(selector));
             }
 
-            var (formatted, args) = Formatter.PreFormat(format, selector, PreFormatOptions.IgnoreBoth);
+            var (formatted, args) = Formatter.PreFormat(
+                format,
+                selector,
+                PreFormatOptions.IgnoreBoth,
+                options.BracketStart ?? "{",
+                options.BracketEnd ?? "}");
             return tw.WriteAsync(string.Format(formatted, args));
         }
 #endif
@@ -119,6 +144,7 @@ namespace NamingFormatter
         /// <param name="formatProvider">The format provider.</param>
         /// <param name="format">The format string (can include format-key).</param>
         /// <param name="selector">format-key to value selector delegate.</param>
+        /// <param name="options">Options</param>
         /// <returns>Formatted string.</returns>
         /// <example>
         /// <code>
@@ -135,7 +161,8 @@ namespace NamingFormatter
         public static string Format(
             IFormatProvider formatProvider,
             string format,
-            Func<string, object?> selector)
+            Func<string, object?> selector,
+            FormatOptions options = default)
         {
             if (formatProvider == null)
             {
@@ -143,7 +170,7 @@ namespace NamingFormatter
             }
 
             var tw = new StringWriter(formatProvider);
-            tw.WriteFormat(format, selector);
+            tw.WriteFormat(format, selector, options);
             return tw.ToString();
         }
 
@@ -152,6 +179,7 @@ namespace NamingFormatter
         /// </summary>
         /// <param name="format">The format string (can include format-key).</param>
         /// <param name="selector">format-key to value selector delegate.</param>
+        /// <param name="options">Options</param>
         /// <returns>Formatted string.</returns>
         /// <remarks>
         /// This method is minimum basic interface.
@@ -172,10 +200,11 @@ namespace NamingFormatter
         /// </example>
         public static string Format(
             string format,
-            Func<string, object?> selector)
+            Func<string, object?> selector,
+            FormatOptions options = default)
         {
             var tw = new StringWriter();
-            tw.WriteFormat(format, selector);
+            tw.WriteFormat(format, selector, options);
             return tw.ToString();
         }
     }

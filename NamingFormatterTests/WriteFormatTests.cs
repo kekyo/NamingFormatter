@@ -29,6 +29,45 @@ namespace NamingFormatter.Tests
 	public class WriteFormatTests
 	{
 		[Test]
+		public void ParameterTest()
+		{
+			var now = DateTime.Now;
+			IDictionary<string, object?> keyValues = new Dictionary<string, object?>()
+			{
+				{ "abc", 123 },
+				{ "defgh", now },
+				{ "ijkl", "XYZ" }
+			};
+
+			var tw = new StringWriter();
+			tw.WriteFormat(
+				"AAA{defgh:yyyMMdd}BBB{abc:X}CCC{ijkl}DDD",
+				keyValues);
+
+			Assert.AreEqual("AAA" + now.ToString("yyyyMMdd") + "BBB" + 123.ToString("X") + "CCCXYZDDD", tw.ToString());
+		}
+
+		[Test]
+		public void CustomBracketTest()
+		{
+			var now = DateTime.Now;
+			IDictionary<string, object?> keyValues = new Dictionary<string, object?>()
+			{
+				{ "abc", 123 },
+				{ "defgh", now },
+				{ "ijkl", "XYZ" }
+			};
+
+			var tw = new StringWriter();
+			tw.WriteFormat(
+				"AAA@[defgh:yyyMMdd#$]BBB@[abc:X#$]CCC@[ijkl#$]DDD",
+				keyValues,
+				new("@[", "#$]"));
+
+			Assert.AreEqual("AAA" + now.ToString("yyyyMMdd") + "BBB" + 123.ToString("X") + "CCCXYZDDD", tw.ToString());
+		}
+
+		[Test]
 		public void DictionaryOverloadTest()
 		{
 			var now = DateTime.Now;

@@ -130,6 +130,21 @@ var formatted = Named.Format(
 ``` csharp
 using NamingFormatter;
 
+// Produce Key-value combination in the Dictionary class.
+var kvs = new Dictionary<string, object?>()
+{
+    {"value", 123.456},
+    {"name", "Kouji"},
+    {"date", DateTime.Now},
+};
+var formatted = Named.Format(
+    "Date:{date:R}, Value:{value:E}, Name:{name}",
+    kvs);
+```
+
+``` csharp
+using NamingFormatter;
+
 // Format to TextWriter.
 var sw = new StreamWriter(stream);
 sw.WriteFormat(
@@ -188,17 +203,38 @@ var formatted = Named.Format(
     Named.Pair("date", DateTime.Now));
 ```
 
+``` csharp
+using NamingFormatter;
+
+// You can use custom bracket definition,
+// when requires changing both your start and end bracket character instead of '{ ... }':
+var kvs = new Dictionary<string, object?>()
+{
+    {"value", 123.456},
+    {"name", "Kouji"},
+    {"date", DateTime.Now},
+};
+var formatted = Named.Format(
+    "Date:{date:R}, Value:{value:E}, Name:{name}",
+    kvs,
+    // Bracket pair: '@[ ... ]@'
+    new FormatOptions("@[", "]@"));
+```
+
+
 ## TODO
 
 * F# friendly version.
 
 ## License
 
-* Copyright (c) 2016-2020 Kouji Matsui
+* Copyright (c) 2016-2024 Kouji Matsui
 * Under Apache v2
 
 ## History
 
+* 2.4.0:
+  * Added custom bracket feature (Rebuild required).
 * 2.3.0:
   * Added .NET 8.0 RC2 assembly.
 * 2.2.0:
@@ -210,21 +246,30 @@ var formatted = Named.Format(
 * 2.0.22:
   * Added fallback delegate features.
   * Included xml documents.
-* 2.0.18: Added net461 and net47 assemblies because reduce conflict between netstandard2.0.
+* 2.0.18:
+  * Added net461 and net47 assemblies because reduce conflict between netstandard2.0.
 * 2.0.17:
   * Added ValueTuple overloads.
   * Added asynchronous overloads.
-* 2.0.16: Fixed not including net35 assembly.
+* 2.0.16:
+  * Fixed not including net35 assembly.
 * 2.0.15:
   * Breaking change: Changed the NuGet package name from "NamingFormatter" to "NamingFormatter".
   * Breaking change: Changed namespace name from "CenterCLR" to "NamingFormatter".
   * Added some target frameworks.
   * Omitted strong-key signing.
   * Switched and aggregated CI to GitHub Actions.
-* 2.0.0: Upgraded new MSBuild format and omit PCL versions.
-* 1.1.1: Fixed via CI (AppVeyor, Fixed RelaxVersioner)
-* 1.1.0: Add support platform .NET Core (formally "dnxcore").
-* 1.0.0: Omit IFormatProvider method extension attribute.
-* 0.9.6: Versioning fixed.
-* 0.9.5: Add nuget package, Support structual-key, Support .NET 2/.NET 3.5.
-* 0.0.0: Initial commit.
+* 2.0.0:
+  * Upgraded new MSBuild format and omit PCL versions.
+* 1.1.1:
+  * Fixed via CI (AppVeyor, Fixed RelaxVersioner)
+* 1.1.0:
+  * Add support platform .NET Core (formally "dnxcore").
+* 1.0.0:
+  * Omit IFormatProvider method extension attribute.
+* 0.9.6:
+  * Versioning fixed.
+* 0.9.5:
+  * Add nuget package, Support structual-key, Support .NET 2/.NET 3.5.
+* 0.0.0:
+  * Initial commit.
