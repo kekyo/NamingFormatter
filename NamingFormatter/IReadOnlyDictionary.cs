@@ -36,6 +36,7 @@ namespace NamingFormatter
         /// <param name="tw">Format text writer.</param>
         /// <param name="format">The format string (can include format-key).</param>
         /// <param name="keyValues">Key-value dictionary.</param>
+        /// <param name="options">Options</param>
         /// <returns>Formatted string.</returns>
         /// <example>
         /// <code>
@@ -58,7 +59,8 @@ namespace NamingFormatter
         public static void WriteFormat(
             this TextWriter tw,
             string format,
-            IReadOnlyDictionary<string, object?> keyValues)
+            IReadOnlyDictionary<string, object?> keyValues,
+            FormatOptions options = default)
         {
             if (keyValues == null)
             {
@@ -68,7 +70,8 @@ namespace NamingFormatter
             WriteFormat(
                 tw,
                 format,
-                key => keyValues[key]);
+                key => keyValues[key],
+                options);
         }
 
         /// <summary>
@@ -78,6 +81,7 @@ namespace NamingFormatter
         /// <param name="format">The format string (can include format-key).</param>
         /// <param name="keyValues">Key-value dictionary.</param>
         /// <param name="fallback">Fallback delegate.</param>
+        /// <param name="options">Options</param>
         /// <returns>Formatted string.</returns>
         /// <example>
         /// <code>
@@ -102,7 +106,8 @@ namespace NamingFormatter
             this TextWriter tw,
             string format,
             IReadOnlyDictionary<string, object?> keyValues,
-            Func<string, object?> fallback)
+            Func<string, object?> fallback,
+            FormatOptions options = default)
         {
             if (keyValues == null)
             {
@@ -118,7 +123,8 @@ namespace NamingFormatter
                 format,
                 key => keyValues.TryGetValue(key, out var value) ?
                     value :
-                    fallback(key));
+                    fallback(key),
+                options);
         }
 
         /// <summary>
@@ -127,6 +133,7 @@ namespace NamingFormatter
         /// <param name="tw">Format text writer.</param>
         /// <param name="format">The format string (can include format-key).</param>
         /// <param name="keyValues">Key-value dictionary.</param>
+        /// <param name="options">Options</param>
         /// <returns>Formatted string.</returns>
         /// <example>
         /// <code>
@@ -149,7 +156,8 @@ namespace NamingFormatter
         public static Task WriteFormatAsync(
             this TextWriter tw,
             string format,
-            IReadOnlyDictionary<string, object?> keyValues)
+            IReadOnlyDictionary<string, object?> keyValues,
+            FormatOptions options = default)
         {
             if (keyValues == null)
             {
@@ -159,7 +167,8 @@ namespace NamingFormatter
             return WriteFormatAsync(
                 tw,
                 format,
-                key => keyValues[key]);
+                key => keyValues[key],
+                options);
         }
 
         /// <summary>
@@ -169,6 +178,7 @@ namespace NamingFormatter
         /// <param name="format">The format string (can include format-key).</param>
         /// <param name="keyValues">Key-value dictionary.</param>
         /// <param name="fallback">Fallback delegate.</param>
+        /// <param name="options">Options</param>
         /// <returns>Formatted string.</returns>
         /// <example>
         /// <code>
@@ -193,7 +203,8 @@ namespace NamingFormatter
             this TextWriter tw,
             string format,
             IReadOnlyDictionary<string, object?> keyValues,
-            Func<string, object?> fallback)
+            Func<string, object?> fallback,
+            FormatOptions options = default)
         {
             if (keyValues == null)
             {
@@ -209,7 +220,8 @@ namespace NamingFormatter
                 format,
                 key => keyValues.TryGetValue(key, out var value) ?
                     value :
-                    fallback(key));
+                    fallback(key),
+                options);
         }
 
         /// <summary>
@@ -219,6 +231,7 @@ namespace NamingFormatter
         /// <param name="formatProvider">The format provider.</param>
         /// <param name="format">The format string (can include format-key).</param>
         /// <param name="keyValues">Key-value dictionary.</param>
+        /// <param name="options">Options</param>
         /// <returns>Formatted string.</returns>
         /// <example>
         /// <code>
@@ -240,7 +253,8 @@ namespace NamingFormatter
         public static string Format<TDictionary>(
             IFormatProvider formatProvider,
             string format,
-            TDictionary keyValues)
+            TDictionary keyValues,
+            FormatOptions options = default)
             where TDictionary : IReadOnlyDictionary<string, object?>
         {
             if (keyValues == null)
@@ -251,7 +265,8 @@ namespace NamingFormatter
             return Format(
                 formatProvider,
                 format,
-                key => keyValues[key]);
+                key => keyValues[key],
+                options);
         }
 
         /// <summary>
@@ -262,6 +277,7 @@ namespace NamingFormatter
         /// <param name="format">The format string (can include format-key).</param>
         /// <param name="keyValues">Key-value dictionary.</param>
         /// <param name="fallback">Fallback delegate.</param>
+        /// <param name="options">Options</param>
         /// <returns>Formatted string.</returns>
         /// <example>
         /// <code>
@@ -285,7 +301,8 @@ namespace NamingFormatter
             IFormatProvider formatProvider,
             string format,
             TDictionary keyValues,
-            Func<string, object?> fallback)
+            Func<string, object?> fallback,
+            FormatOptions options = default)
             where TDictionary : IReadOnlyDictionary<string, object?>
         {
             if (keyValues == null)
@@ -302,7 +319,8 @@ namespace NamingFormatter
                 format,
                 key => keyValues.TryGetValue(key, out var value) ?
                     value :
-                    fallback(key));
+                    fallback(key),
+                options);
         }
 
         /// <summary>
@@ -311,6 +329,7 @@ namespace NamingFormatter
         /// <typeparam name="TDictionary">IReadOnlyDictionary derived type.</typeparam>
         /// <param name="format">The format string (can include format-key).</param>
         /// <param name="keyValues">Key-value dictionary.</param>
+        /// <param name="options"></param>
         /// <returns>Formatted string.</returns>
         /// <example>
         /// <code>
@@ -331,7 +350,8 @@ namespace NamingFormatter
         /// </example>
         public static string Format<TDictionary>(
             string format,
-            TDictionary keyValues)
+            TDictionary keyValues,
+            FormatOptions options = default)
             where TDictionary : IReadOnlyDictionary<string, object?>
         {
             if (keyValues == null)
@@ -341,7 +361,8 @@ namespace NamingFormatter
 
             return Format(
                 format,
-                key => keyValues[key]);
+                key => keyValues[key],
+                options);
         }
 
         /// <summary>
@@ -351,6 +372,7 @@ namespace NamingFormatter
         /// <param name="format">The format string (can include format-key).</param>
         /// <param name="keyValues">Key-value dictionary.</param>
         /// <param name="fallback">Fallback delegate.</param>
+        /// <param name="options">Options</param>
         /// <returns>Formatted string.</returns>
         /// <example>
         /// <code>
@@ -373,7 +395,8 @@ namespace NamingFormatter
         public static string Format<TDictionary>(
             string format,
             TDictionary keyValues,
-            Func<string, object?> fallback)
+            Func<string, object?> fallback,
+            FormatOptions options = default)
             where TDictionary : IReadOnlyDictionary<string, object?>
         {
             if (keyValues == null)
@@ -389,7 +412,8 @@ namespace NamingFormatter
                 format,
                 key => keyValues.TryGetValue(key, out var value) ?
                     value :
-                    fallback(key));
+                    fallback(key),
+                options);
         }
     }
 #endif

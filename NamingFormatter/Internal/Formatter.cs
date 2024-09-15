@@ -232,7 +232,9 @@ namespace NamingFormatter.Internal
                         else
                         {
                             var nextIndex = bracketIndex2 + bracketEnd.Length;
-                            cooked.Append(format.Substring(currentIndex, nextIndex - currentIndex));
+                            cooked.Append(format.Substring(
+                                currentIndex, nextIndex - currentIndex - bracketEnd.Length));
+                            cooked.Append('}');
                             currentIndex = nextIndex;
                         }
                         state = States.Normal;

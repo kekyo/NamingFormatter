@@ -35,6 +35,7 @@ namespace NamingFormatter
         /// <param name="tw">Format text writer.</param>
         /// <param name="format">The format string (can include format-key).</param>
         /// <param name="keyValues">Key-value enumerator.</param>
+        /// <param name="options">Options</param>
         /// <returns>Formatted string.</returns>
         /// <example>
         /// <code>
@@ -62,12 +63,14 @@ namespace NamingFormatter
         static void WriteFormat(
             this TextWriter tw,
             string format,
-            IEnumerable<(string key, object? value)> keyValues) =>
+            IEnumerable<(string key, object? value)> keyValues,
+            FormatOptions options = default) =>
             WriteFormat(
                 tw,
                 format,
                 (key1, key2) => key1 == key2,
-                keyValues);
+                keyValues,
+                options);
 
         /// <summary>
         /// Format string with named format-key.
@@ -76,6 +79,7 @@ namespace NamingFormatter
         /// <param name="format">The format string (can include format-key).</param>
         /// <param name="keyValues">Key-value enumerator.</param>
         /// <param name="fallback">Fallback delegate.</param>
+        /// <param name="options">Options</param>
         /// <returns>Formatted string.</returns>
         /// <example>
         /// <code>
@@ -105,13 +109,15 @@ namespace NamingFormatter
             this TextWriter tw,
             string format,
             IEnumerable<(string key, object? value)> keyValues,
-            Func<string, object?> fallback) =>
+            Func<string, object?> fallback,
+            FormatOptions options = default) =>
             WriteFormat(
                 tw,
                 format,
                 (key1, key2) => key1 == key2,
                 keyValues,
-                fallback);
+                fallback,
+                options);
 
         /// <summary>
         /// Format string with named format-key.
@@ -144,6 +150,41 @@ namespace NamingFormatter
                 format,
                 (key1, key2) => key1 == key2,
                 keyValues);
+
+        /// <summary>
+        /// Format string with named format-key.
+        /// </summary>
+        /// <param name="tw">Format text writer.</param>
+        /// <param name="format">The format string (can include format-key).</param>
+        /// <param name="options">Options</param>
+        /// <param name="keyValues">Key-value arguments.</param>
+        /// <returns>Formatted string.</returns>
+        /// <example>
+        /// <code>
+        /// // Format string by format-key-values.
+        /// var result = new CultureInfo("fr-FR").Format(
+        ///     "AAA{fgh:R}BBB{abcde}CCC{ijkl:E}",
+        ///     ("abcde", 123),
+        ///		("fgh", DateTime.Now),
+        ///		("ijkl", 456.789));
+        /// </code>
+        /// </example>
+#if NET35 || NET40
+        private
+#else
+        public
+#endif
+        static void WriteFormat(
+            this TextWriter tw,
+            string format,
+            FormatOptions options,
+            params (string key, object? value)[] keyValues) =>
+            WriteFormat(
+                tw,
+                format,
+                (key1, key2) => key1 == key2,
+                keyValues,
+                options);
 
         /// <summary>
         /// Format string with named format-key.
@@ -180,6 +221,45 @@ namespace NamingFormatter
                 (key1, key2) => key1 == key2,
                 keyValues,
                 fallback);
+
+        /// <summary>
+        /// Format string with named format-key.
+        /// </summary>
+        /// <param name="tw">Format text writer.</param>
+        /// <param name="format">The format string (can include format-key).</param>
+        /// <param name="fallback">Fallback delegate.</param>
+        /// <param name="options">Options</param>
+        /// <param name="keyValues">Key-value arguments.</param>
+        /// <returns>Formatted string.</returns>
+        /// <example>
+        /// <code>
+        /// // Format string by format-key-values.
+        /// var result = new CultureInfo("fr-FR").Format(
+        ///     "AAA{fgh:R}BBB{abcde}CCC{ijkl:E}",
+        ///     key => "***",
+        ///     ("abcde", 123),
+        ///		("fgh", DateTime.Now),
+        ///		("ijkl", 456.789));
+        /// </code>
+        /// </example>
+#if NET35 || NET40
+        private
+#else
+        public
+#endif
+        static void WriteFormat(
+            this TextWriter tw,
+            string format,
+            Func<string, object?> fallback,
+            FormatOptions options,
+            params (string key, object? value)[] keyValues) =>
+            WriteFormat(
+                tw,
+                format,
+                (key1, key2) => key1 == key2,
+                keyValues,
+                fallback,
+                options);
 
 #if !NET35 && !NET40
         /// <summary>
@@ -188,6 +268,7 @@ namespace NamingFormatter
         /// <param name="tw">Format text writer.</param>
         /// <param name="format">The format string (can include format-key).</param>
         /// <param name="keyValues">Key-value enumerator.</param>
+        /// <param name="options">Options</param>
         /// <returns>Formatted string.</returns>
         /// <example>
         /// <code>
@@ -210,12 +291,14 @@ namespace NamingFormatter
         public static Task WriteFormatAsync(
             this TextWriter tw,
             string format,
-            IEnumerable<(string key, object? value)> keyValues) =>
+            IEnumerable<(string key, object? value)> keyValues,
+            FormatOptions options = default) =>
             WriteFormatAsync(
                 tw,
                 format,
                 (key1, key2) => key1 == key2,
-                keyValues);
+                keyValues,
+                options);
 
         /// <summary>
         /// Format string with named format-key.
@@ -224,6 +307,7 @@ namespace NamingFormatter
         /// <param name="format">The format string (can include format-key).</param>
         /// <param name="keyValues">Key-value enumerator.</param>
         /// <param name="fallback">Fallback delegate.</param>
+        /// <param name="options">Options</param>
         /// <returns>Formatted string.</returns>
         /// <example>
         /// <code>
@@ -248,13 +332,15 @@ namespace NamingFormatter
             this TextWriter tw,
             string format,
             IEnumerable<(string key, object? value)> keyValues,
-            Func<string, object?> fallback) =>
+            Func<string, object?> fallback,
+            FormatOptions options = default) =>
             WriteFormatAsync(
                 tw,
                 format,
                 (key1, key2) => key1 == key2,
                 keyValues,
-                fallback);
+                fallback,
+                options);
 
         /// <summary>
         /// Format string with named format-key.
@@ -288,6 +374,36 @@ namespace NamingFormatter
         /// </summary>
         /// <param name="tw">Format text writer.</param>
         /// <param name="format">The format string (can include format-key).</param>
+        /// <param name="options">Options</param>
+        /// <param name="keyValues">Key-value enumerator.</param>
+        /// <returns>Formatted string.</returns>
+        /// <example>
+        /// <code>
+        /// // Format string by format-key-values.
+        /// var result = new CultureInfo("fr-FR").Format(
+        ///     "AAA{fgh:R}BBB{abcde}CCC{ijkl:E}",
+        ///     ("abcde", 123),
+        ///		("fgh", DateTime.Now),
+        ///		("ijkl", 456.789));
+        /// </code>
+        /// </example>
+        public static Task WriteFormatAsync(
+            this TextWriter tw,
+            string format,
+            FormatOptions options,
+            params (string key, object? value)[] keyValues) =>
+            WriteFormatAsync(
+                tw,
+                format,
+                (key1, key2) => key1 == key2,
+                keyValues,
+                options);
+
+        /// <summary>
+        /// Format string with named format-key.
+        /// </summary>
+        /// <param name="tw">Format text writer.</param>
+        /// <param name="format">The format string (can include format-key).</param>
         /// <param name="fallback">Fallback delegate.</param>
         /// <param name="keyValues">Key-value enumerator.</param>
         /// <returns>Formatted string.</returns>
@@ -313,6 +429,40 @@ namespace NamingFormatter
                 (key1, key2) => key1 == key2,
                 keyValues,
                 fallback);
+
+        /// <summary>
+        /// Format string with named format-key.
+        /// </summary>
+        /// <param name="tw">Format text writer.</param>
+        /// <param name="format">The format string (can include format-key).</param>
+        /// <param name="fallback">Fallback delegate.</param>
+        /// <param name="options">Options</param>
+        /// <param name="keyValues">Key-value enumerator.</param>
+        /// <returns>Formatted string.</returns>
+        /// <example>
+        /// <code>
+        /// // Format string by format-key-values.
+        /// var result = new CultureInfo("fr-FR").Format(
+        ///     "AAA{fgh:R}BBB{abcde}CCC{ijkl:E}",
+        ///     key => "***",
+        ///     ("abcde", 123),
+        ///		("fgh", DateTime.Now),
+        ///		("ijkl", 456.789));
+        /// </code>
+        /// </example>
+        public static Task WriteFormatAsync(
+            this TextWriter tw,
+            string format,
+            Func<string, object?> fallback,
+            FormatOptions options,
+            params (string key, object? value)[] keyValues) =>
+            WriteFormatAsync(
+                tw,
+                format,
+                (key1, key2) => key1 == key2,
+                keyValues,
+                fallback,
+                options);
 #endif
 
         /// <summary>
@@ -321,6 +471,7 @@ namespace NamingFormatter
         /// <param name="formatProvider">The format provider.</param>
         /// <param name="format">The format string (can include format-key).</param>
         /// <param name="keyValues">Key-value enumerator.</param>
+        /// <param name="options">Options</param>
         /// <returns>Formatted string.</returns>
         /// <example>
         /// <code>
@@ -347,12 +498,14 @@ namespace NamingFormatter
         static string Format(
             IFormatProvider formatProvider,
             string format,
-            IEnumerable<(string key, object? value)> keyValues) =>
+            IEnumerable<(string key, object? value)> keyValues,
+            FormatOptions options = default) =>
             Format(
                 formatProvider,
                 format,
                 (key1, key2) => key1 == key2,
-                keyValues);
+                keyValues,
+                options);
 
         /// <summary>
         /// Format string with named format-key.
@@ -361,6 +514,7 @@ namespace NamingFormatter
         /// <param name="format">The format string (can include format-key).</param>
         /// <param name="keyValues">Key-value enumerator.</param>
         /// <param name="fallback">Fallback delegate.</param>
+        /// <param name="options">Options</param>
         /// <returns>Formatted string.</returns>
         /// <example>
         /// <code>
@@ -389,7 +543,8 @@ namespace NamingFormatter
             IFormatProvider formatProvider,
             string format,
             IEnumerable<(string key, object? value)> keyValues,
-            Func<string, object?> fallback) =>
+            Func<string, object?> fallback,
+            FormatOptions options = default) =>
             Format(
                 formatProvider,
                 format,
@@ -402,6 +557,7 @@ namespace NamingFormatter
         /// </summary>
         /// <param name="format">The format string (can include format-key).</param>
         /// <param name="keyValues">Key-value enumerator.</param>
+        /// <param name="options">Options</param>
         /// <returns>Formatted string.</returns>
         /// <example>
         /// <code>
@@ -427,11 +583,13 @@ namespace NamingFormatter
 #endif
         static string Format(
             string format,
-            IEnumerable<(string key, object? value)> keyValues) =>
+            IEnumerable<(string key, object? value)> keyValues,
+            FormatOptions options = default) =>
             Format(
                 format,
                 (key1, key2) => key1 == key2,
-                keyValues);
+                keyValues,
+                options);
 
         /// <summary>
         /// Format string with named format-key.
@@ -439,6 +597,7 @@ namespace NamingFormatter
         /// <param name="format">The format string (can include format-key).</param>
         /// <param name="keyValues">Key-value enumerator.</param>
         /// <param name="fallback">Fallback delegate.</param>
+        /// <param name="options">Options</param>
         /// <returns>Formatted string.</returns>
         /// <example>
         /// <code>
@@ -466,12 +625,14 @@ namespace NamingFormatter
         static string Format(
             string format,
             IEnumerable<(string key, object? value)> keyValues,
-            Func<string, object?> fallback) =>
+            Func<string, object?> fallback,
+            FormatOptions options = default) =>
             Format(
                 format,
                 (key1, key2) => key1 == key2,
                 keyValues,
-                fallback);
+                fallback,
+                options);
 
         /// <summary>
         /// Format string with named format-key.
@@ -504,6 +665,41 @@ namespace NamingFormatter
                 format,
                 (key1, key2) => key1 == key2,
                 keyValues);
+
+        /// <summary>
+        /// Format string with named format-key.
+        /// </summary>
+        /// <param name="formatProvider">The format provider.</param>
+        /// <param name="format">The format string (can include format-key).</param>
+        /// <param name="keyValues">Key-value arguments.</param>
+        /// <param name="options">Options</param>
+        /// <returns>Formatted string.</returns>
+        /// <example>
+        /// <code>
+        /// // Format string by format-key-values.
+        /// var result = new CultureInfo("fr-FR").Format(
+        ///     "AAA{fgh:R}BBB{abcde}CCC{ijkl:E}",
+        ///     ("abcde", 123),
+        ///		("fgh", DateTime.Now),
+        ///		("ijkl", 456.789));
+        /// </code>
+        /// </example>
+#if NET35 || NET40
+        private
+#else
+        public
+#endif
+        static string Format(
+            IFormatProvider formatProvider,
+            string format,
+            FormatOptions options,
+            params (string key, object? value)[] keyValues) =>
+            Format(
+                formatProvider,
+                format,
+                (key1, key2) => key1 == key2,
+                keyValues,
+                options);
 
         /// <summary>
         /// Format string with named format-key.
@@ -544,6 +740,45 @@ namespace NamingFormatter
         /// <summary>
         /// Format string with named format-key.
         /// </summary>
+        /// <param name="formatProvider">The format provider.</param>
+        /// <param name="format">The format string (can include format-key).</param>
+        /// <param name="fallback">Fallback delegate.</param>
+        /// <param name="options"></param>
+        /// <param name="keyValues">Key-value arguments.</param>
+        /// <returns>Formatted string.</returns>
+        /// <example>
+        /// <code>
+        /// // Format string by format-key-values.
+        /// var result = new CultureInfo("fr-FR").Format(
+        ///     "AAA{fgh:R}BBB{abcde}CCC{ijkl:E}",
+        ///     key => "***",
+        ///     ("abcde", 123),
+        ///		("fgh", DateTime.Now),
+        ///		("ijkl", 456.789));
+        /// </code>
+        /// </example>
+#if NET35 || NET40
+        private
+#else
+        public
+#endif
+        static string Format(
+            IFormatProvider formatProvider,
+            string format,
+            Func<string, object?> fallback,
+            FormatOptions options,
+            params (string key, object? value)[] keyValues) =>
+            Format(
+                formatProvider,
+                format,
+                (key1, key2) => key1 == key2,
+                keyValues,
+                fallback,
+                options);
+
+        /// <summary>
+        /// Format string with named format-key.
+        /// </summary>
         /// <param name="format">The format string (can include format-key).</param>
         /// <param name="keyValues">Key-value arguments.</param>
         /// <returns>Formatted string.</returns>
@@ -569,6 +804,38 @@ namespace NamingFormatter
                 format,
                 (key1, key2) => key1 == key2,
                 keyValues);
+
+        /// <summary>
+        /// Format string with named format-key.
+        /// </summary>
+        /// <param name="format">The format string (can include format-key).</param>
+        /// <param name="options">Options</param>
+        /// <param name="keyValues">Key-value arguments.</param>
+        /// <returns>Formatted string.</returns>
+        /// <example>
+        /// <code>
+        /// // Format string by format-key-values.
+        /// var result = Named.Format(
+        ///     "AAA{fgh:R}BBB{abcde}CCC{ijkl:E}",
+        ///     ("abcde", 123),
+        ///		("fgh", DateTime.Now),
+        ///		("ijkl", 456.789));
+        /// </code>
+        /// </example>
+#if NET35 || NET40
+        private
+#else
+        public
+#endif
+        static string Format(
+            string format,
+            FormatOptions options,
+            params (string key, object? value)[] keyValues) =>
+            Format(
+                format,
+                (key1, key2) => key1 == key2,
+                keyValues,
+                options);
 
         /// <summary>
         /// Format string with named format-key.
@@ -602,6 +869,42 @@ namespace NamingFormatter
                 (key1, key2) => key1 == key2,
                 keyValues,
                 fallback);
+
+        /// <summary>
+        /// Format string with named format-key.
+        /// </summary>
+        /// <param name="format">The format string (can include format-key).</param>
+        /// <param name="fallback">Fallback delegate.</param>
+        /// <param name="options">Options</param>
+        /// <param name="keyValues">Key-value arguments.</param>
+        /// <returns>Formatted string.</returns>
+        /// <example>
+        /// <code>
+        /// // Format string by format-key-values.
+        /// var result = Named.Format(
+        ///     "AAA{fgh:R}BBB{abcde}CCC{ijkl:E}",
+        ///     key => "***",
+        ///     ("abcde", 123),
+        ///		("fgh", DateTime.Now),
+        ///		("ijkl", 456.789));
+        /// </code>
+        /// </example>
+#if NET35 || NET40
+        private
+#else
+        public
+#endif
+        static string Format(
+            string format,
+            Func<string, object?> fallback,
+            FormatOptions options,
+            params (string key, object? value)[] keyValues) =>
+            Format(
+                format,
+                (key1, key2) => key1 == key2,
+                keyValues,
+                fallback,
+                options);
 
         /////////////////////////////////////////////////////////////////////////////////
 
@@ -611,6 +914,7 @@ namespace NamingFormatter
         /// <param name="tw">Format text writer.</param>
         /// <param name="format">The format string (can include format-key).</param>
         /// <param name="keyValues">Key-value enumerator.</param>
+        /// <param name="options">Options</param>
         /// <returns>Formatted string.</returns>
         /// <example>
         /// <code>
@@ -633,12 +937,14 @@ namespace NamingFormatter
         public static void WriteFormat(
             this TextWriter tw,
             string format,
-            IEnumerable<KeyValuePair<string, object?>> keyValues) =>
+            IEnumerable<KeyValuePair<string, object?>> keyValues,
+            FormatOptions options = default) =>
             WriteFormat(
                 tw,
                 format,
                 (key1, key2) => key1 == key2,
-                keyValues);
+                keyValues,
+                options);
 
         /// <summary>
         /// Format string with named format-key.
@@ -647,6 +953,7 @@ namespace NamingFormatter
         /// <param name="format">The format string (can include format-key).</param>
         /// <param name="keyValues">Key-value enumerator.</param>
         /// <param name="fallback">Fallback delegate.</param>
+        /// <param name="options">Options</param>
         /// <returns>Formatted string.</returns>
         /// <example>
         /// <code>
@@ -671,13 +978,15 @@ namespace NamingFormatter
             this TextWriter tw,
             string format,
             IEnumerable<KeyValuePair<string, object?>> keyValues,
-            Func<string, object?> fallback) =>
+            Func<string, object?> fallback,
+            FormatOptions options = default) =>
             WriteFormat(
                 tw,
                 format,
                 (key1, key2) => key1 == key2,
                 keyValues,
-                fallback);
+                fallback,
+                options);
 
         /// <summary>
         /// Format string with named format-key.
@@ -705,6 +1014,36 @@ namespace NamingFormatter
                 format,
                 (key1, key2) => key1 == key2,
                 keyValues);
+
+        /// <summary>
+        /// Format string with named format-key.
+        /// </summary>
+        /// <param name="tw">Format text writer.</param>
+        /// <param name="format">The format string (can include format-key).</param>
+        /// <param name="options">Options</param>
+        /// <param name="keyValues">Key-value arguments.</param>
+        /// <returns>Formatted string.</returns>
+        /// <example>
+        /// <code>
+        /// // Format string by format-key-values.
+        /// var result = new CultureInfo("fr-FR").Format(
+        ///     "AAA{fgh:R}BBB{abcde}CCC{ijkl:E}",
+        ///     Named.Pair("abcde", 123),
+        ///		Named.Pair("fgh", DateTime.Now),
+        ///		Named.Pair("ijkl", 456.789));
+        /// </code>
+        /// </example>
+        public static void WriteFormat(
+            this TextWriter tw,
+            string format,
+            FormatOptions options,
+            params KeyValuePair<string, object?>[] keyValues) =>
+            WriteFormat(
+                tw,
+                format,
+                (key1, key2) => key1 == key2,
+                keyValues,
+                options);
 
         /// <summary>
         /// Format string with named format-key.
@@ -735,6 +1074,39 @@ namespace NamingFormatter
                 (key1, key2) => key1 == key2,
                 keyValues,
                 fallback);
+
+        /// <summary>
+        /// Format string with named format-key.
+        /// </summary>
+        /// <param name="tw">Format text writer.</param>
+        /// <param name="format">The format string (can include format-key).</param>
+        /// <param name="fallback">Fallback delegate.</param>
+        /// <param name="options">Options</param>
+        /// <param name="keyValues">Key-value arguments.</param>
+        /// <returns>Formatted string.</returns>
+        /// <example>
+        /// <code>
+        /// // Format string by format-key-values.
+        /// var result = new CultureInfo("fr-FR").Format(
+        ///     "AAA{fgh:R}BBB{abcde}CCC{ijkl:E}",
+        ///     Named.Pair("abcde", 123),
+        ///		Named.Pair("fgh", DateTime.Now),
+        ///		Named.Pair("ijkl", 456.789));
+        /// </code>
+        /// </example>
+        public static void WriteFormat(
+            this TextWriter tw,
+            string format,
+            Func<string, object?> fallback,
+            FormatOptions options,
+            params KeyValuePair<string, object?>[] keyValues) =>
+            WriteFormat(
+                tw,
+                format,
+                (key1, key2) => key1 == key2,
+                keyValues,
+                fallback,
+                options);
 
 #if !NET35 && !NET40
         /// <summary>
@@ -743,6 +1115,7 @@ namespace NamingFormatter
         /// <param name="tw">Format text writer.</param>
         /// <param name="format">The format string (can include format-key).</param>
         /// <param name="keyValues">Key-value enumerator.</param>
+        /// <param name="options">Options</param>
         /// <returns>Formatted string.</returns>
         /// <example>
         /// <code>
@@ -765,12 +1138,14 @@ namespace NamingFormatter
         public static Task WriteFormatAsync(
             this TextWriter tw,
             string format,
-            IEnumerable<KeyValuePair<string, object?>> keyValues) =>
+            IEnumerable<KeyValuePair<string, object?>> keyValues,
+            FormatOptions options = default) =>
             WriteFormatAsync(
                 tw,
                 format,
                 (key1, key2) => key1 == key2,
-                keyValues);
+                keyValues,
+                options);
 
         /// <summary>
         /// Format string with named format-key.
@@ -779,6 +1154,7 @@ namespace NamingFormatter
         /// <param name="format">The format string (can include format-key).</param>
         /// <param name="keyValues">Key-value enumerator.</param>
         /// <param name="fallback">Fallback delegate.</param>
+        /// <param name="options">Options</param>
         /// <returns>Formatted string.</returns>
         /// <example>
         /// <code>
@@ -803,13 +1179,15 @@ namespace NamingFormatter
             this TextWriter tw,
             string format,
             IEnumerable<KeyValuePair<string, object?>> keyValues,
-            Func<string, object?> fallback) =>
+            Func<string, object?> fallback,
+            FormatOptions options = default) =>
             WriteFormatAsync(
                 tw,
                 format,
                 (key1, key2) => key1 == key2,
                 keyValues,
-                fallback);
+                fallback,
+                options);
 
         /// <summary>
         /// Format string with named format-key.
@@ -838,6 +1216,37 @@ namespace NamingFormatter
                 format,
                 (key1, key2) => key1 == key2,
                 keyValues);
+
+        /// <summary>
+        /// Format string with named format-key.
+        /// </summary>
+        /// <param name="tw">Format text writer.</param>
+        /// <param name="format">The format string (can include format-key).</param>
+        /// <param name="options">Options</param>
+        /// <param name="keyValues">Key-value enumerator.</param>
+        /// <returns>Formatted string.</returns>
+        /// <example>
+        /// <code>
+        /// // Format string by format-key-values.
+        /// var tw = new StringWriter();
+        /// var result = await tw.WriteFormatAsync(
+        ///     "AAA{fgh:R}BBB{abcde}CCC{ijkl:E}",
+        ///     Named.Pair("abcde", 123),
+        ///		Named.Pair("fgh", DateTime.Now),
+        ///		Named.Pair("ijkl", 456.789));
+        /// </code>
+        /// </example>
+        public static Task WriteFormatAsync(
+            this TextWriter tw,
+            string format,
+            FormatOptions options,
+            params KeyValuePair<string, object?>[] keyValues) =>
+            WriteFormatAsync(
+                tw,
+                format,
+                (key1, key2) => key1 == key2,
+                keyValues,
+                options);
 
         /// <summary>
         /// Format string with named format-key.
@@ -870,6 +1279,41 @@ namespace NamingFormatter
                 (key1, key2) => key1 == key2,
                 keyValues,
                 fallback);
+
+        /// <summary>
+        /// Format string with named format-key.
+        /// </summary>
+        /// <param name="tw">Format text writer.</param>
+        /// <param name="format">The format string (can include format-key).</param>
+        /// <param name="fallback">Fallback delegate.</param>
+        /// <param name="options">Options</param>
+        /// <param name="keyValues">Key-value enumerator.</param>
+        /// <returns>Formatted string.</returns>
+        /// <example>
+        /// <code>
+        /// // Format string by format-key-values.
+        /// var tw = new StringWriter();
+        /// var result = await tw.WriteFormatAsync(
+        ///     "AAA{fgh:R}BBB{abcde}CCC{ijkl:E}",
+        ///     key => "***",
+        ///     Named.Pair("abcde", 123),
+        ///		Named.Pair("fgh", DateTime.Now),
+        ///		Named.Pair("ijkl", 456.789));
+        /// </code>
+        /// </example>
+        public static Task WriteFormatAsync(
+            this TextWriter tw,
+            string format,
+            Func<string, object?> fallback,
+            FormatOptions options,
+            params KeyValuePair<string, object?>[] keyValues) =>
+            WriteFormatAsync(
+                tw,
+                format,
+                (key1, key2) => key1 == key2,
+                keyValues,
+                fallback,
+                options);
 #endif
 
         /// <summary>
@@ -878,6 +1322,7 @@ namespace NamingFormatter
         /// <param name="formatProvider">The format provider.</param>
         /// <param name="format">The format string (can include format-key).</param>
         /// <param name="keyValues">Key-value enumerator.</param>
+        /// <param name="options">Options</param>
         /// <returns>Formatted string.</returns>
         /// <example>
         /// <code>
@@ -899,12 +1344,14 @@ namespace NamingFormatter
         public static string Format(
             IFormatProvider formatProvider,
             string format,
-            IEnumerable<KeyValuePair<string, object?>> keyValues) =>
+            IEnumerable<KeyValuePair<string, object?>> keyValues,
+            FormatOptions options = default) =>
             Format(
                 formatProvider,
                 format,
                 (key1, key2) => key1 == key2,
-                keyValues);
+                keyValues,
+                options);
 
         /// <summary>
         /// Format string with named format-key.
@@ -913,6 +1360,7 @@ namespace NamingFormatter
         /// <param name="format">The format string (can include format-key).</param>
         /// <param name="keyValues">Key-value enumerator.</param>
         /// <param name="fallback">Fallback delegate.</param>
+        /// <param name="options">Options</param>
         /// <returns>Formatted string.</returns>
         /// <example>
         /// <code>
@@ -936,19 +1384,22 @@ namespace NamingFormatter
             IFormatProvider formatProvider,
             string format,
             IEnumerable<KeyValuePair<string, object?>> keyValues,
-            Func<string, object?> fallback) =>
+            Func<string, object?> fallback,
+            FormatOptions options = default) =>
             Format(
                 formatProvider,
                 format,
                 (key1, key2) => key1 == key2,
                 keyValues,
-                fallback);
+                fallback,
+                options);
 
         /// <summary>
         /// Format string with named format-key.
         /// </summary>
         /// <param name="format">The format string (can include format-key).</param>
         /// <param name="keyValues">Key-value enumerator.</param>
+        /// <param name="options">Options</param>
         /// <returns>Formatted string.</returns>
         /// <example>
         /// <code>
@@ -969,11 +1420,13 @@ namespace NamingFormatter
         /// </example>
         public static string Format(
             string format,
-            IEnumerable<KeyValuePair<string, object?>> keyValues) =>
+            IEnumerable<KeyValuePair<string, object?>> keyValues,
+            FormatOptions options = default) =>
             Format(
                 format,
                 (key1, key2) => key1 == key2,
-                keyValues);
+                keyValues,
+                options);
 
         /// <summary>
         /// Format string with named format-key.
@@ -981,6 +1434,7 @@ namespace NamingFormatter
         /// <param name="format">The format string (can include format-key).</param>
         /// <param name="keyValues">Key-value enumerator.</param>
         /// <param name="fallback">Fallback delegate.</param>
+        /// <param name="options">Options</param>
         /// <returns>Formatted string.</returns>
         /// <example>
         /// <code>
@@ -1003,12 +1457,14 @@ namespace NamingFormatter
         public static string Format(
             string format,
             IEnumerable<KeyValuePair<string, object?>> keyValues,
-            Func<string, object?> fallback) =>
+            Func<string, object?> fallback,
+            FormatOptions options = default) =>
             Format(
                 format,
                 (key1, key2) => key1 == key2,
                 keyValues,
-                fallback);
+                fallback,
+                options);
 
         /// <summary>
         /// Format string with named format-key.
@@ -1036,6 +1492,36 @@ namespace NamingFormatter
                 format,
                 (key1, key2) => key1 == key2,
                 keyValues);
+
+        /// <summary>
+        /// Format string with named format-key.
+        /// </summary>
+        /// <param name="formatProvider">The format provider.</param>
+        /// <param name="format">The format string (can include format-key).</param>
+        /// <param name="options">Options</param>
+        /// <param name="keyValues">Key-value enumerator.</param>
+        /// <returns>Formatted string.</returns>
+        /// <example>
+        /// <code>
+        /// // Format string by format-key-values.
+        /// var result = new CultureInfo("fr-FR").Format(
+        ///     "AAA{fgh:R}BBB{abcde}CCC{ijkl:E}",
+        ///     Named.Pair("abcde", 123),
+        ///		Named.Pair("fgh", DateTime.Now),
+        ///		Named.Pair("ijkl", 456.789));
+        /// </code>
+        /// </example>
+        public static string Format(
+            IFormatProvider formatProvider,
+            string format,
+            FormatOptions options,
+            params KeyValuePair<string, object?>[] keyValues) =>
+            Format(
+                formatProvider,
+                format,
+                (key1, key2) => key1 == key2,
+                keyValues,
+                options);
 
         /// <summary>
         /// Format string with named format-key.
@@ -1071,6 +1557,40 @@ namespace NamingFormatter
         /// <summary>
         /// Format string with named format-key.
         /// </summary>
+        /// <param name="formatProvider">The format provider.</param>
+        /// <param name="format">The format string (can include format-key).</param>
+        /// <param name="fallback">Fallback delegate.</param>
+        /// <param name="options">Options</param>
+        /// <param name="keyValues">Key-value arguments.</param>
+        /// <returns>Formatted string.</returns>
+        /// <example>
+        /// <code>
+        /// // Format string by format-key-values.
+        /// var result = new CultureInfo("fr-FR").Format(
+        ///     "AAA{fgh:R}BBB{abcde}CCC{ijkl:E}",
+        ///     key => "***",
+        ///     Named.Pair("abcde", 123),
+        ///		Named.Pair("fgh", DateTime.Now),
+        ///		Named.Pair("ijkl", 456.789));
+        /// </code>
+        /// </example>
+        public static string Format(
+            IFormatProvider formatProvider,
+            string format,
+            Func<string, object?> fallback,
+            FormatOptions options,
+            params KeyValuePair<string, object?>[] keyValues) =>
+            Format(
+                formatProvider,
+                format,
+                (key1, key2) => key1 == key2,
+                keyValues,
+                fallback,
+                options);
+
+        /// <summary>
+        /// Format string with named format-key.
+        /// </summary>
         /// <param name="format">The format string (can include format-key).</param>
         /// <param name="keyValues">Key-value arguments.</param>
         /// <returns>Formatted string.</returns>
@@ -1091,6 +1611,33 @@ namespace NamingFormatter
                 format,
                 (key1, key2) => key1 == key2,
                 keyValues);
+
+        /// <summary>
+        /// Format string with named format-key.
+        /// </summary>
+        /// <param name="format">The format string (can include format-key).</param>
+        /// <param name="options">Options</param>
+        /// <param name="keyValues">Key-value arguments.</param>
+        /// <returns>Formatted string.</returns>
+        /// <example>
+        /// <code>
+        /// // Format string by format-key-values.
+        /// var result = Named.Format(
+        ///     "AAA{fgh:R}BBB{abcde}CCC{ijkl:E}",
+        ///     Named.Pair("abcde", 123),
+        ///		Named.Pair("fgh", DateTime.Now),
+        ///		Named.Pair("ijkl", 456.789));
+        /// </code>
+        /// </example>
+        public static string Format(
+            string format,
+            FormatOptions options,
+            params KeyValuePair<string, object?>[] keyValues) =>
+            Format(
+                format,
+                (key1, key2) => key1 == key2,
+                keyValues,
+                options);
 
         /// <summary>
         /// Format string with named format-key.
@@ -1119,5 +1666,36 @@ namespace NamingFormatter
                 (key1, key2) => key1 == key2,
                 keyValues,
                 fallback);
+
+        /// <summary>
+        /// Format string with named format-key.
+        /// </summary>
+        /// <param name="format">The format string (can include format-key).</param>
+        /// <param name="fallback">Fallback delegate.</param>
+        /// <param name="options">Options</param>
+        /// <param name="keyValues">Key-value arguments.</param>
+        /// <returns>Formatted string.</returns>
+        /// <example>
+        /// <code>
+        /// // Format string by format-key-values.
+        /// var result = Named.Format(
+        ///     "AAA{fgh:R}BBB{abcde}CCC{ijkl:E}",
+        ///     key => "***",
+        ///     Named.Pair("abcde", 123),
+        ///		Named.Pair("fgh", DateTime.Now),
+        ///		Named.Pair("ijkl", 456.789));
+        /// </code>
+        /// </example>
+        public static string Format(
+            string format,
+            Func<string, object?> fallback,
+            FormatOptions options,
+            params KeyValuePair<string, object?>[] keyValues) =>
+            Format(
+                format,
+                (key1, key2) => key1 == key2,
+                keyValues,
+                fallback,
+                options);
     }
 }
