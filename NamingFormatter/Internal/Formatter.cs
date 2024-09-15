@@ -42,7 +42,8 @@ namespace NamingFormatter.Internal
         private enum States
         {
             Normal,
-            EnterKey
+            EnterKey,
+            Closing,
         }
 
         private static bool TryGetPropertyValue(this Type type, object instance, string name, out object? value)
@@ -149,53 +150,74 @@ namespace NamingFormatter.Internal
             var currentIndex = 0;
             while (currentIndex < format.Length)
             {
-                if (state == States.Normal)
+                switch (state)
                 {
-                    var bracketIndex = format.IndexOf('{', currentIndex);
-                    if (bracketIndex == -1)
-                    {
-                        cooked.Append(format.Substring(currentIndex));
+                    case States.Normal:
+                        var bracketIndex = format.IndexOf('{', currentIndex);
+                        if (bracketIndex == -1)
+                        {
+                            cooked.Append(format.Substring(currentIndex));
+                            currentIndex = format.Length;
+                        }
+                        else
+                        {
+                            var nextIndex = bracketIndex + 1;
+                            cooked.Append(format.Substring(currentIndex, nextIndex - currentIndex));
+                            currentIndex = nextIndex;
+                            state = States.EnterKey;
+                        }
                         break;
-                    }
 
-                    var nextIndex = bracketIndex + 1;
-                    cooked.Append(format.Substring(currentIndex, nextIndex - currentIndex));
-                    currentIndex = nextIndex;
+                    case States.EnterKey:
+                        // '{{'
+                        if (format[currentIndex] == '{')
+                        {
+                            cooked.Append('{');
+                            currentIndex++;
 
-                    state = States.EnterKey;
-                    continue;
+                            state = States.Normal;
+                            continue;
+                        }
+
+                        var finishIndex = format.IndexOfAny(finishFormatChars_, currentIndex);
+                        if (finishIndex == -1)
+                        {
+                            throw new FormatException("Couldn't find close bracket.");
+                        }
+
+                        var key = format.Substring(currentIndex, finishIndex - currentIndex);
+                        switch (TryGetValueBySelector(selector, key, out var value))
+                        {
+                            case Results.InvalidPropertyPath when
+                                (options & PreFormatOptions.IgnoreInvalidPropertyPath) != PreFormatOptions.IgnoreInvalidPropertyPath:
+                            case Results.Terminated when
+                                (options & PreFormatOptions.IgnoreIfTerminated) != PreFormatOptions.IgnoreIfTerminated:
+                                throw new ArgumentException($"Couldn't find a key: {key}");
+                        }
+
+                        cooked.Append(args.Count);
+                        args.Add(value);
+                        currentIndex = finishIndex;
+
+                        state = States.Closing;
+                        break;
+                    
+                    case States.Closing:
+                        var bracketIndex2 = format.IndexOf('}', currentIndex);
+                        if (bracketIndex2 == -1)
+                        {
+                            cooked.Append(format.Substring(currentIndex));
+                            currentIndex = format.Length;
+                        }
+                        else
+                        {
+                            var nextIndex = bracketIndex2 + 1;
+                            cooked.Append(format.Substring(currentIndex, nextIndex - currentIndex));
+                            currentIndex = nextIndex;
+                        }
+                        state = States.Normal;
+                        break;
                 }
-
-                if (format[currentIndex] == '{')
-                {
-                    cooked.Append('{');
-                    currentIndex++;
-
-                    state = States.Normal;
-                    continue;
-                }
-
-                var finishIndex = format.IndexOfAny(finishFormatChars_, currentIndex);
-                if (finishIndex == -1)
-                {
-                    throw new FormatException("Couldn't find close bracket.");
-                }
-
-                var key = format.Substring(currentIndex, finishIndex - currentIndex);
-                switch (TryGetValueBySelector(selector, key, out var value))
-                {
-                    case Results.InvalidPropertyPath when
-                        (options & PreFormatOptions.IgnoreInvalidPropertyPath) != PreFormatOptions.IgnoreInvalidPropertyPath:
-                    case Results.Terminated when
-                        (options & PreFormatOptions.IgnoreIfTerminated) != PreFormatOptions.IgnoreIfTerminated:
-                        throw new ArgumentException($"Couldn't find a key: {key}");
-                }
-
-                cooked.Append(args.Count);
-                args.Add(value);
-                currentIndex = finishIndex;
-
-                state = States.Normal;
             }
 
             return (cooked.ToString(), args.ToArray());
