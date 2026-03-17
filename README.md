@@ -74,6 +74,7 @@ var formatted = Named.Format(
 * TextWriter version included (WriteFormat extension method). And has asynchronous method overloads (Task).
 * Many variation overloads (Dictionary, IReadOnlyDictionary, Predicate delegate, Selector delegate, IFormatProvider, KeyValuePair and ValueTuple with variable length parameters).
 * Can use structual-key, traverse both public properties and fields.
+* Can inspect required key references before formatting.
 * Applied C# nullable-reference type attribtues.
 
 ## Benefits
@@ -219,6 +220,21 @@ var formatted = Named.Format(
     kvs,
     // Bracket pair: '@[ ... ]@'
     new FormatOptions("@[", "]@"));
+```
+
+``` csharp
+using NamingFormatter;
+
+// Inspect required key references before formatting.
+var references = Named.GetKeyReferences(
+    "Date:{date:R}, Value:{user.Name}, Value2:{date:yyyyMMdd}");
+var keys = Named.GetKeys(
+    "Date:{date:R}, Value:{user.Name}, Value2:{date:yyyyMMdd}");
+
+// references[0].KeyPath == "date"
+// references[1].KeyPath == "user.Name"
+// references[1].RootKey == "user"
+// keys == [ "date", "user.Name", "date" ]
 ```
 
 
