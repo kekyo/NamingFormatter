@@ -249,6 +249,9 @@ var keys = Named.GetKeys(
 
 ## History
 
+* 2.5.0:
+  * Added key enumerator.
+  * Added .NET 9/10 assmebly.
 * 2.4.0:
   * Added custom bracket feature (Rebuild required).
 * 2.3.0:
